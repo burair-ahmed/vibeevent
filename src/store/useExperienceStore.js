@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 // Simple, fast reactive global store without heavy extra state libraries
 let globalState = {
   entranceState: 'outside', // 'outside' | 'opening' | 'inside'
-  doorAngle: 0, // 0 (closed) to 1.45 rad (~85 deg open)
+  leftDoorOpen: false,      // independent left door state (true = open, false = closed)
+  rightDoorOpen: false,     // independent right door state (true = open, false = closed)
   activeService: null,
   activeModal: null, // 'portfolio' | 'calculator' | 'about' | 'booking' | null
   isSoundEnabled: false,
@@ -35,10 +36,26 @@ export function useExperienceStore() {
     return () => listeners.delete(setState);
   }, []);
 
-  // Quick action helpers
+  // Open both doors and transition inside
   const openDoors = () => {
-    if (globalState.entranceState !== 'outside') return;
-    setExperienceState({ entranceState: 'opening' });
+    setExperienceState({
+      entranceState: 'opening',
+      leftDoorOpen: true,
+      rightDoorOpen: true,
+    });
+  };
+
+  // Toggle individual doors cleanly
+  const toggleLeftDoor = () => {
+    setExperienceState((prev) => ({
+      leftDoorOpen: !prev.leftDoorOpen,
+    }));
+  };
+
+  const toggleRightDoor = () => {
+    setExperienceState((prev) => ({
+      rightDoorOpen: !prev.rightDoorOpen,
+    }));
   };
 
   const finishDoorEntrance = () => {
@@ -72,14 +89,17 @@ export function useExperienceStore() {
   const setCameraWaypoint = (waypoint) => {
     setExperienceState({ 
       cameraWaypoint: waypoint,
-      // If jumping to hall or services while outside, also ensure doors are open
-      entranceState: globalState.entranceState === 'outside' && waypoint !== 'entrance' ? 'inside' : globalState.entranceState
+      entranceState: globalState.entranceState === 'outside' && waypoint !== 'entrance' ? 'inside' : globalState.entranceState,
+      leftDoorOpen: waypoint !== 'entrance' ? true : globalState.leftDoorOpen,
+      rightDoorOpen: waypoint !== 'entrance' ? true : globalState.rightDoorOpen,
     });
   };
 
   return {
     ...state,
     openDoors,
+    toggleLeftDoor,
+    toggleRightDoor,
     finishDoorEntrance,
     setActiveService,
     closeServiceDrawer,
@@ -90,4 +110,3 @@ export function useExperienceStore() {
     setCameraWaypoint,
   };
 }
-

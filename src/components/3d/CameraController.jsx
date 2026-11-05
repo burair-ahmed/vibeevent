@@ -7,7 +7,7 @@ import { sound } from '../../utils/audioSystem';
 
 export default function CameraController() {
   const { camera, size } = useThree();
-  const { entranceState, finishDoorEntrance, cameraWaypoint, activeService } = useExperienceStore();
+  const { entranceState, finishDoorEntrance, cameraWaypoint, activeService, leftDoorOpen, rightDoorOpen } = useExperienceStore();
   
   // Target position and lookAt vectors
   const targetPos = useRef(new THREE.Vector3(0, 2, 11.5));
@@ -43,7 +43,7 @@ export default function CameraController() {
     return () => window.removeEventListener('pointermove', handlePointerMove);
   }, []);
 
-  // Handle Entrance Door Dolly Sequence
+  // Handle Entrance Door Dolly Sequence (when user explicitly triggers Enter or auto-timer)
   useEffect(() => {
     if (entranceState === 'opening') {
       sound.playDoorOpen();
@@ -194,4 +194,3 @@ export default function CameraController() {
 
   return null;
 }
-

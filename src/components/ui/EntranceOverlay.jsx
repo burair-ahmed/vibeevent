@@ -5,8 +5,8 @@ import { sound } from '../../utils/audioSystem';
 
 export default function EntranceOverlay() {
   const { entranceState, openDoors, isSoundEnabled, toggleSound, setViewMode } = useExperienceStore();
-  const [countdown, setCountdown] = useState(6);
-  const totalSeconds = 6;
+  const [countdown, setCountdown] = useState(12);
+  const totalSeconds = 12;
 
   // Auto-open countdown
   useEffect(() => {
@@ -44,38 +44,41 @@ export default function EntranceOverlay() {
 
   if (entranceState !== 'outside') return null;
 
-  // SVG Circular progress computation (perimeter = 2 * PI * r = 2 * 3.1416 * 26 ≈ 163.36)
+  // SVG Circular progress computation
   const radius = 26;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - ((totalSeconds - countdown) / totalSeconds) * circumference;
 
   return (
     <div className="fixed inset-0 z-30 flex flex-col justify-between items-center pointer-events-none select-none overflow-hidden">
-      {/* 1. Cinematic Vignettes */}
-      <div className="absolute inset-0 scene-vignette" />
-      <div className="absolute top-0 left-0 right-0 h-44 vignette-top" />
-      <div className="absolute bottom-0 left-0 right-0 h-52 vignette-bottom" />
+      {/* 1. Cinematic Vignettes (Must have pointer-events-none so raycasting clicks through to 3D doors) */}
+      <div className="absolute inset-0 scene-vignette pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-44 vignette-top pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-52 vignette-bottom pointer-events-none" />
 
       {/* 2. Top Accent Line */}
-      <div className="relative z-10 pt-20 flex flex-col items-center">
+      <div className="relative z-10 pt-20 flex flex-col items-center pointer-events-none">
         <div className="ornament-line w-44 mb-3 animate-fade-up opacity-80" />
         <div className="text-[10px] tracking-[0.4em] uppercase text-amber-300 font-semibold animate-fade-up-delay-1">
           Exclusive Event Architecture
         </div>
       </div>
 
-      {/* 3. Center Theatrical Hero Floating Branding */}
-      <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-4xl -mt-6">
+      {/* 3. Center Theatrical Hero Floating Branding (pointer-events-none ensures clicking on doors works!) */}
+      <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-4xl -mt-6 pointer-events-none">
         <div className="font-cinzel text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-[0.16em] text-zinc-100 text-glow-gold animate-fade-up-delay-1 leading-none mb-4">
           VIBE EVENTS
         </div>
-        <p className="text-xs sm:text-sm md:text-base font-light tracking-[0.3em] uppercase text-zinc-300/90 max-w-2xl animate-fade-up-delay-2">
+        <p className="text-xs sm:text-sm md:text-base font-light tracking-[0.3em] uppercase text-zinc-300/90 max-w-2xl animate-fade-up-delay-2 mb-2">
           Where Grandeur Meets Masterpiece Production
         </p>
+        <span className="text-[10px] tracking-[0.25em] uppercase text-amber-400/80 animate-fade-up-delay-3 font-semibold">
+          ✦ Click either door directly to open or close ✦
+        </span>
       </div>
 
       {/* 4. Bottom Interactive Staging (Button, Circular Timer, Minimal Controls) */}
-      <div className="relative z-10 pb-12 sm:pb-16 flex flex-col items-center gap-6 px-4">
+      <div className="relative z-10 pb-12 sm:pb-16 flex flex-col items-center gap-6 px-4 pointer-events-none">
         {/* Main Enter Action Button with SVG progress halo */}
         <div className="pointer-events-auto flex items-center gap-4 animate-fade-up-delay-3">
           <button

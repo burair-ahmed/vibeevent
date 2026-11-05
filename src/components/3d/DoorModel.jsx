@@ -1,39 +1,58 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useExperienceStore } from '../../store/useExperienceStore';
+import { sound } from '../../utils/audioSystem';
 
 export default function DoorModel() {
-  const { entranceState, openDoors } = useExperienceStore();
+  const { leftDoorOpen, rightDoorOpen, toggleLeftDoor, toggleRightDoor } = useExperienceStore();
   const leftPivotRef = useRef();
   const rightPivotRef = useRef();
-  const currentAngle = useRef(0);
+  const currentLeftAngle = useRef(0);
+  const currentRightAngle = useRef(0);
+  const [leftHovered, setLeftHovered] = useState(false);
+  const [rightHovered, setRightHovered] = useState(false);
 
   useFrame((_, delta) => {
-    // Animate door rotation when opening or inside
-    const isOpeningOrInside = entranceState === 'opening' || entranceState === 'inside';
-    const targetAngle = isOpeningOrInside ? 1.45 : 0; // ~85 degrees
+    // Left door angle: open = 1.45 rad (~85 deg), closed = 0
+    const targetLeft = leftDoorOpen ? 1.45 : 0;
+    // Right door angle: open = 1.45 rad (~85 deg), closed = 0
+    const targetRight = rightDoorOpen ? 1.45 : 0;
 
-    currentAngle.current = THREE.MathUtils.damp(
-      currentAngle.current,
-      targetAngle,
-      isOpeningOrInside ? 3.2 : 6,
+    currentLeftAngle.current = THREE.MathUtils.damp(
+      currentLeftAngle.current,
+      targetLeft,
+      5.0,
+      delta
+    );
+
+    currentRightAngle.current = THREE.MathUtils.damp(
+      currentRightAngle.current,
+      targetRight,
+      5.0,
       delta
     );
 
     if (leftPivotRef.current) {
-      leftPivotRef.current.rotation.y = -currentAngle.current;
+      leftPivotRef.current.rotation.y = -currentLeftAngle.current;
     }
     if (rightPivotRef.current) {
-      rightPivotRef.current.rotation.y = currentAngle.current;
+      rightPivotRef.current.rotation.y = currentRightAngle.current;
     }
   });
 
-  const handleDoorClick = (e) => {
+  const handleLeftClick = (e) => {
     e.stopPropagation();
-    if (entranceState === 'outside') {
-      openDoors();
-    }
+    sound.init();
+    sound.playDoorOpen();
+    toggleLeftDoor();
+  };
+
+  const handleRightClick = (e) => {
+    e.stopPropagation();
+    sound.init();
+    sound.playDoorOpen();
+    toggleRightDoor();
   };
 
   return (
@@ -42,7 +61,16 @@ export default function DoorModel() {
       <group
         ref={leftPivotRef}
         position={[-1.85, 0, 0]}
-        onClick={handleDoorClick}
+        onClick={handleLeftClick}
+        onPointerEnter={(e) => {
+          e.stopPropagation();
+          document.body.style.cursor = 'pointer';
+          setLeftHovered(true);
+        }}
+        onPointerLeave={() => {
+          document.body.style.cursor = 'default';
+          setLeftHovered(false);
+        }}
       >
         {/* Door Leaf (offset so hinge is at the edge) */}
         <group position={[0.92, 2.3, 0]}>
@@ -50,9 +78,9 @@ export default function DoorModel() {
           <mesh castShadow receiveShadow>
             <boxGeometry args={[1.82, 4.6, 0.12]} />
             <meshStandardMaterial
-              color="#13141b"
-              roughness={0.4}
-              metalness={0.2}
+              color={leftHovered ? "#222330" : "#13141b"}
+              roughness={0.35}
+              metalness={0.25}
             />
           </mesh>
 
@@ -60,9 +88,9 @@ export default function DoorModel() {
           <mesh position={[0, 0, 0.07]}>
             <boxGeometry args={[1.6, 4.3, 0.02]} />
             <meshStandardMaterial
-              color="#997819"
-              metalness={0.85}
-              roughness={0.25}
+              color={leftHovered ? "#fde047" : "#997819"}
+              metalness={0.9}
+              roughness={0.2}
             />
           </mesh>
           <mesh position={[0, 0, 0.08]}>
@@ -89,7 +117,7 @@ export default function DoorModel() {
             <meshStandardMaterial
               color="#d4af37"
               emissive="#b45309"
-              emissiveIntensity={0.2}
+              emissiveIntensity={leftHovered ? 0.6 : 0.2}
               metalness={0.9}
               roughness={0.2}
             />
@@ -119,7 +147,16 @@ export default function DoorModel() {
       <group
         ref={rightPivotRef}
         position={[1.85, 0, 0]}
-        onClick={handleDoorClick}
+        onClick={handleRightClick}
+        onPointerEnter={(e) => {
+          e.stopPropagation();
+          document.body.style.cursor = 'pointer';
+          setRightHovered(true);
+        }}
+        onPointerLeave={() => {
+          document.body.style.cursor = 'default';
+          setRightHovered(false);
+        }}
       >
         {/* Door Leaf (offset so hinge is at the edge) */}
         <group position={[-0.92, 2.3, 0]}>
@@ -127,9 +164,9 @@ export default function DoorModel() {
           <mesh castShadow receiveShadow>
             <boxGeometry args={[1.82, 4.6, 0.12]} />
             <meshStandardMaterial
-              color="#13141b"
-              roughness={0.4}
-              metalness={0.2}
+              color={rightHovered ? "#222330" : "#13141b"}
+              roughness={0.35}
+              metalness={0.25}
             />
           </mesh>
 
@@ -137,9 +174,9 @@ export default function DoorModel() {
           <mesh position={[0, 0, 0.07]}>
             <boxGeometry args={[1.6, 4.3, 0.02]} />
             <meshStandardMaterial
-              color="#997819"
+              color={rightHovered ? "#fde047" : "#997819"}
               metalness={0.85}
-              roughness={0.25}
+              roughness={0.2}
             />
           </mesh>
           <mesh position={[0, 0, 0.08]}>
@@ -166,7 +203,7 @@ export default function DoorModel() {
             <meshStandardMaterial
               color="#d4af37"
               emissive="#b45309"
-              emissiveIntensity={0.2}
+              emissiveIntensity={rightHovered ? 0.6 : 0.2}
               metalness={0.9}
               roughness={0.2}
             />
@@ -194,4 +231,3 @@ export default function DoorModel() {
     </group>
   );
 }
-
