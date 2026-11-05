@@ -19,10 +19,11 @@ export const HOTSPOTS_DATA = [
 ];
 
 function SingleHotspot({ hotspot }) {
-  const { moveToHotspot } = useExperienceStore();
+  const { moveToHotspot, cameraWaypoint } = useExperienceStore();
   const [hovered, setHovered] = useState(false);
   const ringRef = useRef();
   const outerRingRef = useRef();
+  const labelRef = useRef();
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
@@ -34,6 +35,12 @@ function SingleHotspot({ hotspot }) {
       if (outerRingRef.current.material) {
         outerRingRef.current.material.opacity = (hovered ? 0.9 : 0.4) * (1 - (scale - 1) / 0.45);
       }
+    }
+
+    // Reliable visibility control: show when inside hall, hide when outside/at entrance
+    if (labelRef.current) {
+      const shouldBeVisible = state.camera.position.z <= 2.2 && cameraWaypoint !== 'entrance';
+      labelRef.current.style.display = shouldBeVisible ? 'flex' : 'none';
     }
   });
 
@@ -99,19 +106,18 @@ function SingleHotspot({ hotspot }) {
         />
       </mesh>
 
-      {/* 4. Floating Spatial Label with Drei Occlusion */}
+      {/* 4. Floating Spatial Label with Stable Visibility */}
       <Html
         position={[0, 0.45, 0]}
         center
         distanceFactor={10}
-        occlude
         className="pointer-events-none select-none transition-all duration-300 transform"
         style={{
           transform: hovered ? 'scale(1.1) translateY(-3px)' : 'scale(1)',
-          opacity: hovered ? 1 : 0.8,
+          opacity: hovered ? 1 : 0.85,
         }}
       >
-        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full glass-panel-gold border border-amber-500/30 shadow-xl backdrop-blur-md whitespace-nowrap">
+        <div ref={labelRef} className="flex items-center gap-1.5 px-3 py-1 rounded-full glass-panel-gold border border-amber-500/30 shadow-xl backdrop-blur-md whitespace-nowrap">
           <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />
           <span className="text-[10px] font-bold tracking-wider uppercase text-zinc-100">
             {hotspot.label}
@@ -136,4 +142,3 @@ export default function GroundHotspots() {
     </group>
   );
 }
-

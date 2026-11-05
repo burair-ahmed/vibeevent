@@ -6,12 +6,13 @@ import { useExperienceStore } from '../../store/useExperienceStore';
 import { sound } from '../../utils/audioSystem';
 
 export default function ServicePod({ service }) {
-  const { setActiveService, activeService, entranceState } = useExperienceStore();
+  const { setActiveService, activeService, cameraWaypoint } = useExperienceStore();
   const [hovered, setHovered] = useState(false);
   const groupRef = useRef();
   const kineticRef = useRef();
   const spotlightRef = useRef();
   const groundRingRef = useRef();
+  const badgeHtmlRef = useRef();
 
   const isSelected = activeService?.id === service.id;
 
@@ -34,6 +35,15 @@ export default function ServicePod({ service }) {
     if (groupRef.current) {
       const targetScale = hovered || isSelected ? 1.08 : 1.0;
       groupRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), delta * 8);
+    }
+
+    // Rock-solid visibility control:
+    // If camera is outside the hall (z > 2.2) or stationed at the entrance waypoint,
+    // ensure the badge is completely hidden so it never shows through closed gates or exterior walls.
+    // When inside the hall, it is always reliably 100% visible with zero flickering!
+    if (badgeHtmlRef.current) {
+      const shouldBeVisible = state.camera.position.z <= 2.2 && cameraWaypoint !== 'entrance';
+      badgeHtmlRef.current.style.display = shouldBeVisible ? 'flex' : 'none';
     }
   });
 
@@ -239,43 +249,40 @@ export default function ServicePod({ service }) {
         distance={7}
       />
 
-      {/* 5. Occluded & Entrance-Gated Floating 3D Badge */}
-      {entranceState === 'inside' && (
-        <Html
-          position={[0, 2.45, 0]}
-          center
-          distanceFactor={11}
-          occlude
-          className="pointer-events-none select-none transition-all duration-300 transform"
-          style={{
-            transform: hovered || isSelected ? 'scale(1.08) translateY(-4px)' : 'scale(1)',
-            opacity: hovered || isSelected ? 1 : 0.88,
-          }}
-        >
-          <div className="flex flex-col items-center">
-            <div
-              className="px-4 py-2 rounded-2xl glass-panel-gold border shadow-2xl flex flex-col items-center text-center backdrop-blur-xl"
-              style={{ borderColor: hovered || isSelected ? service.accentColor : 'rgba(255,255,255,0.15)' }}
-            >
-              <div className="flex items-center gap-2 mb-0.5">
-                <span
-                  className="w-2 h-2 rounded-full animate-ping"
-                  style={{ backgroundColor: service.accentColor }}
-                />
-                <span className="font-cinzel text-xs font-bold text-zinc-100 whitespace-nowrap tracking-wide">
-                  {service.shortTitle}
-                </span>
-              </div>
-              <div className="text-[9px] uppercase tracking-[0.2em] text-zinc-400">
-                {service.category}
-              </div>
+      {/* 5. Reliable 3D Floating Badge */}
+      <Html
+        position={[0, 2.45, 0]}
+        center
+        distanceFactor={11}
+        className="pointer-events-none select-none transition-all duration-300 transform"
+        style={{
+          transform: hovered || isSelected ? 'scale(1.08) translateY(-4px)' : 'scale(1)',
+          opacity: hovered || isSelected ? 1 : 0.9,
+        }}
+      >
+        <div ref={badgeHtmlRef} className="flex flex-col items-center">
+          <div
+            className="px-4 py-2 rounded-2xl glass-panel-gold border shadow-2xl flex flex-col items-center text-center backdrop-blur-xl"
+            style={{ borderColor: hovered || isSelected ? service.accentColor : 'rgba(255,255,255,0.15)' }}
+          >
+            <div className="flex items-center gap-2 mb-0.5">
+              <span
+                className="w-2 h-2 rounded-full animate-ping"
+                style={{ backgroundColor: service.accentColor }}
+              />
+              <span className="font-cinzel text-xs font-bold text-zinc-100 whitespace-nowrap tracking-wide">
+                {service.shortTitle}
+              </span>
             </div>
-            <div className="text-[8px] tracking-[0.25em] text-amber-300/80 mt-1 uppercase font-semibold">
-              ✦ Inspect Station
+            <div className="text-[9px] uppercase tracking-[0.2em] text-zinc-400">
+              {service.category}
             </div>
           </div>
-        </Html>
-      )}
+          <div className="text-[8px] tracking-[0.25em] text-amber-300/80 mt-1 uppercase font-semibold">
+            ✦ Inspect Station
+          </div>
+        </div>
+      </Html>
     </group>
   );
 }
