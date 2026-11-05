@@ -7,10 +7,10 @@ export default function WaypointDock() {
   const { entranceState, cameraWaypoint, setCameraWaypoint, closeServiceDrawer, activeService } = useExperienceStore();
   const [showHint, setShowHint] = useState(true);
 
-  // Fade out interaction hint after 5 seconds
+  // Fade out interaction hint after 6 seconds
   useEffect(() => {
     if (entranceState === 'inside') {
-      const timer = setTimeout(() => setShowHint(false), 5000);
+      const timer = setTimeout(() => setShowHint(false), 6000);
       return () => clearTimeout(timer);
     }
   }, [entranceState]);
@@ -90,12 +90,14 @@ export default function WaypointDock() {
         </div>
       </div>
 
-      {/* 3. Subtle Interaction Hint Toast (fades after 5s) */}
+      {/* 3. 360-Degree Drag Interaction Hint Toast */}
       {showHint && (
         <div className="fixed bottom-6 right-6 z-30 pointer-events-none transition-opacity duration-1000 hidden sm:block">
-          <div className="px-3.5 py-2 rounded-full glass-panel border border-white/10 text-[10px] text-zinc-400 flex items-center gap-2.5 shadow-xl">
-            <Compass className="w-3.5 h-3.5 text-amber-400 animate-spin" style={{ animationDuration: '9s' }} />
-            <span>Drag mouse or swipe to look around • Click glowing pods to inspect</span>
+          <div className="px-4 py-2 rounded-full glass-panel-gold border border-amber-500/30 text-[10px] text-zinc-300 flex items-center gap-2.5 shadow-2xl backdrop-blur-xl">
+            <Compass className="w-4 h-4 text-amber-400 animate-spin" style={{ animationDuration: '8s' }} />
+            <span className="tracking-wide">
+              <strong className="text-amber-300 font-semibold">Click + Drag</strong> for 360° panoramic view • Click pods to explore
+            </span>
           </div>
         </div>
       )}

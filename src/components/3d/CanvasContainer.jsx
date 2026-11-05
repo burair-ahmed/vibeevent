@@ -6,6 +6,7 @@ import ExteriorEntrance from './ExteriorEntrance';
 import GrandHall from './GrandHall';
 import ParticleField from './ParticleField';
 import ServicePod from './ServicePod';
+import GroundHotspots from './GroundHotspots';
 import { SERVICES_DATA } from '../../data/servicesData';
 import { useExperienceStore } from '../../store/useExperienceStore';
 
@@ -45,9 +46,11 @@ export default function CanvasContainer() {
           {SERVICES_DATA.map((service) => (
             <ServicePod key={service.id} service={service} />
           ))}
+
+          {/* Interactive Ground Teleport Hotspots */}
+          <GroundHotspots />
         </Suspense>
       </Canvas>
     </div>
   );
 }
-

@@ -10,6 +10,7 @@ let globalState = {
   isSoundEnabled: false,
   viewMode: '3d', // '3d' | '2d'
   cameraWaypoint: 'entrance', // 'entrance' | 'hall' | 'services' | 'stage'
+  customHotspotTarget: null,  // [x, y, z] target when clicking a ground hotspot
   isMobile: false,
 };
 
@@ -62,6 +63,14 @@ export function useExperienceStore() {
     setExperienceState({ entranceState: 'inside', cameraWaypoint: 'hall' });
   };
 
+  const moveToHotspot = (position) => {
+    setExperienceState({
+      customHotspotTarget: position,
+      activeService: null, // clear drawer if open
+      entranceState: 'inside', // ensure marked inside
+    });
+  };
+
   const setActiveService = (service) => {
     setExperienceState({ activeService: service });
   };
@@ -89,6 +98,7 @@ export function useExperienceStore() {
   const setCameraWaypoint = (waypoint) => {
     setExperienceState({ 
       cameraWaypoint: waypoint,
+      customHotspotTarget: null,
       entranceState: globalState.entranceState === 'outside' && waypoint !== 'entrance' ? 'inside' : globalState.entranceState,
       leftDoorOpen: waypoint !== 'entrance' ? true : globalState.leftDoorOpen,
       rightDoorOpen: waypoint !== 'entrance' ? true : globalState.rightDoorOpen,
@@ -101,6 +111,7 @@ export function useExperienceStore() {
     toggleLeftDoor,
     toggleRightDoor,
     finishDoorEntrance,
+    moveToHotspot,
     setActiveService,
     closeServiceDrawer,
     setActiveModal,
