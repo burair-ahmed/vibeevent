@@ -38,11 +38,11 @@ export default function ServicePod({ service }) {
     }
 
     // Rock-solid visibility control:
-    // If camera is outside the hall (z > 2.2) or stationed at the entrance waypoint,
-    // ensure the badge is completely hidden so it never shows through closed gates or exterior walls.
-    // When inside the hall, it is always reliably 100% visible with zero flickering!
+    // Hidden when: outside the hall, at the entrance waypoint, or service detail drawer is open.
     if (badgeHtmlRef.current) {
-      const shouldBeVisible = state.camera.position.z <= 2.2 && cameraWaypoint !== 'entrance';
+      const insideHall = state.camera.position.z <= 2.2 && cameraWaypoint !== 'entrance';
+      const drawerClosed = !activeService;
+      const shouldBeVisible = insideHall && drawerClosed;
       badgeHtmlRef.current.style.display = shouldBeVisible ? 'flex' : 'none';
     }
   });
@@ -87,7 +87,7 @@ export default function ServicePod({ service }) {
       <mesh position={[0, 0.15, 0]}>
         <cylinderGeometry args={[1.2, 1.3, 0.3, 32]} />
         <meshStandardMaterial
-          color="#101118"
+          color="#151829"
           roughness={0.25}
           metalness={0.8}
         />
@@ -105,7 +105,7 @@ export default function ServicePod({ service }) {
       <mesh position={[0, 0.55, 0]}>
         <cylinderGeometry args={[0.95, 1.1, 0.45, 32]} />
         <meshStandardMaterial
-          color="#0a0b12"
+          color="#0f112a"
           roughness={0.2}
           metalness={0.85}
         />
@@ -249,37 +249,77 @@ export default function ServicePod({ service }) {
         distance={7}
       />
 
-      {/* 5. Reliable 3D Floating Badge */}
+      {/* 5. Front Exhibition Stand Plaque */}
+      <group position={[0, 0, 1.38]}>
+        {/* Ground mini-plinth */}
+        <mesh position={[0, 0.04, 0]}>
+          <boxGeometry args={[0.65, 0.06, 0.22]} />
+          <meshStandardMaterial color="#11131c" roughness={0.3} metalness={0.8} />
+        </mesh>
+        {/* Golden trim border */}
+        <mesh position={[0, 0.075, 0]}>
+          <boxGeometry args={[0.67, 0.015, 0.24]} />
+          <meshStandardMaterial color={service.accentColor} roughness={0.2} metalness={0.9} />
+        </mesh>
+        {/* Slanted riser pole */}
+        <mesh position={[0, 0.26, 0]} rotation={[-0.15, 0, 0]}>
+          <cylinderGeometry args={[0.025, 0.03, 0.38, 16]} />
+          <meshStandardMaterial color="#27272a" roughness={0.3} metalness={0.9} />
+        </mesh>
+        {/* Angled Display Backplate */}
+        <mesh position={[0, 0.46, 0.03]} rotation={[-0.32, 0, 0]}>
+          <boxGeometry args={[0.78, 0.26, 0.025]} />
+          <meshStandardMaterial color="#090a10" roughness={0.2} metalness={0.85} />
+        </mesh>
+        {/* Luminous accent bar on top edge of plaque */}
+        <mesh position={[0, 0.58, -0.01]} rotation={[-0.32, 0, 0]}>
+          <boxGeometry args={[0.74, 0.015, 0.03]} />
+          <meshStandardMaterial
+            color={service.accentColor}
+            emissive={service.accentColor}
+            emissiveIntensity={hovered || isSelected ? 1.5 : 0.6}
+          />
+        </mesh>
+      </group>
+
+      {/* 6. Front Plaque Compact Title (Placed directly in front of the pod at ground/base level) */}
       <Html
-        position={[0, 2.45, 0]}
+        position={[0, 0.52, 1.42]}
         center
-        distanceFactor={11}
+        distanceFactor={10}
         className="pointer-events-none select-none transition-all duration-300 transform"
         style={{
-          transform: hovered || isSelected ? 'scale(1.08) translateY(-4px)' : 'scale(1)',
-          opacity: hovered || isSelected ? 1 : 0.9,
+          transform: hovered || isSelected ? 'scale(1.06) translateY(-2px)' : 'scale(1)',
+          opacity: hovered || isSelected ? 1 : 0.95,
         }}
       >
         <div ref={badgeHtmlRef} className="flex flex-col items-center">
           <div
-            className="px-4 py-2 rounded-2xl glass-panel-gold border shadow-2xl flex flex-col items-center text-center backdrop-blur-xl"
-            style={{ borderColor: hovered || isSelected ? service.accentColor : 'rgba(255,255,255,0.15)' }}
+            className="px-3 py-1.5 rounded-xl border shadow-2xl flex items-center gap-2.5 backdrop-blur-xl transition-all duration-200"
+            style={{
+              backgroundColor: 'rgba(9, 10, 16, 0.92)',
+              borderColor: hovered || isSelected ? service.accentColor : 'rgba(255, 255, 255, 0.16)',
+              boxShadow: hovered || isSelected ? `0 0 20px ${service.accentColor}40` : '0 10px 25px rgba(0,0,0,0.7)',
+            }}
           >
-            <div className="flex items-center gap-2 mb-0.5">
-              <span
-                className="w-2 h-2 rounded-full animate-ping"
-                style={{ backgroundColor: service.accentColor }}
-              />
-              <span className="font-cinzel text-xs font-bold text-zinc-100 whitespace-nowrap tracking-wide">
+            <span
+              className="w-2 h-2 rounded-full flex-shrink-0 animate-pulse"
+              style={{ backgroundColor: service.accentColor, boxShadow: `0 0 8px ${service.accentColor}` }}
+            />
+            <div className="flex flex-col text-left">
+              <span className="font-cinzel text-xs font-bold text-zinc-100 whitespace-nowrap tracking-wide leading-tight">
                 {service.shortTitle}
               </span>
+              <span className="text-[8px] uppercase tracking-[0.2em] text-zinc-400 leading-tight">
+                {service.category}
+              </span>
             </div>
-            <div className="text-[9px] uppercase tracking-[0.2em] text-zinc-400">
-              {service.category}
-            </div>
-          </div>
-          <div className="text-[8px] tracking-[0.25em] text-amber-300/80 mt-1 uppercase font-semibold">
-            ✦ Inspect Station
+            <span
+              className="text-[9px] font-mono pl-1 transition-transform duration-200"
+              style={{ color: service.accentColor }}
+            >
+              ✦
+            </span>
           </div>
         </div>
       </Html>

@@ -5,10 +5,20 @@ import * as THREE from 'three';
 export default function ParticleField({ count = 180 }) {
   const pointsRef = useRef();
 
-  // Create random initial positions and velocities
-  const [positions, speeds] = useMemo(() => {
+  // Create random initial positions, velocities, and per-particle colors
+  const [positions, speeds, colors] = useMemo(() => {
     const pos = new Float32Array(count * 3);
     const spd = new Float32Array(count);
+    const col = new Float32Array(count * 3);
+
+    // Color palette: gold, cyan, rose-pink, violet, white
+    const palette = [
+      [1.0, 0.75, 0.15],   // Gold
+      [0.13, 0.83, 0.93],  // Cyan
+      [0.96, 0.45, 0.72],  // Rose-pink
+      [0.66, 0.55, 0.98],  // Violet
+      [1.0, 0.97, 0.92],   // Warm white
+    ];
 
     for (let i = 0; i < count; i++) {
       // Spread inside the Grand Hall corridor
@@ -17,8 +27,14 @@ export default function ParticleField({ count = 180 }) {
       pos[i * 3 + 2] = -Math.random() * 22 + 2;    // z (-20 to 2)
 
       spd[i] = 0.15 + Math.random() * 0.35; // gentle upward drift
+
+      // Pick a random color from the palette
+      const c = palette[Math.floor(Math.random() * palette.length)];
+      col[i * 3] = c[0];
+      col[i * 3 + 1] = c[1];
+      col[i * 3 + 2] = c[2];
     }
-    return [pos, spd];
+    return [pos, spd, col];
   }, [count]);
 
   useFrame((_, delta) => {
@@ -46,12 +62,16 @@ export default function ParticleField({ count = 180 }) {
           attach="attributes-position"
           args={[positions, 3]}
         />
+        <bufferAttribute
+          attach="attributes-color"
+          args={[colors, 3]}
+        />
       </bufferGeometry>
       <pointsMaterial
-        size={0.065}
-        color="#fbbf24"
+        size={0.07}
+        vertexColors
         transparent
-        opacity={0.7}
+        opacity={0.8}
         blending={THREE.AdditiveBlending}
         depthWrite={false}
       />

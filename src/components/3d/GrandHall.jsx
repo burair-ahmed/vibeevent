@@ -36,13 +36,13 @@ export default function GrandHall() {
 
   return (
     <group position={[0, 0, 0]}>
-      {/* 1. Reflective Mirror-like Black Marble Floor */}
+      {/* 1. Reflective Dark Marble Floor — warmer charcoal with visible reflections */}
       <mesh position={[0, -0.01, -10]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[18, 28]} />
         <meshStandardMaterial
-          color="#040508"
-          roughness={0.04}
-          metalness={0.96}
+          color="#0e0f18"
+          roughness={0.06}
+          metalness={0.92}
         />
       </mesh>
 
@@ -50,9 +50,9 @@ export default function GrandHall() {
       <mesh position={[0, 0.005, -10]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[4.2, 28]} />
         <meshStandardMaterial
-          color="#090a12"
-          roughness={0.12}
-          metalness={0.7}
+          color="#12131e"
+          roughness={0.1}
+          metalness={0.75}
         />
       </mesh>
 
@@ -66,50 +66,50 @@ export default function GrandHall() {
         <meshStandardMaterial color="#d4af37" emissive="#997819" emissiveIntensity={0.6} metalness={0.95} />
       </mesh>
 
-      {/* Ambient Neon Floor Channel Guides (Soft Violet/Cyan) */}
+      {/* Ambient Neon Floor Channel Guides (Dual-color Violet / Cyan) */}
       <mesh position={[-4.2, 0.015, -10]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[0.03, 28]} />
-        <meshStandardMaterial color="#818cf8" emissive="#6366f1" emissiveIntensity={1.4} />
+        <planeGeometry args={[0.04, 28]} />
+        <meshStandardMaterial color="#a78bfa" emissive="#7c3aed" emissiveIntensity={2.0} />
       </mesh>
       <mesh position={[4.2, 0.015, -10]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[0.03, 28]} />
-        <meshStandardMaterial color="#818cf8" emissive="#6366f1" emissiveIntensity={1.4} />
+        <planeGeometry args={[0.04, 28]} />
+        <meshStandardMaterial color="#22d3ee" emissive="#06b6d4" emissiveIntensity={2.0} />
       </mesh>
 
-      {/* 2. Side Walls & Base Moldings */}
+      {/* 2. Side Walls & Base Moldings — deep navy with subtle warmth */}
       <mesh position={[-8.8, 4, -10]}>
         <boxGeometry args={[0.4, 8.5, 28]} />
-        <meshStandardMaterial color="#06070c" roughness={0.75} />
+        <meshStandardMaterial color="#10122a" roughness={0.65} metalness={0.15} />
       </mesh>
       <mesh position={[8.8, 4, -10]}>
         <boxGeometry args={[0.4, 8.5, 28]} />
-        <meshStandardMaterial color="#06070c" roughness={0.75} />
+        <meshStandardMaterial color="#10122a" roughness={0.65} metalness={0.15} />
       </mesh>
 
-      {/* 3. Vaulted Ceiling */}
+      {/* 3. Vaulted Ceiling — deep indigo, not pure black */}
       <mesh position={[0, 8.2, -10]}>
         <boxGeometry args={[18, 0.5, 28]} />
-        <meshStandardMaterial color="#040407" roughness={0.85} />
+        <meshStandardMaterial color="#0d0e22" roughness={0.7} metalness={0.1} />
       </mesh>
 
-      {/* Modern Vault Rib Arches Overhead with Breathing Gold Neon */}
+      {/* Modern Vault Rib Arches Overhead with Breathing Neon — alternating gold & violet */}
       {archPositions.map((zPos, i) => (
         <group key={`arch-${i}`} position={[0, 0, zPos]}>
           {/* Arch Beam */}
           <mesh position={[0, 7.8, 0]}>
             <boxGeometry args={[17.2, 0.28, 0.35]} />
-            <meshStandardMaterial color="#0f1018" metalness={0.6} roughness={0.3} />
+            <meshStandardMaterial color="#181a30" metalness={0.6} roughness={0.3} />
           </mesh>
-          {/* Neon Glow Strip running under the arch */}
+          {/* Neon Glow Strip running under the arch — alternate colors */}
           <mesh
             ref={(el) => (neonRibsRef.current[i] = el)}
             position={[0, 7.64, 0]}
           >
-            <boxGeometry args={[16.8, 0.05, 0.08]} />
+            <boxGeometry args={[16.8, 0.06, 0.1]} />
             <meshStandardMaterial
-              color="#fbbf24"
-              emissive="#d4af37"
-              emissiveIntensity={1.3}
+              color={i % 2 === 0 ? '#fbbf24' : '#a78bfa'}
+              emissive={i % 2 === 0 ? '#d4af37' : '#7c3aed'}
+              emissiveIntensity={1.8}
             />
           </mesh>
         </group>
@@ -118,15 +118,15 @@ export default function GrandHall() {
       {/* 4. Flanking Cylindrical Architectural Columns with Gold Capitals */}
       {columnPositions.map((pos, i) => (
         <group key={`col-${i}`} position={[pos.x, 0, pos.z]}>
-          {/* Main Round Column Shaft */}
+          {/* Main Round Column Shaft — richer deep slate blue */}
           <mesh position={[0, 4, 0]}>
             <cylinderGeometry args={[0.46, 0.52, 8, 32]} />
-            <meshStandardMaterial color="#0c0d14" metalness={0.5} roughness={0.35} />
+            <meshStandardMaterial color="#151829" metalness={0.55} roughness={0.3} />
           </mesh>
           {/* Column Base Tier 1 */}
           <mesh position={[0, 0.2, 0]}>
             <cylinderGeometry args={[0.65, 0.72, 0.4, 32]} />
-            <meshStandardMaterial color="#11131c" metalness={0.7} roughness={0.25} />
+            <meshStandardMaterial color="#1a1d32" metalness={0.7} roughness={0.25} />
           </mesh>
           {/* Gold Base Trim */}
           <mesh position={[0, 0.42, 0]}>
@@ -138,13 +138,13 @@ export default function GrandHall() {
             <cylinderGeometry args={[0.7, 0.54, 0.45, 32]} />
             <meshStandardMaterial color="#d4af37" metalness={0.9} roughness={0.2} />
           </mesh>
-          {/* Vertical Cyan Neon Strip Facing Interior */}
+          {/* Vertical Neon Strip — left columns pink-rose, right columns teal-cyan */}
           <mesh position={[pos.x < 0 ? 0.48 : -0.48, 4, 0]}>
-            <boxGeometry args={[0.03, 7.2, 0.08]} />
+            <boxGeometry args={[0.035, 7.2, 0.09]} />
             <meshStandardMaterial
-              color="#38bdf8"
-              emissive="#0284c7"
-              emissiveIntensity={1.5}
+              color={pos.x < 0 ? '#f472b6' : '#22d3ee'}
+              emissive={pos.x < 0 ? '#ec4899' : '#06b6d4'}
+              emissiveIntensity={2.0}
             />
           </mesh>
         </group>
@@ -152,30 +152,30 @@ export default function GrandHall() {
 
       {/* 5. The Grand Stage & Kinetic Portal Core (z = -23.5) */}
       <group position={[0, 0, -23.5]}>
-        {/* Back Wall */}
+        {/* Back Wall — deep indigo-navy instead of black */}
         <mesh position={[0, 4, 0]}>
           <boxGeometry args={[18, 8.5, 0.5]} />
-          <meshStandardMaterial color="#030406" roughness={0.9} />
+          <meshStandardMaterial color="#0a0c20" roughness={0.75} metalness={0.1} />
         </mesh>
 
-        {/* Elevated VIP Main Stage */}
+        {/* Elevated VIP Main Stage — richer charcoal */}
         <mesh position={[0, 0.5, 2]}>
           <boxGeometry args={[10, 1.0, 4]} />
-          <meshStandardMaterial color="#0c0d14" metalness={0.8} roughness={0.15} />
+          <meshStandardMaterial color="#141628" metalness={0.8} roughness={0.15} />
         </mesh>
         {/* Stage Edge Gold Glow */}
         <mesh position={[0, 1.01, 3.98]}>
           <boxGeometry args={[9.9, 0.04, 0.06]} />
-          <meshStandardMaterial color="#fbbf24" emissive="#d4af37" emissiveIntensity={2.2} />
+          <meshStandardMaterial color="#fbbf24" emissive="#d4af37" emissiveIntensity={2.5} />
         </mesh>
 
-        {/* Outer Kinetic Portal Halo Ring */}
+        {/* Outer Kinetic Portal Halo Ring — brighter violet */}
         <mesh position={[0, 4.5, 0.4]}>
           <torusGeometry args={[3.2, 0.12, 16, 64]} />
           <meshStandardMaterial
-            color="#818cf8"
-            emissive="#6366f1"
-            emissiveIntensity={2.5}
+            color="#a78bfa"
+            emissive="#7c3aed"
+            emissiveIntensity={3.0}
           />
         </mesh>
         {/* Inner concentric gold ring */}
@@ -184,7 +184,7 @@ export default function GrandHall() {
           <meshStandardMaterial
             color="#fbbf24"
             emissive="#d4af37"
-            emissiveIntensity={2.0}
+            emissiveIntensity={2.5}
           />
         </mesh>
 

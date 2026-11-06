@@ -14,7 +14,7 @@ export default function CanvasContainer() {
   const { entranceState } = useExperienceStore();
 
   return (
-    <div className="absolute inset-0 w-full h-full bg-[#07070a] overflow-hidden">
+    <div className="absolute inset-0 w-full h-full bg-[#0a0b1a] overflow-hidden">
       <Canvas
         camera={{
           position: [0, 2, 11.5],
