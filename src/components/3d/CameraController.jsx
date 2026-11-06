@@ -8,7 +8,7 @@ import { sound } from '../../utils/audioSystem';
 export default function CameraController() {
   const { camera, size, gl } = useThree();
   const { entranceState, finishDoorEntrance, cameraWaypoint, activeService, customHotspotTarget, waypointVersion } = useExperienceStore();
-  
+
   // Base camera position & look target vectors
   const targetPos = useRef(new THREE.Vector3(0, 2, 11.5));
   const currentLookAt = useRef(new THREE.Vector3(0, 2, 4));
@@ -106,13 +106,13 @@ export default function CameraController() {
         duration: 1.2,
         ease: 'power2.in',
       })
-      .to(targetPos.current, {
-        x: 0,
-        y: 2.2,
-        z: -2.5,
-        duration: 1.8,
-        ease: 'power2.out',
-      });
+        .to(targetPos.current, {
+          x: 0,
+          y: 2.2,
+          z: -2.5,
+          duration: 1.8,
+          ease: 'power2.out',
+        });
     }
   }, [entranceState, finishDoorEntrance]);
 
