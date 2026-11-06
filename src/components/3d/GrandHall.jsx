@@ -1,6 +1,7 @@
 import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
+import FlamingTorch from './FlamingTorch';
 
 export default function GrandHall() {
   const neonRibsRef = useRef([]);
@@ -147,6 +148,14 @@ export default function GrandHall() {
               emissiveIntensity={2.0}
             />
           </mesh>
+          {/* Wall-mounted Flaming Torch — facing inward toward the hall center */}
+          <FlamingTorch
+            position={[pos.x < 0 ? 0.3 : -0.3, 3.0, 0]}
+            rotationY={pos.x < 0 ? Math.PI / 2 : -Math.PI / 2}
+            scale={0.85}
+            lightIntensity={2.5}
+            lightDistance={6}
+          />
         </group>
       ))}
 
