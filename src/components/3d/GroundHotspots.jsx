@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { useExperienceStore } from '../../store/useExperienceStore';
 import { sound } from '../../utils/audioSystem';
 
-// Ground Hotspot positions across key places in the grand hall
+// Ground Hotspot positions across key places in the grand hall (INTERIOR)
 export const HOTSPOTS_DATA = [
   { id: 'foyer', position: [0, 0.025, 1.2], cameraPos: [0, 2.0, 1.2] },
   { id: 'hall-center', position: [0, 0.025, -4.5], cameraPos: [0, 2.1, -4.5] },
@@ -17,11 +17,26 @@ export const HOTSPOTS_DATA = [
   { id: 'stage-apex', position: [0, 1.025, -20.5], cameraPos: [0, 2.8, -19.5] },
 ];
 
-function SingleHotspot({ hotspot }) {
+// Ground Hotspot positions OUTSIDE the entrance (courtyard / approach)
+export const EXTERIOR_HOTSPOTS_DATA = [
+  { id: 'ext-gate-front', position: [0, -0.07, 6.5], cameraPos: [0, 2.0, 6.5] },
+  { id: 'ext-left-wing', position: [-3.8, -0.45, 8.5], cameraPos: [-3.5, 1.8, 8.5] },
+  { id: 'ext-right-wing', position: [3.8, -0.45, 8.5], cameraPos: [3.5, 1.8, 8.5] },
+  { id: 'ext-courtyard-center', position: [0, -0.45, 11.0], cameraPos: [0, 1.8, 11.0] },
+  { id: 'ext-far-left', position: [-5.5, -0.45, 12.5], cameraPos: [-5.0, 1.8, 12.0] },
+  { id: 'ext-far-right', position: [5.5, -0.45, 12.5], cameraPos: [5.0, 1.8, 12.0] },
+];
+
+function SingleHotspot({ hotspot, isExterior = false }) {
   const { moveToHotspot } = useExperienceStore();
   const [hovered, setHovered] = useState(false);
   const ringRef = useRef();
   const outerRingRef = useRef();
+
+  // Different accent color for exterior vs interior
+  const accentColor = isExterior ? '#60a5fa' : '#fbbf24';       // blue outside, gold inside
+  const accentColorHover = isExterior ? '#93c5fd' : '#fef08a';
+  const accentColorBase = isExterior ? '#3b82f6' : '#d4af37';
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
@@ -40,7 +55,7 @@ function SingleHotspot({ hotspot }) {
     e.stopPropagation();
     sound.init();
     sound.playThresholdWhoosh();
-    moveToHotspot(hotspot.cameraPos);
+    moveToHotspot(hotspot.cameraPos, { keepState: isExterior });
   };
 
   return (
@@ -65,7 +80,7 @@ function SingleHotspot({ hotspot }) {
       >
         <ringGeometry args={[0.38, 0.5, 32]} />
         <meshBasicMaterial
-          color="#fbbf24"
+          color={accentColor}
           transparent
           opacity={0.35}
           depthWrite={false}
@@ -80,7 +95,7 @@ function SingleHotspot({ hotspot }) {
       >
         <ringGeometry args={[0.16, 0.28, 32]} />
         <meshBasicMaterial
-          color={hovered ? "#fef08a" : "#d4af37"}
+          color={hovered ? accentColorHover : accentColorBase}
           transparent
           opacity={hovered ? 0.95 : 0.65}
           depthWrite={false}
@@ -104,14 +119,21 @@ function SingleHotspot({ hotspot }) {
 export default function GroundHotspots() {
   const { entranceState } = useExperienceStore();
 
-  // Only render ground navigation hotspots when inside the hall
-  if (entranceState !== 'inside') return null;
-
   return (
     <group>
-      {HOTSPOTS_DATA.map((hotspot) => (
-        <SingleHotspot key={hotspot.id} hotspot={hotspot} />
-      ))}
+      {/* Interior hotspots — only when inside */}
+      {entranceState === 'inside' &&
+        HOTSPOTS_DATA.map((hotspot) => (
+          <SingleHotspot key={hotspot.id} hotspot={hotspot} />
+        ))
+      }
+
+      {/* Exterior hotspots — only when outside (before entering) */}
+      {entranceState === 'outside' &&
+        EXTERIOR_HOTSPOTS_DATA.map((hotspot) => (
+          <SingleHotspot key={hotspot.id} hotspot={hotspot} isExterior />
+        ))
+      }
     </group>
   );
 }

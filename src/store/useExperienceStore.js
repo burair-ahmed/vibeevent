@@ -64,13 +64,13 @@ export function useExperienceStore() {
     setExperienceState({ entranceState: 'inside', cameraWaypoint: 'hall' });
   };
 
-  const moveToHotspot = (position) => {
-    setExperienceState({
+  const moveToHotspot = (position, { keepState = false } = {}) => {
+    setExperienceState((prev) => ({
       customHotspotTarget: position,
       cameraWaypoint: null, // clear waypoint highlight — user is free-roaming via hotspot
       activeService: null, // clear drawer if open
-      entranceState: 'inside', // ensure marked inside
-    });
+      entranceState: keepState ? prev.entranceState : 'inside', // exterior hotspots keep current state
+    }));
   };
 
   const setActiveService = (service) => {
