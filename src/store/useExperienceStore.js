@@ -9,7 +9,8 @@ let globalState = {
   activeModal: null, // 'portfolio' | 'calculator' | 'about' | 'booking' | null
   isSoundEnabled: false,
   viewMode: '3d', // '3d' | '2d'
-  cameraWaypoint: 'entrance', // 'entrance' | 'hall' | 'services' | 'stage'
+  cameraWaypoint: 'entrance', // 'entrance' | 'hall' | 'services' | 'stage' | null
+  waypointVersion: 0,        // increments on every setCameraWaypoint call (forces re-trigger)
   customHotspotTarget: null,  // [x, y, z] target when clicking a ground hotspot
   isMobile: false,
 };
@@ -66,6 +67,7 @@ export function useExperienceStore() {
   const moveToHotspot = (position) => {
     setExperienceState({
       customHotspotTarget: position,
+      cameraWaypoint: null, // clear waypoint highlight — user is free-roaming via hotspot
       activeService: null, // clear drawer if open
       entranceState: 'inside', // ensure marked inside
     });
@@ -96,13 +98,14 @@ export function useExperienceStore() {
   };
 
   const setCameraWaypoint = (waypoint) => {
-    setExperienceState({ 
+    setExperienceState((prev) => ({ 
       cameraWaypoint: waypoint,
+      waypointVersion: prev.waypointVersion + 1, // always increment — forces useEffect re-trigger even for same waypoint
       customHotspotTarget: null,
-      entranceState: globalState.entranceState === 'outside' && waypoint !== 'entrance' ? 'inside' : globalState.entranceState,
-      leftDoorOpen: waypoint !== 'entrance' ? true : globalState.leftDoorOpen,
-      rightDoorOpen: waypoint !== 'entrance' ? true : globalState.rightDoorOpen,
-    });
+      entranceState: prev.entranceState === 'outside' && waypoint !== 'entrance' ? 'inside' : prev.entranceState,
+      leftDoorOpen: waypoint !== 'entrance' ? true : prev.leftDoorOpen,
+      rightDoorOpen: waypoint !== 'entrance' ? true : prev.rightDoorOpen,
+    }));
   };
 
   return {

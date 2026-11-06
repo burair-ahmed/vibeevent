@@ -7,7 +7,7 @@ import { sound } from '../../utils/audioSystem';
 
 export default function CameraController() {
   const { camera, size, gl } = useThree();
-  const { entranceState, finishDoorEntrance, cameraWaypoint, activeService, customHotspotTarget } = useExperienceStore();
+  const { entranceState, finishDoorEntrance, cameraWaypoint, activeService, customHotspotTarget, waypointVersion } = useExperienceStore();
   
   // Base camera position & look target vectors
   const targetPos = useRef(new THREE.Vector3(0, 2, 11.5));
@@ -195,7 +195,7 @@ export default function CameraController() {
       gsap.to(targetYaw, { current: 0, duration: 2.0, ease: 'power3.out' });
       gsap.to(targetPitch, { current: 0, duration: 2.0, ease: 'power3.out' });
     }
-  }, [cameraWaypoint, activeService, entranceState]);
+  }, [cameraWaypoint, activeService, entranceState, waypointVersion]);
 
   // Frame update: interpolate camera position and compute 360-degree look direction
   useFrame((_, delta) => {

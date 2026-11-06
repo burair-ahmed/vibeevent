@@ -111,34 +111,64 @@ export default function DoorModel() {
             <meshStandardMaterial color="#181922" roughness={0.6} />
           </mesh>
 
-          {/* Half of Central Golden Medallion */}
-          <mesh position={[0.88, 0, 0.1]}>
-            <cylinderGeometry args={[0.35, 0.35, 0.03, 32, 1, false, Math.PI / 2, Math.PI]} />
+          {/* Gold Meeting Edge Trim / Astragal */}
+          <mesh position={[0.90, 0, 0.075]}>
+            <boxGeometry args={[0.03, 4.4, 0.015]} />
             <meshStandardMaterial
               color="#d4af37"
-              emissive="#b45309"
-              emissiveIntensity={leftHovered ? 0.6 : 0.2}
+              metalness={0.9}
+              roughness={0.25}
+            />
+          </mesh>
+
+          {/* Luxury Lock Escutcheon Plate */}
+          <mesh position={[0.72, 0, 0.08]}>
+            <boxGeometry args={[0.12, 1.1, 0.015]} />
+            <meshStandardMaterial
+              color={leftHovered ? "#1c1e28" : "#0e0f16"}
+              metalness={0.7}
+              roughness={0.3}
+            />
+          </mesh>
+          {/* Gold Escutcheon Border Trim */}
+          <mesh position={[0.72, 0, 0.088]}>
+            <boxGeometry args={[0.10, 1.08, 0.005]} />
+            <meshStandardMaterial
+              color="#d4af37"
               metalness={0.9}
               roughness={0.2}
             />
           </mesh>
 
-          {/* Polished Brass Pull Handle */}
-          <mesh position={[0.72, 0, 0.16]}>
-            <cylinderGeometry args={[0.028, 0.028, 0.75, 16]} />
+          {/* ── Vertical Luxury Architectural Pull Bar ── */}
+          {/* Main Vertical Bar (0.85m tall) */}
+          <mesh position={[0.72, 0, 0.14]}>
+            <cylinderGeometry args={[0.024, 0.024, 0.85, 24]} />
             <meshStandardMaterial
               color="#fef08a"
               metalness={0.95}
               roughness={0.15}
             />
           </mesh>
-          <mesh position={[0.72, 0.32, 0.1]}>
-            <cylinderGeometry args={[0.02, 0.02, 0.12, 12]} rotation={[Math.PI / 2, 0, 0]} />
-            <meshStandardMaterial color="#d4af37" metalness={0.95} />
+          {/* Top Standoff Pin */}
+          <mesh position={[0.72, 0.35, 0.11]}>
+            <cylinderGeometry args={[0.018, 0.018, 0.06, 16]} rotation={[Math.PI / 2, 0, 0]} />
+            <meshStandardMaterial color="#d4af37" metalness={0.95} roughness={0.15} />
           </mesh>
-          <mesh position={[0.72, -0.32, 0.1]}>
-            <cylinderGeometry args={[0.02, 0.02, 0.12, 12]} rotation={[Math.PI / 2, 0, 0]} />
-            <meshStandardMaterial color="#d4af37" metalness={0.95} />
+          {/* Bottom Standoff Pin */}
+          <mesh position={[0.72, -0.35, 0.11]}>
+            <cylinderGeometry args={[0.018, 0.018, 0.06, 16]} rotation={[Math.PI / 2, 0, 0]} />
+            <meshStandardMaterial color="#d4af37" metalness={0.95} roughness={0.15} />
+          </mesh>
+          {/* Top Decorative Finial Cap */}
+          <mesh position={[0.72, 0.44, 0.14]}>
+            <sphereGeometry args={[0.028, 16, 16]} />
+            <meshStandardMaterial color="#d4af37" metalness={0.95} roughness={0.15} />
+          </mesh>
+          {/* Bottom Decorative Finial Cap */}
+          <mesh position={[0.72, -0.44, 0.14]}>
+            <sphereGeometry args={[0.028, 16, 16]} />
+            <meshStandardMaterial color="#d4af37" metalness={0.95} roughness={0.15} />
           </mesh>
         </group>
       </group>
@@ -197,34 +227,64 @@ export default function DoorModel() {
             <meshStandardMaterial color="#181922" roughness={0.6} />
           </mesh>
 
-          {/* Half of Central Golden Medallion */}
-          <mesh position={[-0.88, 0, 0.1]}>
-            <cylinderGeometry args={[0.35, 0.35, 0.03, 32, 1, false, -Math.PI / 2, Math.PI]} />
+          {/* Gold Meeting Edge Trim / Astragal */}
+          <mesh position={[-0.90, 0, 0.075]}>
+            <boxGeometry args={[0.03, 4.4, 0.015]} />
             <meshStandardMaterial
               color="#d4af37"
-              emissive="#b45309"
-              emissiveIntensity={rightHovered ? 0.6 : 0.2}
+              metalness={0.9}
+              roughness={0.25}
+            />
+          </mesh>
+
+          {/* Luxury Lock Escutcheon Plate */}
+          <mesh position={[-0.72, 0, 0.08]}>
+            <boxGeometry args={[0.12, 1.1, 0.015]} />
+            <meshStandardMaterial
+              color={rightHovered ? "#1c1e28" : "#0e0f16"}
+              metalness={0.7}
+              roughness={0.3}
+            />
+          </mesh>
+          {/* Gold Escutcheon Border Trim */}
+          <mesh position={[-0.72, 0, 0.088]}>
+            <boxGeometry args={[0.10, 1.08, 0.005]} />
+            <meshStandardMaterial
+              color="#d4af37"
               metalness={0.9}
               roughness={0.2}
             />
           </mesh>
 
-          {/* Polished Brass Pull Handle */}
-          <mesh position={[-0.72, 0, 0.16]}>
-            <cylinderGeometry args={[0.028, 0.028, 0.75, 16]} />
+          {/* ── Vertical Luxury Architectural Pull Bar ── */}
+          {/* Main Vertical Bar (0.85m tall) */}
+          <mesh position={[-0.72, 0, 0.14]}>
+            <cylinderGeometry args={[0.024, 0.024, 0.85, 24]} />
             <meshStandardMaterial
               color="#fef08a"
               metalness={0.95}
               roughness={0.15}
             />
           </mesh>
-          <mesh position={[-0.72, 0.32, 0.1]}>
-            <cylinderGeometry args={[0.02, 0.02, 0.12, 12]} rotation={[Math.PI / 2, 0, 0]} />
-            <meshStandardMaterial color="#d4af37" metalness={0.95} />
+          {/* Top Standoff Pin */}
+          <mesh position={[-0.72, 0.35, 0.11]}>
+            <cylinderGeometry args={[0.018, 0.018, 0.06, 16]} rotation={[Math.PI / 2, 0, 0]} />
+            <meshStandardMaterial color="#d4af37" metalness={0.95} roughness={0.15} />
           </mesh>
-          <mesh position={[-0.72, -0.32, 0.1]}>
-            <cylinderGeometry args={[0.02, 0.02, 0.12, 12]} rotation={[Math.PI / 2, 0, 0]} />
-            <meshStandardMaterial color="#d4af37" metalness={0.95} />
+          {/* Bottom Standoff Pin */}
+          <mesh position={[-0.72, -0.35, 0.11]}>
+            <cylinderGeometry args={[0.018, 0.018, 0.06, 16]} rotation={[Math.PI / 2, 0, 0]} />
+            <meshStandardMaterial color="#d4af37" metalness={0.95} roughness={0.15} />
+          </mesh>
+          {/* Top Decorative Finial Cap */}
+          <mesh position={[-0.72, 0.44, 0.14]}>
+            <sphereGeometry args={[0.028, 16, 16]} />
+            <meshStandardMaterial color="#d4af37" metalness={0.95} roughness={0.15} />
+          </mesh>
+          {/* Bottom Decorative Finial Cap */}
+          <mesh position={[-0.72, -0.44, 0.14]}>
+            <sphereGeometry args={[0.028, 16, 16]} />
+            <meshStandardMaterial color="#d4af37" metalness={0.95} roughness={0.15} />
           </mesh>
         </group>
       </group>
