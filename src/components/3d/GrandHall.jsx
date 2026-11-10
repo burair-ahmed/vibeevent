@@ -1,7 +1,7 @@
 import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
-import FlamingTorch from './FlamingTorch';
+import CrystalChandelier from './CrystalChandelier';
 
 export default function GrandHall() {
   const neonRibsRef = useRef([]);
@@ -23,6 +23,58 @@ export default function GrandHall() {
   // Ceiling vault rib arches
   const archPositions = useMemo(() => [
     1.5, -4, -9.5, -15, -20.5
+  ], []);
+
+  // Luxury Grand Crystal Chandeliers along the central runway under the vault arches
+  const chandelierConfigs = useMemo(() => [
+    {
+      id: 'chandelier-entrance',
+      position: [0, 0, 1.5],
+      scale: 1.25,
+      tiers: 'two',
+      crystals: 'cascade',
+      colorway: 'casino-gold',
+      lightIntensity: 3.8,
+      swaySpeed: 1.0,
+      swayAmount: 1.05,
+      seed: 0.5,
+    },
+    {
+      id: 'chandelier-fore',
+      position: [0, 0, -4.0],
+      scale: 1.38,
+      tiers: 'two',
+      crystals: 'cascade',
+      colorway: 'casino-gold',
+      lightIntensity: 4.2,
+      swaySpeed: 0.95,
+      swayAmount: 1.1,
+      seed: 1.2,
+    },
+    {
+      id: 'chandelier-center',
+      position: [0, 0, -9.5],
+      scale: 1.62,
+      tiers: 'three',
+      crystals: 'cascade',
+      colorway: 'casino-gold',
+      lightIntensity: 5.0,
+      swaySpeed: 0.78,
+      swayAmount: 0.95,
+      seed: 2.7,
+    },
+    {
+      id: 'chandelier-stage',
+      position: [0, 0, -15.0],
+      scale: 1.38,
+      tiers: 'two',
+      crystals: 'cascade',
+      colorway: 'casino-gold',
+      lightIntensity: 4.2,
+      swaySpeed: 0.88,
+      swayAmount: 1.05,
+      seed: 4.3,
+    },
   ], []);
 
   // Subtle breathing pulse for the overhead neon arches
@@ -116,6 +168,23 @@ export default function GrandHall() {
         </group>
       ))}
 
+      {/* 3b. Luxury Crystal Chandeliers along the Central Promenade */}
+      {chandelierConfigs.map((config) => (
+        <CrystalChandelier
+          key={config.id}
+          position={config.position}
+          mountY={7.66}
+          scale={config.scale}
+          tiers={config.tiers}
+          crystals={config.crystals}
+          colorway={config.colorway}
+          lightIntensity={config.lightIntensity}
+          swaySpeed={config.swaySpeed}
+          swayAmount={config.swayAmount}
+          seed={config.seed}
+        />
+      ))}
+
       {/* 4. Flanking Cylindrical Architectural Columns with Gold Capitals */}
       {columnPositions.map((pos, i) => (
         <group key={`col-${i}`} position={[pos.x, 0, pos.z]}>
@@ -148,14 +217,6 @@ export default function GrandHall() {
               emissiveIntensity={2.0}
             />
           </mesh>
-          {/* Wall-mounted Flaming Torch — facing inward toward the hall center */}
-          <FlamingTorch
-            position={[pos.x < 0 ? 0.3 : -0.3, 3.0, 0]}
-            rotationY={pos.x < 0 ? Math.PI / 2 : -Math.PI / 2}
-            scale={0.85}
-            lightIntensity={2.5}
-            lightDistance={6}
-          />
         </group>
       ))}
 

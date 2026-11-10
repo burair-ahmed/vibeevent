@@ -2,7 +2,11 @@ import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-export default function ParticleField({ count = 180 }) {
+/**
+ * Lightweight Atmospheric Gold Dust Bokeh
+ * Optimized: minimal particle count (default 30) and zero heavy math per frame
+ */
+export default function ParticleField({ count = 30 }) {
   const pointsRef = useRef();
 
   // Create random initial positions, velocities, and per-particle colors
@@ -11,25 +15,20 @@ export default function ParticleField({ count = 180 }) {
     const spd = new Float32Array(count);
     const col = new Float32Array(count * 3);
 
-    // Color palette: gold, cyan, rose-pink, violet, white
     const palette = [
-      [1.0, 0.75, 0.15],   // Gold
-      [0.13, 0.83, 0.93],  // Cyan
-      [0.96, 0.45, 0.72],  // Rose-pink
-      [0.66, 0.55, 0.98],  // Violet
-      [1.0, 0.97, 0.92],   // Warm white
+      [1.0, 0.85, 0.35], // Luxury warm gold
+      [0.98, 0.95, 0.9],  // Soft champagne white
+      [0.92, 0.68, 0.2],  // Amber gold
     ];
 
     for (let i = 0; i < count; i++) {
-      // Spread inside the Grand Hall corridor
-      pos[i * 3] = (Math.random() - 0.5) * 14;     // x (-7 to 7)
-      pos[i * 3 + 1] = Math.random() * 6.5 + 0.5;   // y (0.5 to 7)
+      pos[i * 3] = (Math.random() - 0.5) * 12;     // x (-6 to 6)
+      pos[i * 3 + 1] = Math.random() * 6.0 + 1.0;  // y (1 to 7)
       pos[i * 3 + 2] = -Math.random() * 22 + 2;    // z (-20 to 2)
 
-      spd[i] = 0.15 + Math.random() * 0.35; // gentle upward drift
+      spd[i] = 0.12 + Math.random() * 0.22; // gentle upward drift
 
-      // Pick a random color from the palette
-      const c = palette[Math.floor(Math.random() * palette.length)];
+      const c = palette[i % palette.length];
       col[i * 3] = c[0];
       col[i * 3 + 1] = c[1];
       col[i * 3 + 2] = c[2];
@@ -42,14 +41,9 @@ export default function ParticleField({ count = 180 }) {
     const posArr = pointsRef.current.geometry.attributes.position.array;
 
     for (let i = 0; i < count; i++) {
-      // Drift upwards gently
-      posArr[i * 3 + 1] += speeds[i] * delta * 0.8;
-      // Soft gentle horizontal drift
-      posArr[i * 3] += Math.sin(posArr[i * 3 + 1] * 2 + i) * 0.003;
-
-      // Wrap around if reaches the top
-      if (posArr[i * 3 + 1] > 7.2) {
-        posArr[i * 3 + 1] = 0.5;
+      posArr[i * 3 + 1] += speeds[i] * delta * 0.5;
+      if (posArr[i * 3 + 1] > 7.0) {
+        posArr[i * 3 + 1] = 0.8;
       }
     }
     pointsRef.current.geometry.attributes.position.needsUpdate = true;
@@ -68,14 +62,13 @@ export default function ParticleField({ count = 180 }) {
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.07}
+        size={0.06}
         vertexColors
         transparent
-        opacity={0.8}
+        opacity={0.65}
         blending={THREE.AdditiveBlending}
         depthWrite={false}
       />
     </points>
   );
 }
-

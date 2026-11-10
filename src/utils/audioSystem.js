@@ -184,6 +184,26 @@ class LuxuryAudioEngine {
     } catch {}
   }
 
+  playChandelierChime() {
+    if (this.isMuted || !this.ctx) return;
+    try {
+      const now = this.ctx.currentTime;
+      // High-register crystal chime harmonic overtone cascade
+      [1760, 2217.46, 2637.02, 3520].forEach((freq, idx) => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.045);
+        gain.gain.setValueAtTime(0.045, now + idx * 0.045);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.2 + idx * 0.05);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now + idx * 0.045);
+        osc.stop(now + 1.3);
+      });
+    } catch {}
+  }
+
   playPodSelect() {
     if (this.isMuted || !this.ctx) return;
     try {
