@@ -8,7 +8,7 @@ export const SERVICES_DATA = [
     description: 'We orchestrate fairytale nuptials and multi-day destination wedding celebrations. From bespoke floral ceilings and crystal chandeliers to custom dance floors, drone light shows, and Michelin-starred culinary partnerships.',
     accentColor: '#f59e0b', // Champagne Gold
     glowColor: '#fbbf24',
-    position: [-5.5, 0, -3],
+    position: [-5.5, 0, -3.5],
     badge: 'Signature Luxury',
     stats: {
       completed: '280+',
@@ -52,7 +52,7 @@ export const SERVICES_DATA = [
     description: 'Designed for Fortune 500 enterprises, venture funds, and industry titans. We elevate corporate events into theatrical experiences with seamless multi-stream broadcasts, seamless stagecraft, and prestigious gala hospitality.',
     accentColor: '#3b82f6', // Sapphire Electric Blue
     glowColor: '#60a5fa',
-    position: [-5.5, 0, -9],
+    position: [-5.5, 0, -9.5],
     badge: 'Enterprise Grade',
     stats: {
       completed: '420+',
@@ -96,7 +96,7 @@ export const SERVICES_DATA = [
     description: 'From boutique electronic festivals to stadium arena tours, we deliver stadium-level line arrays, programmable moving-head beams, cryo/pyro effects, and artist hospitality management.',
     accentColor: '#ec4899', // Electric Magenta
     glowColor: '#f472b6',
-    position: [5.5, 0, -3],
+    position: [5.5, 0, -3.5],
     badge: 'High Energy',
     stats: {
       completed: '190+',
@@ -140,7 +140,7 @@ export const SERVICES_DATA = [
     description: 'Milestone birthdays, secret mansion gatherings, and superyacht celebrations designed with supreme discretion. We transform residential estates, private islands, and luxury venues into bespoke wonderland environments.',
     accentColor: '#8b5cf6', // Electric Violet
     glowColor: '#a78bfa',
-    position: [5.5, 0, -9],
+    position: [5.5, 0, -9.5],
     badge: 'Discreet & Bespoke',
     stats: {
       completed: '310+',
@@ -184,7 +184,7 @@ export const SERVICES_DATA = [
     description: 'We conceive and execute bold pop-ups, influencer launches, and product reveal stages that dominate social feeds. Built with interactive touchpoints, AR installations, and photogenic architecture.',
     accentColor: '#06b6d4', // Cyber Cyan
     glowColor: '#22d3ee',
-    position: [0, 0, -6],
+    position: [-5.5, 0, -15.5],
     badge: 'Viral & Pop-up',
     stats: {
       completed: '240+',
@@ -228,7 +228,7 @@ export const SERVICES_DATA = [
     description: 'The technical heartbeat of extraordinary events. We supply proprietary rigging, beam spotlights, curved LED matrices, 3D projection mapping, and master sound technicians.',
     accentColor: '#10b981', // Emerald Laser
     glowColor: '#34d399',
-    position: [0, 0, -12],
+    position: [5.5, 0, -15.5],
     badge: 'Pure Technology',
     stats: {
       completed: '650+',

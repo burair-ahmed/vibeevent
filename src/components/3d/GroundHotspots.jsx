@@ -8,12 +8,14 @@ import { sound } from '../../utils/audioSystem';
 export const HOTSPOTS_DATA = [
   { id: 'foyer', position: [0, 0.025, 1.2], cameraPos: [0, 2.0, 1.2] },
   { id: 'hall-center', position: [0, 0.025, -4.5], cameraPos: [0, 2.1, -4.5] },
-  { id: 'weddings-wing', position: [-4.0, 0.025, -3.0], cameraPos: [-3.6, 2.1, -2.2] },
-  { id: 'concerts-wing', position: [4.0, 0.025, -3.0], cameraPos: [3.6, 2.1, -2.2] },
-  { id: 'activations-hub', position: [0, 0.025, -8.0], cameraPos: [0, 2.1, -7.0] },
-  { id: 'corporate-zone', position: [-4.0, 0.025, -9.0], cameraPos: [-3.6, 2.1, -8.0] },
-  { id: 'vip-lounge', position: [4.0, 0.025, -9.0], cameraPos: [3.6, 2.1, -8.0] },
-  { id: 'stage-front', position: [0, 0.025, -15.5], cameraPos: [0, 2.2, -14.5] },
+  { id: 'weddings-wing', position: [-3.8, 0.025, -3.5], cameraPos: [-3.4, 2.1, -2.5] },
+  { id: 'concerts-wing', position: [3.8, 0.025, -3.5], cameraPos: [3.4, 2.1, -2.5] },
+  { id: 'hall-midway', position: [0, 0.025, -9.5], cameraPos: [0, 2.1, -9.5] },
+  { id: 'corporate-zone', position: [-3.8, 0.025, -9.5], cameraPos: [-3.4, 2.1, -8.5] },
+  { id: 'vip-lounge', position: [3.8, 0.025, -9.5], cameraPos: [3.4, 2.1, -8.5] },
+  { id: 'activations-wing', position: [-3.8, 0.025, -15.5], cameraPos: [-3.4, 2.1, -14.5] },
+  { id: 'production-wing', position: [3.8, 0.025, -15.5], cameraPos: [3.4, 2.1, -14.5] },
+  { id: 'stage-front', position: [0, 0.025, -18.5], cameraPos: [0, 2.2, -17.5] },
   { id: 'stage-apex', position: [0, 1.025, -20.5], cameraPos: [0, 2.8, -19.5] },
 ];
 
