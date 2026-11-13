@@ -6,16 +6,16 @@ import { sound } from '../../utils/audioSystem';
 
 // Ground Hotspot positions across key places in the grand hall (INTERIOR)
 export const HOTSPOTS_DATA = [
-  { id: 'foyer', position: [0, 0.025, 1.2], cameraPos: [0, 2.0, 1.2] },
-  { id: 'hall-center', position: [0, 0.025, -4.5], cameraPos: [0, 2.1, -4.5] },
+  { id: 'foyer', position: [0, 0.028, 1.2], cameraPos: [0, 2.0, 1.2] },
+  { id: 'hall-center', position: [0, 0.028, -4.5], cameraPos: [0, 2.1, -4.5] },
   { id: 'weddings-wing', position: [-3.8, 0.025, -3.5], cameraPos: [-3.4, 2.1, -2.5] },
   { id: 'concerts-wing', position: [3.8, 0.025, -3.5], cameraPos: [3.4, 2.1, -2.5] },
-  { id: 'hall-midway', position: [0, 0.025, -9.5], cameraPos: [0, 2.1, -9.5] },
+  { id: 'hall-midway', position: [0, 0.028, -9.5], cameraPos: [0, 2.1, -9.5] },
   { id: 'corporate-zone', position: [-3.8, 0.025, -9.5], cameraPos: [-3.4, 2.1, -8.5] },
   { id: 'vip-lounge', position: [3.8, 0.025, -9.5], cameraPos: [3.4, 2.1, -8.5] },
   { id: 'activations-wing', position: [-3.8, 0.025, -15.5], cameraPos: [-3.4, 2.1, -14.5] },
   { id: 'production-wing', position: [3.8, 0.025, -15.5], cameraPos: [3.4, 2.1, -14.5] },
-  { id: 'stage-front', position: [0, 0.025, -18.5], cameraPos: [0, 2.2, -17.5] },
+  { id: 'stage-front', position: [0, 0.028, -18.5], cameraPos: [0, 2.2, -17.5] },
   { id: 'stage-apex', position: [0, 1.025, -20.5], cameraPos: [0, 2.8, -19.5] },
 ];
 
@@ -35,10 +35,10 @@ function SingleHotspot({ hotspot, isExterior = false }) {
   const ringRef = useRef();
   const outerRingRef = useRef();
 
-  // Different accent color for exterior vs interior
-  const accentColor = isExterior ? '#60a5fa' : '#fbbf24';       // blue outside, gold inside
-  const accentColorHover = isExterior ? '#93c5fd' : '#fef08a';
-  const accentColorBase = isExterior ? '#3b82f6' : '#d4af37';
+  // Hotspot accent colors — sleek luxury black theme
+  const accentColor = '#000000';
+  const accentColorHover = '#18181b';
+  const accentColorBase = '#09090b';
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
@@ -48,7 +48,7 @@ function SingleHotspot({ hotspot, isExterior = false }) {
       const scale = 1 + (Math.sin(time * 3 + hotspot.position[0]) * 0.5 + 0.5) * 0.45;
       outerRingRef.current.scale.set(scale, scale, 1);
       if (outerRingRef.current.material) {
-        outerRingRef.current.material.opacity = (hovered ? 0.9 : 0.35) * (1 - (scale - 1) / 0.45);
+        outerRingRef.current.material.opacity = (hovered ? 0.75 : 0.35) * (1 - (scale - 1) / 0.45);
       }
     }
   });
@@ -75,7 +75,7 @@ function SingleHotspot({ hotspot, isExterior = false }) {
         setHovered(false);
       }}
     >
-      {/* 1. Pulsing Ground Concentric Outer Ring */}
+      {/* 1. Pulsing Ground Concentric Outer Ring — sleek black */}
       <mesh
         ref={outerRingRef}
         rotation={[-Math.PI / 2, 0, 0]}
@@ -89,7 +89,7 @@ function SingleHotspot({ hotspot, isExterior = false }) {
         />
       </mesh>
 
-      {/* 2. Inner Golden Target Disc */}
+      {/* 2. Inner Black Target Disc */}
       <mesh
         ref={ringRef}
         rotation={[-Math.PI / 2, 0, 0]}
@@ -99,18 +99,18 @@ function SingleHotspot({ hotspot, isExterior = false }) {
         <meshBasicMaterial
           color={hovered ? accentColorHover : accentColorBase}
           transparent
-          opacity={hovered ? 0.95 : 0.65}
+          opacity={hovered ? 0.95 : 0.75}
           depthWrite={false}
         />
       </mesh>
 
-      {/* 3. Center Glowing Target Core */}
+      {/* 3. Center Target Core — solid black */}
       <mesh rotation={[-Math.PI / 2, 0, 0]}>
-        <circleGeometry args={[0.08, 24]} />
+        <circleGeometry args={[0.07, 24]} />
         <meshBasicMaterial
-          color="#ffffff"
+          color={hovered ? '#18181b' : '#000000'}
           transparent
-          opacity={hovered ? 1.0 : 0.8}
+          opacity={hovered ? 1.0 : 0.85}
           depthWrite={false}
         />
       </mesh>

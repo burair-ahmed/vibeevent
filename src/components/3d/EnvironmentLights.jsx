@@ -17,8 +17,8 @@ export default function EnvironmentLights() {
 
   return (
     <>
-      {/* 1. Richer ambient illumination — warm indigo-violet base wash */}
-      <ambientLight intensity={0.55} color="#2a1f4e" />
+      {/* 1. Luminous ambient illumination — warm ivory base wash for white theme */}
+      <ambientLight intensity={entranceState === 'outside' ? 0.55 : 0.72} color={entranceState === 'outside' ? '#2a1f4e' : '#fffcf7'} />
 
       {/* 2. Exterior entrance architectural warm spotlights — brighter */}
       <spotLight
@@ -54,64 +54,75 @@ export default function EnvironmentLights() {
         distance={22}
       />
 
-      {/* 4. Cool dramatic architectural fill lights inside the hall — brighter */}
+      {/* 4. Architectural soft white & champagne fill lights inside the hall */}
       <directionalLight
         position={[6, 14, -8]}
-        intensity={2.0}
-        color="#c7d2fe"
+        intensity={1.8}
+        color="#fffdfa"
       />
       <directionalLight
         position={[-6, 14, -14]}
-        intensity={1.6}
-        color="#e0e7ff"
+        intensity={1.5}
+        color="#ffffff"
       />
 
-      {/* 5. Left wall warm-rose wash for color variety */}
+      {/* 5. Left wall warm champagne wash */}
       <pointLight
         position={[-8, 4, -6]}
-        intensity={1.8}
-        color="#f472b6"
+        intensity={1.4}
+        color="#fef3c7"
         distance={14}
       />
-      {/* Right wall teal-cyan wash */}
+      {/* Right wall pearl white wash */}
       <pointLight
         position={[8, 4, -6]}
-        intensity={1.8}
-        color="#22d3ee"
+        intensity={1.4}
+        color="#fdf4ff"
         distance={14}
       />
 
-      {/* 6. Mid-hall warm amber fill to balance the cool top lights */}
+      {/* 6. Mid-hall warm golden accent */}
       <pointLight
         position={[0, 3, -6]}
-        intensity={2.0}
+        intensity={1.8}
         color="#fbbf24"
         distance={16}
       />
 
-      {/* 7. Deep hall violet-indigo point light for stage drama */}
+      {/* 7. Deep hall warm gold ambiance for stage */}
       <pointLight
         position={[0, 5, -16]}
-        intensity={2.0}
-        color="#a78bfa"
+        intensity={1.8}
+        color="#fde047"
         distance={20}
       />
 
-      {/* 8. Stage warm accent to counterbalance the violet */}
+      {/* 8. Stage warm accent */}
       <pointLight
         position={[0, 3, -22]}
         intensity={2.2}
-        color="#fb923c"
+        color="#fbbf24"
         distance={12}
       />
 
-      {/* 9. Overhead broad hemisphere fill for a soft brighter ambient look */}
+      {/* 9. Overhead broad hemisphere fill — soft sky white & champagne floor bounce */}
       <hemisphereLight
-        args={['#312e81', '#1e1b4b', 0.4]}
+        args={[
+          entranceState === 'outside' ? '#312e81' : '#ffffff',
+          entranceState === 'outside' ? '#1e1b4b' : '#fef3c7',
+          entranceState === 'outside' ? 0.4 : 0.65,
+        ]}
       />
 
-      {/* 10. Atmospheric depth fog — lighter & pulled further back */}
-      <fog attach="fog" args={['#0c0a1a', 8, 40]} />
+      {/* 10. Atmospheric depth fog */}
+      <fog
+        attach="fog"
+        args={[
+          entranceState === 'outside' ? '#0c0a1a' : '#f8f8fb',
+          entranceState === 'outside' ? 8 : 22,
+          entranceState === 'outside' ? 40 : 65,
+        ]}
+      />
     </>
   );
 }
