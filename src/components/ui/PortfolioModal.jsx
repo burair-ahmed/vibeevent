@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Sparkles, MapPin, Users, Award, ExternalLink, ArrowRight } from 'lucide-react';
+import { X, Sparkles, MapPin, Users, ArrowRight } from 'lucide-react';
 import { PORTFOLIO_PROJECTS } from '../../data/portfolioData';
 import { useExperienceStore } from '../../store/useExperienceStore';
 import { sound } from '../../utils/audioSystem';
@@ -37,7 +37,7 @@ export default function PortfolioModal() {
               <Sparkles className="w-3.5 h-3.5" />
               <span>Hall of Masterpieces</span>
             </div>
-            <h2 className="font-cinzel text-2xl md:text-3xl font-extrabold text-zinc-100">
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-zinc-100">
               Signature Event Portfolio
             </h2>
           </div>
@@ -95,7 +95,7 @@ export default function PortfolioModal() {
               {/* Card Body */}
               <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
                 <div>
-                  <h3 className="font-cinzel text-lg font-bold text-zinc-100 group-hover:text-amber-300 transition-colors mb-1.5">
+                  <h3 className="font-display text-lg font-bold text-zinc-100 group-hover:text-amber-300 transition-colors mb-1.5">
                     {project.title}
                   </h3>
                   <p className="text-xs text-zinc-400 leading-relaxed font-light mb-3">

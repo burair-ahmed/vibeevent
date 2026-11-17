@@ -29,7 +29,7 @@ export default function AboutModal() {
               <Sparkles className="w-3.5 h-3.5" />
               <span>Architects of the Unforgettable</span>
             </div>
-            <h2 className="font-cinzel text-2xl md:text-3xl font-extrabold text-zinc-100">
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-zinc-100">
               About VIBE EVENTS
             </h2>
           </div>
@@ -48,7 +48,7 @@ export default function AboutModal() {
         <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-8">
           {/* Manifesto */}
           <div className="space-y-3">
-            <h3 className="font-cinzel text-xl font-bold text-zinc-100">
+            <h3 className="font-display text-xl sm:text-2xl font-bold text-zinc-100">
               We Don't Just Produce Events. We Construct Memories That Defy Gravity.
             </h3>
             <p className="text-sm text-zinc-300 leading-relaxed font-light">
@@ -60,7 +60,7 @@ export default function AboutModal() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {COMPANY_STATS.map((stat, i) => (
               <div key={i} className="glass-panel-gold p-4 rounded-2xl text-center">
-                <div className="font-cinzel text-2xl sm:text-3xl font-black text-gold-gradient mb-1">
+                <div className="font-display text-2xl sm:text-3xl font-black text-gold-gradient mb-1">
                   {stat.value}
                 </div>
                 <div className="text-[11px] text-zinc-400 font-medium tracking-wide">
@@ -78,7 +78,7 @@ export default function AboutModal() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {TEAM_MEMBERS.map((member, i) => (
                 <div key={i} className="glass-panel p-5 rounded-2xl space-y-2 border border-white/5 hover:border-amber-500/30 transition-colors">
-                  <div className="w-10 h-10 rounded-full glass-panel-gold flex items-center justify-center text-amber-400 font-cinzel font-black">
+                  <div className="w-10 h-10 rounded-full glass-panel-gold flex items-center justify-center text-amber-400 font-display font-black">
                     {member.name.charAt(0)}
                   </div>
                   <div>

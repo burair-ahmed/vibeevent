@@ -66,7 +66,7 @@ export default function EntranceOverlay() {
 
       {/* 3. Center Theatrical Hero Floating Branding (pointer-events-none ensures clicking on doors works!) */}
       <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-4xl -mt-6 pointer-events-none">
-        <div className="font-cinzel text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-[0.16em] text-zinc-100 text-glow-gold animate-fade-up-delay-1 leading-none mb-4">
+        <div className="font-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-[0.16em] text-zinc-100 text-glow-gold animate-fade-up-delay-1 leading-none mb-4">
           VIBE EVENTS
         </div>
         <p className="text-xs sm:text-sm md:text-base font-light tracking-[0.3em] uppercase text-zinc-300/90 max-w-2xl animate-fade-up-delay-2 mb-2">

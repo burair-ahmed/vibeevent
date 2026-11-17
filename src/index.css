@@ -47,6 +47,27 @@
   font-family: 'Cinzel', serif;
 }
 
+.font-display {
+  font-family: 'Syne', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.font-serif-accent {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.font-sans-clean {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Subtle luxury mesh background pattern */
+.bg-luxury-grid {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
 /* Luminous gold text glow — for headlines floating on 3D canvas */
 .text-glow-gold {
   text-shadow: 0 0 25px rgba(212, 175, 55, 0.75),

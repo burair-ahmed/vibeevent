@@ -24,7 +24,11 @@ export default function App() {
   }, [viewMode]);
 
   return (
-    <div className="relative w-screen h-screen min-h-screen bg-[#07070a] text-zinc-100 select-none overflow-hidden font-['Plus_Jakarta_Sans',sans-serif]">
+    <div
+      className={`relative w-full bg-[#07070a] text-zinc-100 font-['Plus_Jakarta_Sans',sans-serif] ${
+        viewMode === '3d' ? 'w-screen h-screen min-h-screen select-none overflow-hidden' : 'min-h-screen'
+      }`}
+    >
       {/* 1. Global Navigation Header */}
       <HeaderHUD />
 
@@ -41,7 +45,7 @@ export default function App() {
           <WaypointDock />
         </main>
       ) : (
-        <main className="relative w-full h-full overflow-y-auto">
+        <main className="relative w-full min-h-screen">
           <Classic2DView />
         </main>
       )}

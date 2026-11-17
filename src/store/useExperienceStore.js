@@ -14,6 +14,25 @@ let globalState = {
   customHotspotTarget: null,  // [x, y, z] target when clicking a ground hotspot
   isMobile: false,
   activeZone: 'entrance',    // proximity-detected zone camera is currently IN: 'entrance' | 'hall' | 'services' | 'stage'
+  estimatorState: {
+    eventType: 'corporate',
+    guestCount: 350,
+    tier: 'luxury',
+    addons: {
+      projectionMapping: true,
+      droneShow: false,
+      michelinCatering: true,
+      liveBroadcast: false,
+    },
+    estimate: {
+      low: '42,000',
+      high: '54,000',
+      stageCost: '21,000',
+      avCost: '16,000',
+      hospitalityCost: '12,000',
+    },
+  },
+  bookingPrefill: null, // Holds quote snapshot when transferring to booking form
 };
 
 const listeners = new Set();
@@ -117,6 +136,24 @@ export function useExperienceStore() {
     }
   };
 
+  // Update estimator state (both on-page & modal share this)
+  const updateEstimatorState = (partial) => {
+    setExperienceState((prev) => ({
+      estimatorState: {
+        ...prev.estimatorState,
+        ...partial,
+      },
+    }));
+  };
+
+  const setBookingPrefill = (prefillData) => {
+    setExperienceState({ bookingPrefill: prefillData });
+  };
+
+  const clearBookingPrefill = () => {
+    setExperienceState({ bookingPrefill: null });
+  };
+
   return {
     ...state,
     openDoors,
@@ -132,5 +169,8 @@ export function useExperienceStore() {
     setViewMode,
     setCameraWaypoint,
     setActiveZone,
+    updateEstimatorState,
+    setBookingPrefill,
+    clearBookingPrefill,
   };
 }

@@ -72,7 +72,7 @@ export default function ServiceDrawer() {
 
         {/* Title & Tagline floating on the hero banner */}
         <div className="absolute bottom-6 left-6 right-6">
-          <h2 className="font-cinzel text-2xl sm:text-3xl font-extrabold text-zinc-100 tracking-wide text-hero-shadow mb-1.5 leading-tight">
+          <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-zinc-100 tracking-wide text-hero-shadow mb-1.5 leading-tight">
             {activeService.title}
           </h2>
           <p className="text-xs sm:text-sm text-amber-300/90 font-medium tracking-wide">
@@ -86,7 +86,7 @@ export default function ServiceDrawer() {
         {/* Key Metrics Strip (Large numbers) */}
         <div className="grid grid-cols-3 gap-4 pb-6 border-b border-white/10">
           <div>
-            <div className="font-cinzel text-2xl sm:text-3xl font-black text-zinc-100">
+            <div className="font-display text-2xl sm:text-3xl font-black text-zinc-100">
               {activeService.stats.completed}
             </div>
             <div className="text-[10px] uppercase tracking-widest text-zinc-400 mt-1">
@@ -94,7 +94,7 @@ export default function ServiceDrawer() {
             </div>
           </div>
           <div>
-            <div className="font-cinzel text-2xl sm:text-3xl font-black text-emerald-400">
+            <div className="font-display text-2xl sm:text-3xl font-black text-emerald-400">
               {activeService.stats.satisfaction}
             </div>
             <div className="text-[10px] uppercase tracking-widest text-zinc-400 mt-1">
@@ -102,7 +102,7 @@ export default function ServiceDrawer() {
             </div>
           </div>
           <div>
-            <div className="font-cinzel text-base sm:text-lg font-black text-amber-400 truncate">
+            <div className="font-display text-base sm:text-lg font-black text-amber-400 truncate">
               {activeService.stats.avgCapacity}
             </div>
             <div className="text-[10px] uppercase tracking-widest text-zinc-400 mt-1">
@@ -152,7 +152,7 @@ export default function ServiceDrawer() {
               >
                 <div className="flex items-center justify-between mb-1">
                   <span className="font-bold text-sm text-zinc-100">{pkg.name}</span>
-                  <span className="font-cinzel font-bold text-amber-400 text-sm">{pkg.price}</span>
+                  <span className="font-display font-bold text-amber-400 text-sm">{pkg.price}</span>
                 </div>
                 <div className="text-[10px] text-zinc-400 mb-2 font-medium tracking-wide uppercase">{pkg.duration}</div>
                 <p className="text-xs text-zinc-300 font-light leading-relaxed">

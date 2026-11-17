@@ -24,10 +24,26 @@ export default function HeaderHUD() {
     sound.setMuted(!nextSound);
   };
 
-  const handleNavClick = (modalName) => {
+  const scrollToAnchor = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+      return true;
+    }
+    return false;
+  };
+
+  const handleNavClick = (sectionId, modalName) => {
     sound.playClick();
-    setActiveModal(modalName);
     setMobileMenuOpen(false);
+    if (viewMode === '2d') {
+      const found = scrollToAnchor(sectionId);
+      if (!found && modalName) {
+        setActiveModal(modalName);
+      }
+    } else {
+      setActiveModal(modalName);
+    }
   };
 
   const handleModeToggle = () => {
@@ -38,28 +54,39 @@ export default function HeaderHUD() {
 
   const handleJumpToServices = () => {
     sound.playClick();
-    if (entranceState === 'outside') {
-      openDoors();
+    setMobileMenuOpen(false);
+    if (viewMode === '2d') {
+      scrollToAnchor('services');
+    } else {
+      if (entranceState === 'outside') {
+        openDoors();
+      }
+      setCameraWaypoint('services');
     }
-    setCameraWaypoint('services');
+  };
+
+  const handleBrandClick = () => {
+    sound.playClick();
+    if (viewMode === '2d') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      setCameraWaypoint('entrance');
+    }
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 px-6 md:px-12 py-5 pointer-events-none select-none">
+    <header className="fixed top-0 left-0 right-0 z-40 px-5 md:px-12 py-4 md:py-5 pointer-events-none select-none transition-all duration-300">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        {/* Brand Wordmark (No toy-box logo) */}
+        {/* Brand Wordmark */}
         <div
-          onClick={() => {
-            sound.playClick();
-            setCameraWaypoint('entrance');
-          }}
+          onClick={handleBrandClick}
           className="pointer-events-auto flex flex-col cursor-pointer group"
         >
           <div className="flex items-baseline gap-2">
-            <span className="font-cinzel font-black tracking-[0.24em] text-lg md:text-xl text-zinc-100 transition-colors group-hover:text-amber-300">
+            <span className="font-display font-black tracking-[0.22em] text-lg md:text-xl text-zinc-100 transition-colors group-hover:text-amber-300">
               VIBE
             </span>
-            <span className="font-cinzel font-light tracking-[0.3em] text-xs md:text-sm text-zinc-400 group-hover:text-zinc-200">
+            <span className="font-display font-light tracking-[0.3em] text-xs md:text-sm text-zinc-400 group-hover:text-zinc-200">
               EVENTS
             </span>
           </div>
@@ -67,30 +94,37 @@ export default function HeaderHUD() {
         </div>
 
         {/* Center Desktop Navigation */}
-        <nav className="pointer-events-auto hidden md:flex items-center gap-7 text-xs font-semibold tracking-[0.2em] uppercase">
+        <nav className="pointer-events-auto hidden md:flex items-center gap-8 text-xs font-semibold tracking-[0.16em] uppercase">
           <button
             onClick={handleJumpToServices}
             className="text-zinc-300 hover:text-amber-300 transition-colors cursor-pointer py-1 relative group"
           >
-            <span>Services Hall</span>
+            <span>Services</span>
             <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-amber-400 group-hover:w-full transition-all duration-300" />
           </button>
           <button
-            onClick={() => handleNavClick('portfolio')}
+            onClick={() => handleNavClick('portfolio', 'portfolio')}
             className="text-zinc-300 hover:text-amber-300 transition-colors cursor-pointer py-1 relative group"
           >
             <span>Portfolio</span>
             <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-amber-400 group-hover:w-full transition-all duration-300" />
           </button>
           <button
-            onClick={() => handleNavClick('calculator')}
+            onClick={() => handleNavClick('estimator', 'calculator')}
             className="text-zinc-300 hover:text-amber-300 transition-colors cursor-pointer py-1 relative group"
           >
             <span>Estimator</span>
             <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-amber-400 group-hover:w-full transition-all duration-300" />
           </button>
           <button
-            onClick={() => handleNavClick('about')}
+            onClick={() => handleNavClick('process', 'about')}
+            className="text-zinc-300 hover:text-amber-300 transition-colors cursor-pointer py-1 relative group"
+          >
+            <span>Process</span>
+            <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-amber-400 group-hover:w-full transition-all duration-300" />
+          </button>
+          <button
+            onClick={() => handleNavClick('about', 'about')}
             className="text-zinc-300 hover:text-amber-300 transition-colors cursor-pointer py-1 relative group"
           >
             <span>About</span>
@@ -103,11 +137,11 @@ export default function HeaderHUD() {
           {/* 3D vs 2D Mode Switcher */}
           <button
             onClick={handleModeToggle}
-            className="glass-pill px-3.5 py-2 rounded-full text-xs font-medium tracking-wider text-zinc-300 hover:text-zinc-100 transition-all flex items-center gap-2 cursor-pointer shadow-md"
-            title="Toggle between 3D Spatial Walkthrough and Classic 2D View"
+            className="glass-pill px-3.5 py-2 rounded-full text-xs font-semibold tracking-wider text-zinc-200 hover:text-white hover:border-amber-400/40 transition-all flex items-center gap-2 cursor-pointer shadow-md"
+            title="Toggle between 3D Spatial Walkthrough and Modern 2D Website"
           >
             <Layers className="w-3.5 h-3.5 text-amber-400" />
-            <span className="hidden sm:inline">{viewMode === '3d' ? '3D' : '2D'}</span>
+            <span className="font-mono text-[11px]">{viewMode === '3d' ? 'Switch to 2D' : 'Launch 3D'}</span>
           </button>
 
           {/* Sound Toggle */}
@@ -123,7 +157,7 @@ export default function HeaderHUD() {
 
           {/* Book Now Consultation CTA */}
           <button
-            onClick={() => handleNavClick('booking')}
+            onClick={() => handleNavClick('contact', 'booking')}
             className="hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 text-zinc-950 font-bold text-xs tracking-wider uppercase shadow-xl btn-glow-pulse hover:scale-105 active:scale-95 transition-all cursor-pointer"
           >
             <Calendar className="w-3.5 h-3.5" />
@@ -147,31 +181,37 @@ export default function HeaderHUD() {
             onClick={handleJumpToServices}
             className="w-full text-left px-3 py-2 text-xs font-semibold tracking-widest uppercase text-zinc-200 hover:text-amber-300"
           >
-            Services Exhibition Hall
+            Services Exhibition
           </button>
           <button
-            onClick={() => handleNavClick('portfolio')}
+            onClick={() => handleNavClick('portfolio', 'portfolio')}
             className="w-full text-left px-3 py-2 text-xs font-semibold tracking-widest uppercase text-zinc-200 hover:text-amber-300"
           >
             Masterpiece Portfolio
           </button>
           <button
-            onClick={() => handleNavClick('calculator')}
+            onClick={() => handleNavClick('estimator', 'calculator')}
             className="w-full text-left px-3 py-2 text-xs font-semibold tracking-widest uppercase text-zinc-200 hover:text-amber-300"
           >
-            Event Cost Estimator
+            Interactive Cost Estimator
           </button>
           <button
-            onClick={() => handleNavClick('about')}
+            onClick={() => handleNavClick('process', 'about')}
+            className="w-full text-left px-3 py-2 text-xs font-semibold tracking-widest uppercase text-zinc-200 hover:text-amber-300"
+          >
+            Our Methodology
+          </button>
+          <button
+            onClick={() => handleNavClick('about', 'about')}
             className="w-full text-left px-3 py-2 text-xs font-semibold tracking-widest uppercase text-zinc-200 hover:text-amber-300"
           >
             About Vibe Events
           </button>
           <button
-            onClick={() => handleNavClick('booking')}
+            onClick={() => handleNavClick('contact', 'booking')}
             className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-400 to-yellow-500 text-zinc-950 font-bold text-center text-xs tracking-wider uppercase shadow-md mt-2"
           >
-            Inquire & Book Event
+            Inquire & Book Consultation
           </button>
         </div>
       )}

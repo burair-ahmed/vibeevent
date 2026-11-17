@@ -1,25 +1,43 @@
-import { useState } from 'react';
-import { X, Calendar, Sparkles, CheckCircle2, Send, Clock, Phone, Mail, MapPin } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { X, Calendar, Sparkles, CheckCircle2, Send, Clock, Phone, Mail, MapPin, Calculator } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useExperienceStore } from '../../store/useExperienceStore';
 import { sound } from '../../utils/audioSystem';
 
 export default function BookingModal() {
-  const { activeModal, closeModal, activeService } = useExperienceStore();
+  const { activeModal, closeModal, activeService, bookingPrefill, clearBookingPrefill } = useExperienceStore();
 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    eventType: activeService?.shortTitle || 'Corporate',
+    eventType: 'Corporate Gala / Summit',
     eventDate: '',
-    guests: '250',
+    guests: '350',
     location: '',
     notes: '',
   });
 
   const [submitted, setSubmitted] = useState(false);
   const [refCode, setRefCode] = useState('');
+
+  useEffect(() => {
+    if (activeModal === 'booking') {
+      if (bookingPrefill) {
+        setFormData((prev) => ({
+          ...prev,
+          eventType: bookingPrefill.eventType || prev.eventType,
+          guests: String(bookingPrefill.guests || prev.guests),
+          notes: bookingPrefill.notes || prev.notes,
+        }));
+      } else if (activeService) {
+        setFormData((prev) => ({
+          ...prev,
+          eventType: activeService.title || activeService.shortTitle || prev.eventType,
+        }));
+      }
+    }
+  }, [activeModal, bookingPrefill, activeService]);
 
   if (activeModal !== 'booking') return null;
 
@@ -67,7 +85,7 @@ export default function BookingModal() {
               <Calendar className="w-3.5 h-3.5" />
               <span>Direct Concierge Booking</span>
             </div>
-            <h2 className="font-cinzel text-2xl md:text-3xl font-extrabold text-zinc-100">
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-zinc-100">
               {submitted ? 'Inquiry Confirmed' : 'Reserve Consultation'}
             </h2>
           </div>
@@ -81,13 +99,25 @@ export default function BookingModal() {
 
         {/* Content Body */}
         <div className="flex-1 overflow-y-auto p-6 md:p-8">
+          {bookingPrefill && !submitted && (
+            <div className="mb-5 p-3.5 rounded-2xl glass-panel-gold border border-amber-400/40 flex items-center justify-between gap-3 text-xs">
+              <div className="flex items-center gap-2.5">
+                <Calculator className="w-4 h-4 text-amber-400 shrink-0" />
+                <span className="text-zinc-200">
+                  Attached Quote: <strong className="text-amber-300">{bookingPrefill.estimatedRange}</strong> ({bookingPrefill.tier})
+                </span>
+              </div>
+              <span className="text-[10px] uppercase font-bold text-amber-400/80 tracking-wider">Locked In</span>
+            </div>
+          )}
+
           {submitted ? (
             <div className="py-8 text-center space-y-6 flex flex-col items-center">
               <div className="w-16 h-16 rounded-full glass-panel-gold flex items-center justify-center text-amber-400">
                 <CheckCircle2 className="w-8 h-8 text-amber-400" />
               </div>
               <div>
-                <h3 className="font-cinzel text-2xl font-bold text-zinc-100 mb-2">
+                <h3 className="font-display text-2xl font-bold text-zinc-100 mb-2">
                   We Have Received Your Event Brief
                 </h3>
                 <p className="text-sm text-zinc-300 max-w-md mx-auto font-light leading-relaxed">
@@ -98,7 +128,7 @@ export default function BookingModal() {
               {/* Reference Ticket Box */}
               <div className="glass-panel-gold p-4 rounded-2xl border border-amber-500/30 w-full max-w-sm">
                 <div className="text-[10px] text-zinc-400 uppercase tracking-widest">Inquiry Reference Code</div>
-                <div className="font-cinzel text-xl font-black text-gold-gradient tracking-widest my-1">
+                <div className="font-display text-xl font-black text-gold-gradient tracking-widest my-1">
                   {refCode}
                 </div>
                 <div className="text-xs text-zinc-400">
