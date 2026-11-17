@@ -4,7 +4,7 @@ import { useExperienceStore } from '../../store/useExperienceStore';
 import { sound } from '../../utils/audioSystem';
 
 export default function WaypointDock() {
-  const { entranceState, cameraWaypoint, setCameraWaypoint, closeServiceDrawer, activeService } = useExperienceStore();
+  const { entranceState, cameraWaypoint, activeZone, setCameraWaypoint, closeServiceDrawer, activeService } = useExperienceStore();
   const [showHint, setShowHint] = useState(true);
 
   // Fade out interaction hint after 6 seconds
@@ -41,7 +41,8 @@ export default function WaypointDock() {
         </div>
         <div className="flex flex-col gap-2 p-2 rounded-2xl glass-panel border border-white/10 shadow-2xl backdrop-blur-2xl">
           {waypoints.map((wp) => {
-            const isActive = cameraWaypoint === wp.id && !activeService;
+            const currentSelected = activeZone || cameraWaypoint;
+            const isActive = currentSelected === wp.id && !activeService;
             return (
               <button
                 key={wp.id}
@@ -72,7 +73,8 @@ export default function WaypointDock() {
       <div className="fixed bottom-6 left-0 right-0 z-30 md:hidden flex justify-center pointer-events-none px-4">
         <div className="pointer-events-auto flex items-center gap-1 p-1.5 rounded-full glass-pill border border-white/15 shadow-2xl backdrop-blur-xl">
           {waypoints.map((wp) => {
-            const isActive = cameraWaypoint === wp.id && !activeService;
+            const currentSelected = activeZone || cameraWaypoint;
+            const isActive = currentSelected === wp.id && !activeService;
             return (
               <button
                 key={wp.id}

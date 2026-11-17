@@ -13,6 +13,7 @@ let globalState = {
   waypointVersion: 0,        // increments on every setCameraWaypoint call (forces re-trigger)
   customHotspotTarget: null,  // [x, y, z] target when clicking a ground hotspot
   isMobile: false,
+  activeZone: 'entrance',    // proximity-detected zone camera is currently IN: 'entrance' | 'hall' | 'services' | 'stage'
 };
 
 const listeners = new Set();
@@ -108,6 +109,14 @@ export function useExperienceStore() {
     }));
   };
 
+  // Called from CameraController every ~0.5s — updates which zone the camera is currently IN
+  // Uses globalState.activeZone directly to avoid stale closure re-render thrashing
+  const setActiveZone = (zone) => {
+    if (globalState.activeZone !== zone) {
+      setExperienceState({ activeZone: zone });
+    }
+  };
+
   return {
     ...state,
     openDoors,
@@ -122,5 +131,6 @@ export function useExperienceStore() {
     toggleSound,
     setViewMode,
     setCameraWaypoint,
+    setActiveZone,
   };
 }

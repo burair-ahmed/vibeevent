@@ -2,8 +2,31 @@ import { useEffect, useRef } from 'react';
 import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import gsap from 'gsap';
-import { useExperienceStore } from '../../store/useExperienceStore';
+import { useExperienceStore, setExperienceState } from '../../store/useExperienceStore';
 import { sound } from '../../utils/audioSystem';
+
+// Map camera position (X, Z) → zone id
+// (called inside useFrame — must NOT call hooks or trigger React renders directly)
+let _lastZone = 'entrance';
+function detectZone(x, z) {
+  // If outside or right at entrance portal threshold
+  if (z > 4.5) return 'entrance';
+
+  // VIP Stage is at the far end of the grand hall (stage structure is at z = -21.5 to -23.5, viewpoint around z <= -14.0)
+  if (z <= -14.0) return 'stage';
+
+  // Service Pods are located along the left and right wings (x ≈ ±3.5 to ±5.5, z between -1.5 and -14.0)
+  // or along the pods corridor
+  const isLateralWing = Math.abs(x) > 2.2 && z <= -1.5 && z > -14.0;
+  const isPodZRange = z <= -5.5 && z > -14.0;
+
+  if (isLateralWing || isPodZRange) {
+    return 'services';
+  }
+
+  // Otherwise, user is standing in the main central promenade of the Grand Hall (-5.5 < z <= 4.5 and near center)
+  return 'hall';
+}
 
 export default function CameraController() {
   const { camera, size, gl } = useThree();
@@ -12,6 +35,9 @@ export default function CameraController() {
   // Base camera position & look target vectors
   const targetPos = useRef(new THREE.Vector3(0, 2, 11.5));
   const currentLookAt = useRef(new THREE.Vector3(0, 2, 4));
+
+  // Throttle the zone-proximity check to run every ~0.5s to avoid store thrashing
+  const zoneCheckAccumulator = useRef(0);
 
   // 360-Degree Mouse Drag Orbit / Look Angles (Yaw = horizontal, Pitch = vertical)
   const yaw = useRef(0);   // horizontal angle in radians (-PI to PI, 360 degrees)
@@ -39,6 +65,8 @@ export default function CameraController() {
     const domElement = gl.domElement;
 
     const onPointerDown = (e) => {
+      // Only start drag on the canvas itself — not on UI overlays (buttons, panels, etc.)
+      if (e.target !== domElement) return;
       isDragging.current = true;
       previousPointer.current = { x: e.clientX, y: e.clientY };
       document.body.style.cursor = 'grabbing';
@@ -120,6 +148,11 @@ export default function CameraController() {
   useEffect(() => {
     if (!customHotspotTarget) return;
 
+    // Kill any in-progress waypoint tweens so hotspot wins cleanly
+    gsap.killTweensOf(targetPos.current);
+    gsap.killTweensOf(targetYaw);
+    gsap.killTweensOf(targetPitch);
+
     const [tx, ty, tz] = customHotspotTarget;
     gsap.to(targetPos.current, {
       x: tx,
@@ -133,6 +166,14 @@ export default function CameraController() {
   // Handle Waypoint Navigation & Service Focusing
   useEffect(() => {
     if (entranceState !== 'inside') return;
+
+    // If neither a waypoint nor a service is active, there's nothing to navigate to
+    if (!cameraWaypoint && !activeService) return;
+
+    // Kill any in-progress hotspot / previous tweens so waypoint wins cleanly
+    gsap.killTweensOf(targetPos.current);
+    gsap.killTweensOf(targetYaw);
+    gsap.killTweensOf(targetPitch);
 
     if (activeService) {
       // Focus on active service pod
@@ -177,8 +218,8 @@ export default function CameraController() {
     } else if (cameraWaypoint === 'stage') {
       gsap.to(targetPos.current, {
         x: 0,
-        y: 2.5,
-        z: -9.5,
+        y: 2.2,
+        z: -17.5,
         duration: 2.0,
         ease: 'power3.out',
       });
@@ -226,6 +267,19 @@ export default function CameraController() {
     currentLookAt.current.z += (lookTargetZ - currentLookAt.current.z) * lerpSpeed;
 
     camera.lookAt(currentLookAt.current);
+
+    // ─── Proximity Zone Detection ─────────────────────────────────────────────
+    // Throttle to once per 0.25s — maps camera position to the nearest named zone
+    // and updates the store only when the zone actually changes (zero-waste updates)
+    zoneCheckAccumulator.current += delta;
+    if (zoneCheckAccumulator.current >= 0.25 && entranceState === 'inside') {
+      zoneCheckAccumulator.current = 0;
+      const zone = detectZone(camera.position.x, camera.position.z);
+      if (zone !== _lastZone) {
+        _lastZone = zone;
+        setExperienceState({ activeZone: zone });
+      }
+    }
   });
 
   return null;

@@ -1,11 +1,68 @@
-import { useMemo, useRef } from 'react';
+import { useMemo, useRef, Suspense } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Text } from '@react-three/drei';
+import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 import CrystalChandelier from './CrystalChandelier';
 
+function StageLogoEmblem() {
+  const logoTexture = useTexture('/without-bglogo.png');
+  logoTexture.colorSpace = THREE.SRGBColorSpace;
+  logoTexture.anisotropy = 16;
+
+  return (
+    <group position={[0, 4.5, 0.28]}>
+      {/* Pristine Architectural Marble Medallion Plinth */}
+      <mesh rotation={[Math.PI / 2, 0, 0]}>
+        <cylinderGeometry args={[2.48, 2.48, 0.04, 64]} />
+        <meshStandardMaterial
+          color="#ffffff"
+          roughness={0.16}
+          metalness={0.06}
+        />
+      </mesh>
+
+      {/* Subtle Chamfered Gold Border Ring */}
+      <mesh position={[0, 0, 0.022]}>
+        <torusGeometry args={[2.48, 0.03, 16, 64]} />
+        <meshStandardMaterial
+          color="#fbbf24"
+          emissive="#d4af37"
+          emissiveIntensity={1.4}
+          metalness={0.92}
+          roughness={0.18}
+        />
+      </mesh>
+
+      {/* Official VIBE Brand Logo Plane (Transparent PNG) */}
+      <mesh position={[0, 0, 0.035]}>
+        <planeGeometry args={[3.9, 1.95]} />
+        <meshBasicMaterial
+          map={logoTexture}
+          transparent={true}
+          depthWrite={false}
+          polygonOffset={true}
+          polygonOffsetFactor={-1}
+          toneMapped={false}
+        />
+      </mesh>
+
+      {/* Dedicated Gallery Framing Spotlight */}
+      <pointLight
+        position={[0, 0, 1.4]}
+        intensity={2.4}
+        color="#fffbeb"
+        distance={6}
+      />
+    </group>
+  );
+}
+
+useTexture.preload('/without-bglogo.png');
+
 export default function GrandHall() {
   const neonRibsRef = useRef([]);
+  const outerRingRef = useRef(null);
+  const innerRingRef = useRef(null);
 
   // Column positions along both sides of the hall
   const columnPositions = useMemo(() => [
@@ -142,7 +199,7 @@ export default function GrandHall() {
     return { carpetTexture: texture, carpetBumpMap: bump };
   }, []);
 
-  // Subtle breathing pulse for the overhead neon arches
+  // Subtle breathing pulse for the overhead neon arches & kinetic halo ring rotation
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
     neonRibsRef.current.forEach((mesh, idx) => {
@@ -150,6 +207,13 @@ export default function GrandHall() {
         mesh.material.emissiveIntensity = 1.2 + Math.sin(time * 2 + idx * 0.4) * 0.4;
       }
     });
+
+    if (outerRingRef.current) {
+      outerRingRef.current.rotation.z = time * 0.08;
+    }
+    if (innerRingRef.current) {
+      innerRingRef.current.rotation.z = -time * 0.12;
+    }
   });
 
   return (
@@ -398,7 +462,7 @@ export default function GrandHall() {
         </mesh>
 
         {/* Outer Kinetic Portal Halo Ring — radiant luxury gold */}
-        <mesh position={[0, 4.5, 0.4]}>
+        <mesh ref={outerRingRef} position={[0, 4.5, 0.4]}>
           <torusGeometry args={[3.2, 0.12, 16, 64]} />
           <meshStandardMaterial
             color="#fbbf24"
@@ -407,7 +471,7 @@ export default function GrandHall() {
           />
         </mesh>
         {/* Inner concentric gold ring */}
-        <mesh position={[0, 4.5, 0.35]}>
+        <mesh ref={innerRingRef} position={[0, 4.5, 0.35]}>
           <torusGeometry args={[2.5, 0.06, 16, 64]} />
           <meshStandardMaterial
             color="#fde68a"
@@ -416,17 +480,10 @@ export default function GrandHall() {
           />
         </mesh>
 
-        {/* 3D Typographic Brand Emblem on Stage Wall — polished metallic gold */}
-        <Text
-          position={[0, 4.5, 0.45]}
-          fontSize={0.85}
-          color="#d4af37"
-          anchorX="center"
-          anchorY="middle"
-          letterSpacing={0.2}
-        >
-          VIBE
-        </Text>
+        {/* Official VIBE Brand Logo Medallion Emblem on Stage Wall */}
+        <Suspense fallback={null}>
+          <StageLogoEmblem />
+        </Suspense>
       </group>
     </group>
   );

@@ -36,8 +36,19 @@ export default function CrystalChandelier({
   const sparklesGroupRef = useRef();
   const materialsRef = useRef({ gold: null, crystal: null });
 
-  // Interactive impulse physics (damped after user click)
-  const impulseRef = useRef({ x: 0, z: 0 });
+  // ── Pendulum physics state ──────────────────────────────────────────────────
+  // Each axis: angle (rad), angular velocity (rad/s)
+  // The chandelier hangs from a fixed ceiling point like a physical pendulum.
+  //   α = -(g/L)·sin(θ) - damping·ω + turbulence
+  // We use a lightweight Euler integration at frame-rate for responsiveness.
+  const pendulumRef = useRef({
+    // Z-axis pendulum (side-to-side)
+    zAngle: 0,
+    zVel: 0,
+    // X-axis pendulum (front-to-back)
+    xAngle: 0,
+    xVel: 0,
+  });
   const [hovered, setHovered] = useState(false);
 
   // Synchronously create and prepare the THREE.Group asset
@@ -81,13 +92,8 @@ export default function CrystalChandelier({
       }
     });
 
-    // Provide standard Polyfork tick method on the group
-    asset.userData.tick = (elapsedTime) => {
-      if (swing) {
-        swing.rotation.z = Math.sin(elapsedTime * 0.85 * swaySpeed + seed) * (0.018 * swayAmount);
-        swing.rotation.x = Math.cos(elapsedTime * 0.65 * swaySpeed + seed * 1.4) * (0.012 * swayAmount);
-      }
-    };
+    // Polyfork tick is a no-op — swing is driven by the pendulum ODE in useFrame
+    asset.userData.tick = () => {};
 
     return asset;
   }, [colorway, tiers, crystals, swaySpeed, swayAmount, seed]);
@@ -106,23 +112,48 @@ export default function CrystalChandelier({
   const calculatedY = mountY - 4.0 * scale;
   const finalPosition = [position[0], calculatedY, position[2]];
 
+  // Track last time for delta-time integration
+  const lastTimeRef = useRef(0);
+
   // Frame update: animated candlelight flickering, breathing, and physical pendulum sway
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
+    // Clamp dt to avoid physics blow-up on tab-hidden resume
+    const dt = Math.min(time - lastTimeRef.current, 0.05);
+    lastTimeRef.current = time;
 
-    // 1. Kinetic Pendulum Swing Physics
+    // ── 1. True Damped Pendulum Physics ────────────────────────────────────
+    // Physical parameters — tune here for feel
+    const G_OVER_L  = 1.6 * swaySpeed * swaySpeed; // effective gravity/length  (higher = faster)
+    const DAMPING   = 0.18;                          // angular damping coefficient (energy loss per second)
+    const MAX_ANGLE = 0.12 * swayAmount;             // hard clamp so it never swings wildly
+
+    // Slow Perlin-like air-current turbulence (layered sines, non-repeating phases)
+    const turbZ =
+      Math.sin(time * 0.31 * swaySpeed + seed * 2.1) * 0.00018 * swayAmount +
+      Math.sin(time * 0.73 * swaySpeed + seed * 5.3) * 0.00009 * swayAmount;
+    const turbX =
+      Math.cos(time * 0.27 * swaySpeed + seed * 3.7) * 0.00014 * swayAmount +
+      Math.cos(time * 0.59 * swaySpeed + seed * 7.1) * 0.00007 * swayAmount;
+
+    const p = pendulumRef.current;
+
+    // Euler integration — Z axis
+    const zAcc = -G_OVER_L * Math.sin(p.zAngle) - DAMPING * p.zVel + turbZ / dt;
+    p.zVel += zAcc * dt;
+    p.zAngle += p.zVel * dt;
+    p.zAngle = Math.max(-MAX_ANGLE, Math.min(MAX_ANGLE, p.zAngle));
+
+    // Euler integration — X axis
+    const xAcc = -G_OVER_L * Math.sin(p.xAngle) - DAMPING * p.xVel + turbX / dt;
+    p.xVel += xAcc * dt;
+    p.xAngle += p.xVel * dt;
+    p.xAngle = Math.max(-MAX_ANGLE, Math.min(MAX_ANGLE, p.xAngle));
+
     const swing = swingRef.current || chandelierGroup.getObjectByName('swing');
     if (swing) {
-      // Natural airflow sway
-      const baseSwayZ = Math.sin(time * 0.85 * swaySpeed + seed) * (0.018 * swayAmount);
-      const baseSwayX = Math.cos(time * 0.65 * swaySpeed + seed * 1.4) * (0.012 * swayAmount);
-
-      // Dampen click impulses smoothly
-      impulseRef.current.x *= 0.96;
-      impulseRef.current.z *= 0.96;
-
-      swing.rotation.z = baseSwayZ + impulseRef.current.z;
-      swing.rotation.x = baseSwayX + impulseRef.current.x;
+      swing.rotation.z = p.zAngle;
+      swing.rotation.x = p.xAngle;
     }
 
     // 2. Multi-frequency Procedural Candlelight Flame Flicker
@@ -157,13 +188,14 @@ export default function CrystalChandelier({
     }
   });
 
-  // Interactive Click: chime sound and gentle physical impulse
+  // Interactive Click: chime sound and angular-velocity impulse into pendulum
   const handleClick = (e) => {
     e.stopPropagation();
     sound.playChandelierChime();
-    // Add swing impulse along both axes
-    impulseRef.current.z += (Math.random() > 0.5 ? 1 : -1) * 0.045;
-    impulseRef.current.x += (Math.random() > 0.5 ? 1 : -1) * 0.035;
+    // Kick angular velocity — the pendulum physics will carry it naturally
+    const p = pendulumRef.current;
+    p.zVel += (Math.random() > 0.5 ? 1 : -1) * 0.22 * swayAmount;
+    p.xVel += (Math.random() > 0.5 ? 1 : -1) * 0.16 * swayAmount;
   };
 
   const handlePointerOver = (e) => {
