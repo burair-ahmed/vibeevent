@@ -197,7 +197,7 @@ export default function BookingModal() {
                     <option value="Concerts">Concert / Arena Show</option>
                     <option value="VIP Celebrations">Private VIP Celebration</option>
                     <option value="Brand Activations">Brand Activation</option>
-                    <option value="AV & Lighting">AV & Stage Production</option>
+                    <option value="Birthday Parties">Luxury Birthday Party</option>
                   </select>
                 </div>
                 <div className="space-y-1.5">

@@ -39,8 +39,8 @@ export default function CanvasContainer() {
           {/* The Grand Exhibition Hall (Floor, Vaults, Columns, Stage) */}
           <GrandHall />
 
-          {/* Floating Atmospheric Gold Dust Bokeh (optimized lightweight) */}
-          <ParticleField count={30} />
+          {/* Floating Atmospheric Gold Dust Bokeh (subtle few roaming particles) */}
+          <ParticleField count={6} />
 
           {/* 6 Interactive Service Pods */}
           {SERVICES_DATA.map((service) => (

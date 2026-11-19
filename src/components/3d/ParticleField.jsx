@@ -6,7 +6,7 @@ import * as THREE from 'three';
  * Lightweight Atmospheric Gold Dust Bokeh
  * Optimized: minimal particle count (default 30) and zero heavy math per frame
  */
-export default function ParticleField({ count = 30 }) {
+export default function ParticleField({ count = 6 }) {
   const pointsRef = useRef();
 
   // Create random initial positions, velocities, and per-particle colors

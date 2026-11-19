@@ -93,7 +93,7 @@ export default function Classic2DView() {
     return calculateEstimate(eventType, guestCount, tier, addons);
   }, [eventType, guestCount, tier, addons]);
 
-  const serviceCategories = ['All', 'Weddings', 'Corporate', 'Concerts', 'Activations', 'VIP'];
+  const serviceCategories = ['All', 'Weddings', 'Corporate', 'Concerts', 'Activations', 'VIP', 'Birthdays'];
   const filteredServices = serviceCategory === 'All'
     ? SERVICES_DATA
     : SERVICES_DATA.filter((s) => s.category.toLowerCase().includes(serviceCategory.toLowerCase()) || s.shortTitle.toLowerCase().includes(serviceCategory.toLowerCase()));
@@ -993,6 +993,7 @@ export default function Classic2DView() {
                     <option value="Concert / Festival">Concert / Festival</option>
                     <option value="Brand Activation">Brand Activation</option>
                     <option value="Private VIP Celebration">Private VIP Celebration</option>
+                    <option value="Luxury Birthday Party">Luxury Birthday Party</option>
                   </select>
                 </div>
                 <div className="space-y-1.5">

@@ -1,9 +1,63 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Html } from '@react-three/drei';
+import { Html, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import { useExperienceStore } from '../../store/useExperienceStore';
 import { sound } from '../../utils/audioSystem';
+
+function WeddingModel() {
+  const { scene } = useGLTF('/wedding.glb');
+  const clone = useMemo(() => {
+    const cloned = scene.clone();
+    cloned.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+    return cloned;
+  }, [scene]);
+
+  return <primitive object={clone} scale={0.75} position={[0, 0, 0]} />;
+}
+
+useGLTF.preload('/wedding.glb');
+
+function ConcertModel() {
+  const { scene } = useGLTF('/concert.glb');
+  const clone = useMemo(() => {
+    const cloned = scene.clone();
+    cloned.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+    return cloned;
+  }, [scene]);
+
+  return <primitive object={clone} scale={0.8} position={[0, 0, 0]} />;
+}
+
+useGLTF.preload('/concert.glb');
+
+function BirthdayModel() {
+  const { scene } = useGLTF('/birthday.glb');
+  const clone = useMemo(() => {
+    const cloned = scene.clone();
+    cloned.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+    return cloned;
+  }, [scene]);
+
+  return <primitive object={clone} scale={0.75} position={[0, 0, 0]} />;
+}
+
+useGLTF.preload('/birthday.glb');
 
 export default function ServicePod({ service }) {
   const { setActiveService, activeService, cameraWaypoint } = useExperienceStore();
@@ -19,10 +73,19 @@ export default function ServicePod({ service }) {
   useFrame((state, delta) => {
     const time = state.clock.getElapsedTime();
 
-    // Kinetic centerpiece levitation & rotation
+    // Kinetic centerpiece levitation & camera-facing orientation (facing user POV instead of constant spinning)
     if (kineticRef.current) {
-      kineticRef.current.rotation.y += delta * (hovered ? 1.4 : 0.5);
       kineticRef.current.position.y = 1.35 + Math.sin(time * 2.2 + service.position[0]) * 0.08;
+
+      // Calculate angle towards the user's camera
+      const dx = state.camera.position.x - service.position[0];
+      const dz = state.camera.position.z - service.position[2];
+      const targetAngle = Math.atan2(dx, dz);
+
+      // Smooth shortest-arc rotation towards the user's POV
+      let diff = targetAngle - kineticRef.current.rotation.y;
+      diff = Math.atan2(Math.sin(diff), Math.cos(diff));
+      kineticRef.current.rotation.y += diff * Math.min(delta * 5.0, 1.0);
     }
 
     // Ground glow ring breathing pulse
@@ -128,20 +191,7 @@ export default function ServicePod({ service }) {
       {/* 3. The Kinetic Service Centerpiece */}
       <group ref={kineticRef} position={[0, 1.35, 0]}>
         {service.id === 'weddings' && (
-          <group>
-            <mesh>
-              <torusGeometry args={[0.42, 0.04, 16, 32]} />
-              <meshStandardMaterial color="#f59e0b" metalness={0.9} roughness={0.15} />
-            </mesh>
-            <mesh rotation={[Math.PI / 4, 0, 0]}>
-              <torusGeometry args={[0.32, 0.03, 16, 32]} />
-              <meshStandardMaterial color="#fbbf24" metalness={0.9} />
-            </mesh>
-            <mesh position={[0, 0, 0]}>
-              <octahedronGeometry args={[0.18, 0]} />
-              <meshStandardMaterial color="#fff" emissive="#fde68a" emissiveIntensity={0.8} />
-            </mesh>
-          </group>
+          <WeddingModel />
         )}
 
         {service.id === 'corporate' && (
@@ -164,24 +214,7 @@ export default function ServicePod({ service }) {
         )}
 
         {service.id === 'concerts' && (
-          <group>
-            <mesh rotation={[Math.PI / 2, 0, 0]}>
-              <cylinderGeometry args={[0.35, 0.35, 0.12, 6]} />
-              <meshStandardMaterial color="#1f2937" metalness={0.9} />
-            </mesh>
-            <mesh position={[0, 0, 0]}>
-              <dodecahedronGeometry args={[0.38, 0]} />
-              <meshStandardMaterial
-                color="#ec4899"
-                emissive="#db2777"
-                emissiveIntensity={1.5}
-              />
-            </mesh>
-            <mesh position={[0, 0.3, 0]} rotation={[0.4, 0, 0]}>
-              <coneGeometry args={[0.1, 0.4, 16, 1, true]} />
-              <meshBasicMaterial color="#f472b6" wireframe transparent opacity={0.6} />
-            </mesh>
-          </group>
+          <ConcertModel />
         )}
 
         {service.id === 'vip-parties' && (
@@ -218,22 +251,8 @@ export default function ServicePod({ service }) {
           </group>
         )}
 
-        {service.id === 'production' && (
-          <group>
-            <mesh>
-              <icosahedronGeometry args={[0.4, 1]} />
-              <meshStandardMaterial
-                color="#10b981"
-                emissive="#059669"
-                emissiveIntensity={0.9}
-                metalness={0.7}
-              />
-            </mesh>
-            <mesh rotation={[Math.PI / 2, 0, 0]}>
-              <torusGeometry args={[0.58, 0.02, 16, 32]} />
-              <meshStandardMaterial color="#34d399" emissive="#10b981" emissiveIntensity={1.8} />
-            </mesh>
-          </group>
+        {(service.id === 'birthdays' || service.id === 'production') && (
+          <BirthdayModel />
         )}
       </group>
 

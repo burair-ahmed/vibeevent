@@ -220,46 +220,46 @@ export const SERVICES_DATA = [
     ]
   },
   {
-    id: 'production',
-    title: 'Turnkey AV & Architectural Lighting',
-    shortTitle: 'AV & Lighting',
-    category: 'Technical Engineering',
-    tagline: 'Cinematic Acoustics, Architectural Beams, & 3D Visuals',
-    description: 'The technical heartbeat of extraordinary events. We supply proprietary rigging, beam spotlights, curved LED matrices, 3D projection mapping, and master sound technicians.',
-    accentColor: '#10b981', // Emerald Laser
-    glowColor: '#34d399',
+    id: 'birthdays',
+    title: 'Luxury Birthday Parties & Milestone Galas',
+    shortTitle: 'Birthday Parties',
+    category: 'Private Luxury',
+    tagline: 'Extravagant Milestone Celebrations Crafted with Royal Panache',
+    description: 'We curate unforgettable birthday spectacles and milestone galas. From bespoke thematic spatial transformations and multi-tiered haute patisserie to headline artist bookings, immersive cocktail lounges, and custom light shows.',
+    accentColor: '#f43f5e', // Vibrant Rose Coral
+    glowColor: '#fb7185',
     position: [5.5, 0, -15.5],
-    badge: 'Pure Technology',
+    badge: 'Milestone Luxury',
     stats: {
-      completed: '650+',
+      completed: '340+',
       satisfaction: '100%',
-      avgCapacity: 'Any Scale Venue'
+      avgCapacity: '50 - 600 Guests'
     },
     features: [
-      '3D Architectural Building Projection Mapping',
-      'Fine-Pitch 1.9mm Curved Indoor & Outdoor LED Panels',
-      'Intelligent Beam, Spot, & Wash Stage Lights',
-      'Wireless DMX & Redundant Fiber Optic Control Network',
-      'Professional FOH Audio Engineers & Lighting Designers',
-      'Structural Trussing & Rigging Safety Certification'
+      'Haute Patisserie & Architectural Multi-Tier Cake Artistry',
+      'Immersive Thematic Scenography & Custom Floral Canopies',
+      'Headline Entertainment, Celebrity DJs & Live Acts',
+      'Curated Mixology Bars & Michelin-Standard Tasting Menus',
+      'Synchronized Kinetic Lighting & Atmospheric Special FX',
+      'VIP Concierge, Valet Logistics & Bespoke Keepsake Gifting'
     ],
     packages: [
       {
-        name: 'Full Arena Production Rig',
-        price: 'From $45,000',
-        duration: 'Per Production',
-        deliverables: '100+ moving heads, 400sqm LED wall, digital audio mixing console, line array, licensed rigging team.'
+        name: 'The Royal Sovereign Jubilee',
+        price: 'From $35,000',
+        duration: 'Full Evening Gala',
+        deliverables: 'Complete spatial theme redesign, celebrity DJ booking, multi-tier sculptural cake, luxury bar experience, dedicated show director.'
       },
       {
-        name: 'Architectural Building Mapping',
-        price: 'From $22,000',
-        duration: 'Single Night Feature',
-        deliverables: 'Dual 30k lumen laser projectors, custom 3D motion graphics animation, audio sync, on-site engineer.'
+        name: 'Golden Milestone Soirée',
+        price: 'From $18,000',
+        duration: 'Private Celebration',
+        deliverables: 'Atmospheric mood lighting, custom lounge seating, bespoke culinary tasting, artisan dessert display, event management.'
       }
     ],
     galleryImages: [
-      'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=1200&q=80'
     ]
   }

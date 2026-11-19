@@ -86,18 +86,6 @@ export default function GrandHall() {
   // Luxury Grand Crystal Chandeliers along the central runway under the vault arches
   const chandelierConfigs = useMemo(() => [
     {
-      id: 'chandelier-entrance',
-      position: [0, 0, 1.5],
-      scale: 1.25,
-      tiers: 'two',
-      crystals: 'cascade',
-      colorway: 'casino-gold',
-      lightIntensity: 3.8,
-      swaySpeed: 1.0,
-      swayAmount: 1.05,
-      seed: 0.5,
-    },
-    {
       id: 'chandelier-fore',
       position: [0, 0, -4.0],
       scale: 1.38,
