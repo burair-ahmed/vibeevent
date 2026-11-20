@@ -159,14 +159,14 @@ export default function BookingModal() {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-300">Corporate Email Address *</label>
+                  <label className="text-xs font-semibold text-zinc-300">Email Address *</label>
                   <input
                     type="email"
                     required
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="julian@vancegroup.com"
+                    placeholder="name@gmail.com"
                     className="w-full glass-panel px-4 py-2.5 rounded-xl text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 border border-white/10"
                   />
                 </div>
@@ -174,13 +174,14 @@ export default function BookingModal() {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-300">Phone / WhatsApp</label>
+                  <label className="text-xs font-semibold text-zinc-300">Phone / WhatsApp *</label>
                   <input
                     type="tel"
+                    required
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="+1 (555) 000-0000"
+                    placeholder="+92 300 1234567"
                     className="w-full glass-panel px-4 py-2.5 rounded-xl text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 border border-white/10"
                   />
                 </div>
@@ -192,12 +193,12 @@ export default function BookingModal() {
                     onChange={handleChange}
                     className="w-full glass-panel px-4 py-2.5 rounded-xl text-sm text-zinc-100 focus:outline-none focus:border-amber-400 border border-white/10 bg-[#0d0e16]"
                   >
-                    <option value="Corporate">Corporate Gala / Summit</option>
-                    <option value="Weddings">Couture Wedding</option>
-                    <option value="Concerts">Concert / Arena Show</option>
-                    <option value="VIP Celebrations">Private VIP Celebration</option>
-                    <option value="Brand Activations">Brand Activation</option>
-                    <option value="Birthday Parties">Luxury Birthday Party</option>
+                    <option value="Weddings">Wedding / Barat / Walima / Mehndi</option>
+                    <option value="Corporate">Corporate Gala / Conference</option>
+                    <option value="Concerts">Concert / Qawwali Night</option>
+                    <option value="Birthday Parties">Birthday Party / Milestone</option>
+                    <option value="VIP Celebrations">Private Farmhouse / Lawn Party</option>
+                    <option value="Brand Activations">Brand Activation / Store Launch</option>
                   </select>
                 </div>
                 <div className="space-y-1.5">
@@ -207,7 +208,7 @@ export default function BookingModal() {
                     name="guests"
                     value={formData.guests}
                     onChange={handleChange}
-                    placeholder="e.g. 350"
+                    placeholder="e.g. 500"
                     className="w-full glass-panel px-4 py-2.5 rounded-xl text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 border border-white/10"
                   />
                 </div>
@@ -215,24 +216,25 @@ export default function BookingModal() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-300">Target Date / Season</label>
+                  <label className="text-xs font-semibold text-zinc-300">Target Date / Month</label>
                   <input
                     type="text"
                     name="eventDate"
                     value={formData.eventDate}
                     onChange={handleChange}
-                    placeholder="e.g. October 2025 / Summer"
+                    placeholder="e.g. December 2026 / Winter Season"
                     className="w-full glass-panel px-4 py-2.5 rounded-xl text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 border border-white/10"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-300">Destination City / Venue</label>
+                  <label className="text-xs font-semibold text-zinc-300">City & Venue (or Farmhouse)</label>
                   <input
                     type="text"
                     name="location"
                     value={formData.location}
                     onChange={handleChange}
-                    placeholder="e.g. New York, Lake Como, Dubai"
+                    placeholder="e.g. Lahore / Karachi / Islamabad (Marquee, Hotel, or Farmhouse)"
+                    className="w-full glass-panel px-4 py-2.5 rounded-xl text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 border border-white/10"
                     className="w-full glass-panel px-4 py-2.5 rounded-xl text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 border border-white/10"
                   />
                 </div>

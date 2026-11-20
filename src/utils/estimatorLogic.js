@@ -1,59 +1,66 @@
 export const EVENT_TYPES = [
-  { id: 'corporate', label: 'Corporate Gala / Summit', base: 25000, icon: 'Building2', subtitle: 'Global Summits & Awards' },
-  { id: 'wedding', label: 'Couture Wedding', base: 30000, icon: 'Heart', subtitle: 'Royal & Destination Nuptials' },
-  { id: 'concert', label: 'Concert / Festival', base: 50000, icon: 'Music', subtitle: 'Arena Staging & EDM Shows' },
-  { id: 'brand', label: 'Brand Activation', base: 22000, icon: 'Sparkles', subtitle: 'Product Launches & Pop-Ups' },
-  { id: 'vip', label: 'Private VIP Celebration', base: 18000, icon: 'Crown', subtitle: 'Soirées & Milestone Galas' },
+  { id: 'wedding', label: 'Wedding / Barat / Walima', base: 250000, icon: 'Heart', subtitle: 'Royal Stage, Fresh Flowers & Entry' },
+  { id: 'corporate', label: 'Corporate Gala / Conference', base: 180000, icon: 'Building2', subtitle: 'LED Screens, Stage & Audio' },
+  { id: 'concert', label: 'Concert / Qawwali Night', base: 300000, icon: 'Music', subtitle: 'Line Array Audio, Lights & Truss' },
+  { id: 'birthday', label: 'Theme Birthday Party', base: 80000, icon: 'Sparkles', subtitle: 'Backdrop, Balloons & Neon Lights' },
+  { id: 'vip', label: 'Private Farmhouse / Family Party', base: 120000, icon: 'Crown', subtitle: 'Lawn Fairy Lights & Cozy Lounge' },
+  { id: 'brand', label: 'Brand Activation / Mall Stall', base: 150000, icon: 'Sparkles', subtitle: 'Interactive Kiosk & Selfie Zone' },
 ];
 
 export const PRODUCTION_TIERS = [
   { 
     id: 'signature', 
-    label: 'Signature Tier', 
+    label: 'Standard Elegance', 
     multiplier: 1.0, 
-    badge: 'Essential Grandeur',
-    desc: 'High-fidelity audio arrays, programmed moving intelligent lighting, luxury styling, and lead show director.' 
+    badge: 'Essential Setup',
+    desc: 'Clean, elegant stage setup, high-quality audio system, warm mood lighting, and on-site supervisor.' 
   },
   { 
     id: 'luxury', 
     label: 'Grand Luxury', 
     multiplier: 1.5, 
     badge: 'Most Popular',
-    desc: 'Bespoke kinetic stagecraft, curved 4K LED backdrops, immersive spatial sound design, and full media coverage.' 
+    desc: 'Wider custom stage, imported fresh floral accents, moving intelligent lights, LED screens, and full team.' 
   },
   { 
     id: 'sovereign', 
-    label: 'Sovereign Masterpiece', 
+    label: 'Royal Shahi Production', 
     multiplier: 2.2, 
-    badge: 'Turnkey Royalty',
-    desc: 'Full architectural venue overhaul, bespoke celebrity concierge, synchronized SFX, and global live broadcast.' 
+    badge: 'Turnkey Grandeur',
+    desc: 'Majestic palace-style floral stage, overhead fairy-light canopy, cold firework fountains, and VIP concierge.' 
   },
 ];
 
 export const ADDON_OPTIONS = [
   { 
-    id: 'projectionMapping', 
-    label: '3D Architectural Projection Mapping', 
-    cost: 12000,
-    desc: 'Transforms facades, ceilings, or stages into living optical illusions.'
+    id: 'soundproofGenerator', 
+    label: 'Heavy Sound-Proof Power Generator Backup', 
+    cost: 45000,
+    desc: 'Guaranteed uninterrupted power supply with automatic phase switcher (zero load shedding).'
   },
   { 
-    id: 'droneShow', 
-    label: 'Synchronized 300-Drone Light Show', 
-    cost: 24000,
-    desc: 'Custom choreography lighting up the night sky with your crest or motifs.'
+    id: 'ledVideoWall', 
+    label: 'Curved HD P2.5 LED Video Screen Wall', 
+    cost: 85000,
+    desc: 'High-brightness video backdrop for couple photo montage, keynote slides, and live camera feed.'
   },
   { 
-    id: 'michelinCatering', 
-    label: 'Michelin-Starred Culinary Partnership', 
-    cost: 15000,
-    desc: 'Multi-course bespoke gastronomy and master sommelier wine pairing.'
+    id: 'freshFloralPathway', 
+    label: 'Fresh Imported Roses & Peony Walkway', 
+    cost: 95000,
+    desc: 'Fragrant natural flower arches, petals walkway, and floral stage borders.'
   },
   { 
-    id: 'liveBroadcast', 
-    label: 'Zero-Latency Global 4K Hybrid Stream', 
-    cost: 8500,
-    desc: 'Broadcast-grade multi-cam coverage streamed securely to 100+ countries.'
+    id: 'coldSparkPyros', 
+    label: 'Cold Sparkler Firework Fountains & Dry Ice Cloud', 
+    cost: 35000,
+    desc: 'Smokeless, non-burning cold fireworks for bride/groom entry and cake cutting celebration.'
+  },
+  { 
+    id: 'multiCam4K', 
+    label: 'Cinematic 4K Multi-Camera & Drone Video', 
+    cost: 65000,
+    desc: 'Full cinematic video coverage, drone aerial shots, and live video mixing on screens.'
   },
 ];
 
@@ -62,7 +69,9 @@ export function calculateEstimate(eventType, guestCount, tier, addons) {
   const selectedTier = PRODUCTION_TIERS.find((t) => t.id === tier) || PRODUCTION_TIERS[1];
 
   const validGuestCount = Math.max(20, Math.min(10000, Number(guestCount) || 350));
-  const baseTotal = (selectedType.base + validGuestCount * 45) * selectedTier.multiplier;
+  // Scaled per-guest logistics cost in PKR
+  const guestFactor = validGuestCount * 180;
+  const baseTotal = (selectedType.base + guestFactor) * selectedTier.multiplier;
 
   let addonTotal = 0;
   if (addons && typeof addons === 'object') {
@@ -74,7 +83,7 @@ export function calculateEstimate(eventType, guestCount, tier, addons) {
     });
   }
 
-  const lowEstimate = Math.round((baseTotal + addonTotal) * 0.9);
+  const lowEstimate = Math.round((baseTotal + addonTotal) * 0.92);
   const highEstimate = Math.round((baseTotal + addonTotal) * 1.15);
   const rawMid = Math.round(baseTotal + addonTotal);
 
@@ -92,4 +101,3 @@ export function calculateEstimate(eventType, guestCount, tier, addons) {
     selectedTier,
   };
 }
-

@@ -193,7 +193,7 @@ export default function ServiceDrawer() {
           className="w-full py-4 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 text-zinc-950 font-bold text-xs tracking-[0.2em] uppercase shadow-2xl btn-glow-pulse hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
         >
           <Calendar className="w-4 h-4" />
-          <span>Consult With Executive Producer</span>
+          <span>Consult With Event Director</span>
           <ArrowRight className="w-4 h-4 ml-1" />
         </button>
       </div>

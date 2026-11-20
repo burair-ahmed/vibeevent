@@ -77,6 +77,42 @@ function BirthdayModel() {
 
 useGLTF.preload('/birthday.glb');
 
+function VipModel() {
+  const { scene } = useGLTF('/vipevent.glb');
+  const clone = useMemo(() => {
+    const cloned = scene.clone();
+    cloned.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+    return cloned;
+  }, [scene]);
+
+  return <primitive object={clone} scale={0.8} position={[0, 0, 0]} />;
+}
+
+useGLTF.preload('/vipevent.glb');
+
+function BrandActivationModel() {
+  const { scene } = useGLTF('/brand-activation.glb');
+  const clone = useMemo(() => {
+    const cloned = scene.clone();
+    cloned.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+    return cloned;
+  }, [scene]);
+
+  return <primitive object={clone} scale={0.8} position={[0, 0, 0]} />;
+}
+
+useGLTF.preload('/brand-activation.glb');
+
 export default function ServicePod({ service }) {
   const { setActiveService, activeService, cameraWaypoint } = useExperienceStore();
   const [hovered, setHovered] = useState(false);
@@ -221,37 +257,11 @@ export default function ServicePod({ service }) {
         )}
 
         {service.id === 'vip-parties' && (
-          <group>
-            <mesh>
-              <torusKnotGeometry args={[0.26, 0.07, 48, 8]} />
-              <meshStandardMaterial
-                color="#8b5cf6"
-                emissive="#7c3aed"
-                emissiveIntensity={0.8}
-                metalness={0.9}
-                roughness={0.1}
-              />
-            </mesh>
-          </group>
+          <VipModel />
         )}
 
         {service.id === 'brand-activations' && (
-          <group>
-            <mesh rotation={[0.4, 0.4, 0]}>
-              <boxGeometry args={[0.48, 0.48, 0.48]} />
-              <meshStandardMaterial
-                color="#06b6d4"
-                emissive="#0891b2"
-                emissiveIntensity={1.0}
-                metalness={0.8}
-                roughness={0.2}
-              />
-            </mesh>
-            <mesh rotation={[-0.4, 0.4, 0]}>
-              <boxGeometry args={[0.56, 0.56, 0.56]} />
-              <meshBasicMaterial color="#67e8f9" wireframe transparent opacity={0.5} />
-            </mesh>
-          </group>
+          <BrandActivationModel />
         )}
 
         {(service.id === 'birthdays' || service.id === 'production') && (

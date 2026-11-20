@@ -67,8 +67,8 @@ export default function CostCalculatorModal() {
       guests: String(guestCount),
       tier: selectedTier.label,
       addons: activeAddonsList,
-      estimatedRange: `$${estimate.low} – $${estimate.high}`,
-      notes: `[Online Estimate Quote]\nInvestment: $${estimate.low} – $${estimate.high}\nProduction Level: ${selectedTier.label} (${selectedTier.multiplier}x scale)\nAddons: ${activeAddonsList.join(', ') || 'Standard Scope'}\nAllocation: Staging ~$${estimate.stageCost} | AV/Lighting ~$${estimate.avCost} | Hospitality/Addons ~$${estimate.hospitalityCost}`,
+      estimatedRange: `PKR ${estimate.low} – PKR ${estimate.high}`,
+      notes: `[Online Estimate Quote]\nInvestment: PKR ${estimate.low} – PKR ${estimate.high}\nProduction Level: ${selectedTier.label} (${selectedTier.multiplier}x scale)\nAddons: ${activeAddonsList.join(', ') || 'Standard Scope'}\nAllocation: Staging ~PKR ${estimate.stageCost} | AV/Lighting ~PKR ${estimate.avCost} | Hospitality/Addons ~PKR ${estimate.hospitalityCost}`,
     });
 
     closeModal();
@@ -124,7 +124,7 @@ export default function CostCalculatorModal() {
                   }`}
                 >
                   <div className="font-bold">{t.label}</div>
-                  <div className="text-[10px] opacity-75 mt-0.5">From ${t.base.toLocaleString()}</div>
+                  <div className="text-[10px] opacity-75 mt-0.5">From PKR {t.base.toLocaleString()}</div>
                 </button>
               ))}
             </div>
@@ -228,7 +228,7 @@ export default function CostCalculatorModal() {
                       </div>
                       <span className="text-zinc-200 font-medium">{addon.label}</span>
                     </div>
-                    <span className="text-xs font-bold text-amber-400">+${addon.cost.toLocaleString()}</span>
+                    <span className="text-xs font-bold text-amber-400">+PKR {addon.cost.toLocaleString()}</span>
                   </div>
                 );
               })}
@@ -241,7 +241,7 @@ export default function CostCalculatorModal() {
               Estimated Investment Range
             </div>
             <div className="font-display text-3xl sm:text-4xl md:text-5xl font-black text-gold-gradient tracking-tight my-2">
-              ${estimate.low} – ${estimate.high}
+              PKR {estimate.low} – PKR {estimate.high}
             </div>
             <p className="text-xs text-zinc-400 max-w-md font-light">
               Includes full spatial pre-vis, turnkey staging, certified audio-visual technicians, lead show producer, and breakdown.
@@ -249,9 +249,9 @@ export default function CostCalculatorModal() {
 
             {/* Quick Breakdown Badges */}
             <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-xs text-zinc-300">
-              <span className="px-3 py-1 rounded-full glass-pill">Stage & Decor: ~${estimate.stageCost}</span>
-              <span className="px-3 py-1 rounded-full glass-pill">AV & Lighting: ~${estimate.avCost}</span>
-              <span className="px-3 py-1 rounded-full glass-pill">Operations & Addons: ~${estimate.hospitalityCost}</span>
+              <span className="px-3 py-1 rounded-full glass-pill">Stage & Decor: ~PKR {estimate.stageCost}</span>
+              <span className="px-3 py-1 rounded-full glass-pill">AV & Lighting: ~PKR {estimate.avCost}</span>
+              <span className="px-3 py-1 rounded-full glass-pill">Operations & Addons: ~PKR {estimate.hospitalityCost}</span>
             </div>
           </div>
         </div>

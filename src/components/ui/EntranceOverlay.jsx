@@ -60,7 +60,7 @@ export default function EntranceOverlay() {
       <div className="relative z-10 pt-20 flex flex-col items-center pointer-events-none">
         <div className="ornament-line w-44 mb-3 animate-fade-up opacity-80" />
         <div className="text-[10px] tracking-[0.4em] uppercase text-amber-300 font-semibold animate-fade-up-delay-1">
-          Exclusive Event Architecture
+          Premier Event & Wedding Management
         </div>
       </div>
 
@@ -70,7 +70,7 @@ export default function EntranceOverlay() {
           VIBE EVENTS
         </div>
         <p className="text-xs sm:text-sm md:text-base font-light tracking-[0.3em] uppercase text-zinc-300/90 max-w-2xl animate-fade-up-delay-2 mb-2">
-          Where Grandeur Meets Masterpiece Production
+          Royal Weddings, Corporate Galas & Live Concerts Across Pakistan
         </p>
         <span className="text-[10px] tracking-[0.25em] uppercase text-amber-400/80 animate-fade-up-delay-3 font-semibold">
           ✦ Click either door directly to open or close ✦

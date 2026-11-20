@@ -1,12 +1,25 @@
 import { useState, useEffect } from 'react';
 
+function getInitialRoute() {
+  if (typeof window === 'undefined') return 'home';
+  const hash = (window.location.hash || '').replace('#', '').toLowerCase();
+  const path = (window.location.pathname || '').replace('/', '').toLowerCase();
+  if (hash.includes('privacy') || path.includes('privacy')) return 'privacy';
+  if (hash.includes('terms') || path.includes('terms')) return 'terms';
+  if (hash.includes('refund') || path.includes('refund')) return 'refund';
+  if (hash.includes('safety') || path.includes('safety') || hash.includes('power') || path.includes('power')) return 'safety';
+  return 'home';
+}
+
 // Simple, fast reactive global store without heavy extra state libraries
 let globalState = {
+  currentRoute: getInitialRoute(), // 'home' | 'privacy' | 'terms' | 'refund' | 'safety'
   entranceState: 'outside', // 'outside' | 'opening' | 'inside'
   leftDoorOpen: false,      // independent left door state (true = open, false = closed)
   rightDoorOpen: false,     // independent right door state (true = open, false = closed)
   activeService: null,
-  activeModal: null, // 'portfolio' | 'calculator' | 'about' | 'booking' | null
+  activeModal: null, // 'portfolio' | 'calculator' | 'about' | 'booking' | 'policy' | null
+  activePolicyTab: 'privacy', // 'privacy' | 'terms' | 'refund' | 'safety'
   isSoundEnabled: false,
   viewMode: '3d', // '3d' | '2d'
   cameraWaypoint: 'entrance', // 'entrance' | 'hall' | 'services' | 'stage' | null
@@ -55,7 +68,21 @@ export function useExperienceStore() {
 
   useEffect(() => {
     listeners.add(setState);
-    return () => listeners.delete(setState);
+    
+    const handleLocationChange = () => {
+      const detected = getInitialRoute();
+      if (globalState.currentRoute !== detected) {
+        setExperienceState({ currentRoute: detected });
+      }
+    };
+    window.addEventListener('hashchange', handleLocationChange);
+    window.addEventListener('popstate', handleLocationChange);
+
+    return () => {
+      listeners.delete(setState);
+      window.removeEventListener('hashchange', handleLocationChange);
+      window.removeEventListener('popstate', handleLocationChange);
+    };
   }, []);
 
   // Open both doors and transition inside
@@ -154,6 +181,32 @@ export function useExperienceStore() {
     setExperienceState({ bookingPrefill: null });
   };
 
+  const openPolicyModal = (tab = 'privacy') => {
+    setExperienceState({ activeModal: 'policy', activePolicyTab: tab });
+  };
+
+  const setActivePolicyTab = (tab) => {
+    setExperienceState({ activePolicyTab: tab });
+  };
+
+  const navigateTo = (route) => {
+    setExperienceState({ currentRoute: route });
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (route === 'home') {
+        if (window.location.hash) {
+          window.history.pushState(null, '', window.location.pathname);
+        }
+      } else {
+        window.location.hash = `#${route}`;
+      }
+    }
+  };
+
+  const navigateToPolicy = (policyKey) => {
+    navigateTo(policyKey);
+  };
+
   return {
     ...state,
     openDoors,
@@ -164,6 +217,10 @@ export function useExperienceStore() {
     setActiveService,
     closeServiceDrawer,
     setActiveModal,
+    openPolicyModal,
+    setActivePolicyTab,
+    navigateTo,
+    navigateToPolicy,
     closeModal,
     toggleSound,
     setViewMode,

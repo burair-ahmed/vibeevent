@@ -10,6 +10,8 @@ export default function HeaderHUD() {
     viewMode,
     setViewMode,
     setActiveModal,
+    openPolicyModal,
+    navigateToPolicy,
     setCameraWaypoint,
     entranceState,
     openDoors,
@@ -130,6 +132,16 @@ export default function HeaderHUD() {
             <span>About</span>
             <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-amber-400 group-hover:w-full transition-all duration-300" />
           </button>
+          <button
+            onClick={() => {
+              sound.playClick();
+              navigateToPolicy('privacy');
+            }}
+            className="text-zinc-300 hover:text-amber-300 transition-colors cursor-pointer py-1 relative group"
+          >
+            <span>Policies</span>
+            <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-amber-400 group-hover:w-full transition-all duration-300" />
+          </button>
         </nav>
 
         {/* Right Controls */}
@@ -181,37 +193,47 @@ export default function HeaderHUD() {
             onClick={handleJumpToServices}
             className="w-full text-left px-3 py-2 text-xs font-semibold tracking-widest uppercase text-zinc-200 hover:text-amber-300"
           >
-            Services Exhibition
+            Services
           </button>
           <button
             onClick={() => handleNavClick('portfolio', 'portfolio')}
             className="w-full text-left px-3 py-2 text-xs font-semibold tracking-widest uppercase text-zinc-200 hover:text-amber-300"
           >
-            Masterpiece Portfolio
+            Recent Events
           </button>
           <button
             onClick={() => handleNavClick('estimator', 'calculator')}
             className="w-full text-left px-3 py-2 text-xs font-semibold tracking-widest uppercase text-zinc-200 hover:text-amber-300"
           >
-            Interactive Cost Estimator
+            Cost Estimator (PKR)
           </button>
           <button
             onClick={() => handleNavClick('process', 'about')}
             className="w-full text-left px-3 py-2 text-xs font-semibold tracking-widest uppercase text-zinc-200 hover:text-amber-300"
           >
-            Our Methodology
+            Our 4-Step Process
           </button>
           <button
             onClick={() => handleNavClick('about', 'about')}
             className="w-full text-left px-3 py-2 text-xs font-semibold tracking-widest uppercase text-zinc-200 hover:text-amber-300"
           >
-            About Vibe Events
+            About VIBE
+          </button>
+          <button
+            onClick={() => {
+              sound.playClick();
+              setMobileMenuOpen(false);
+              navigateToPolicy('privacy');
+            }}
+            className="w-full text-left px-3 py-2 text-xs font-semibold tracking-widest uppercase text-zinc-200 hover:text-amber-300"
+          >
+            Client Policies
           </button>
           <button
             onClick={() => handleNavClick('contact', 'booking')}
             className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-400 to-yellow-500 text-zinc-950 font-bold text-center text-xs tracking-wider uppercase shadow-md mt-2"
           >
-            Inquire & Book Consultation
+            Inquire & Book Event
           </button>
         </div>
       )}

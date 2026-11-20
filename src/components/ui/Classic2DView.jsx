@@ -25,24 +25,24 @@ import { EVENT_TYPES, PRODUCTION_TIERS, ADDON_OPTIONS, calculateEstimate } from 
 
 const FAQ_ITEMS = [
   {
-    question: "What is the typical production timeline for a bespoke luxury event?",
-    answer: "For grand galas and multi-day destination weddings, we recommend initiating discovery 4 to 9 months in advance. However, our rapid-response production unit can execute turn-key enterprise summits and VIP brand activations in as few as 6 to 8 weeks."
+    question: "How far in advance should we book for a wedding or corporate event?",
+    answer: "For winter wedding season (October to March) and large corporate galas, we recommend booking 2 to 4 months in advance to secure prime dates and custom fabrication. However, our rapid response team can also execute urgent corporate setups and private birthday or dholki events within 1 to 2 weeks."
   },
   {
-    question: "How does VIBE's proprietary 3D spatial pre-visualization work?",
-    answer: "Before any truss is rigged or decor fabricated, our spatial design team generates an exact 1:1 digital twin of your venue in Unreal Engine/WebGL. You can walk through the space virtually, review sightlines, test acoustic coverage, and approve custom lighting choreography in photorealistic 3D."
+    question: "Do you provide full backup generators to protect against load-shedding?",
+    answer: "Yes, 100%. Every single event includes dual-redundant soundproof diesel generators (typically 100 kVA to 250 kVA) with automatic changeover switches (ATS). Your stage lights, sound, LED screens, and ACs will continue running without even a split-second flicker."
   },
   {
-    question: "Do you produce international destination events outside the US?",
-    answer: "Yes. Over 45% of our portfolio is executed abroad. We maintain permanent logistics hubs and trusted master vendor networks across Lake Como, Dubai, the French Riviera, London, Zurich, and Tokyo."
+    question: "Can we see a 3D preview of our wedding stage or corporate setup before booking?",
+    answer: "Absolutely! We create a photorealistic 3D digital model of your exact venue (whether Royal Palm, PC Marquee, Serena, or your private farmhouse). You can see the stage layout, flower arrangements, sofa placements, and lighting before a single nail is hammered."
   },
   {
-    question: "Can VIBE manage celebrity talent booking and rider compliance?",
-    answer: "Absolutely. Our VIP talent department handles direct celebrity talent procurement, confidentiality non-disclosure agreements, rider compliance, stage security logistics, and green room hospitality."
+    question: "Do you arrange events outside Karachi and Islamabad?",
+    answer: "Yes. We execute destination events, farmhouse celebrations, and industrial launches across Pakistan, including Faisalabad, Multan, Sialkot, Peshawar, Rawalpindi, and Gwadar with our mobile logistics fleet."
   },
   {
-    question: "What are your minimum budget parameters?",
-    answer: "Our turnkey production engagements generally begin at $25,000 for private VIP activations, and scale upwards to $500,000+ for multi-day international festivals, arena spectacles, and royal weddings."
+    question: "What are your package budgets and payment milestones?",
+    answer: "Our event packages start from PKR 150,000 for boutique birthdays and private dholkis, PKR 450,000 for standard corporate functions, and PKR 850,000 to PKR 5,000,000+ for grand royal weddings and arena concerts. Payments are divided into simple milestones: 30% advance on booking, 40% on production setup, and 30% before the event begins."
   }
 ];
 
@@ -50,7 +50,9 @@ export default function Classic2DView() {
   const { 
     setViewMode, 
     setActiveService, 
-    setActiveModal, 
+    setActiveModal,
+    openPolicyModal,
+    navigateToPolicy, 
     estimatorState, 
     updateEstimatorState,
     setBookingPrefill,
@@ -152,8 +154,8 @@ export default function Classic2DView() {
       guests: String(guestCount),
       tier: selectedTier.label,
       addons: activeAddonsList,
-      estimatedRange: `$${estimate.low} – $${estimate.high}`,
-      notes: `[Online Estimate Quote]\nInvestment Range: $${estimate.low} – $${estimate.high}\nProduction Tier: ${selectedTier.label} (${selectedTier.multiplier}x scale)\nSelected Addons: ${activeAddonsList.join(', ') || 'Standard Core Scope'}\nAllocation Breakdown: Stage & Decor (~$${estimate.stageCost}) | AV & Lighting (~$${estimate.avCost}) | Operations (~$${estimate.hospitalityCost})`,
+      estimatedRange: `PKR ${estimate.low} – PKR ${estimate.high}`,
+      notes: `[Online Estimate Quote]\nInvestment Range: PKR ${estimate.low} – PKR ${estimate.high}\nProduction Tier: ${selectedTier.label} (${selectedTier.multiplier}x scale)\nSelected Addons: ${activeAddonsList.join(', ') || 'Standard Core Scope'}\nAllocation Breakdown: Stage & Decor (~PKR ${estimate.stageCost}) | AV & Lighting (~PKR ${estimate.avCost}) | Operations (~PKR ${estimate.hospitalityCost})`,
     };
 
     setBookingPrefill(quoteSnapshot);
@@ -227,20 +229,20 @@ export default function Classic2DView() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full glass-panel border border-amber-500/30 text-amber-300 text-xs font-semibold uppercase tracking-[0.2em]">
             <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            <span>Haute Couture Event Architecture & Production</span>
+            <span>Premier Event & Wedding Management in Pakistan</span>
           </div>
 
           {/* Main Headline */}
           <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-zinc-100 leading-[1.08]">
-            Where Architectural Scale Meets{' '}
+            Royal Weddings, Corporate Galas &{' '}
             <span className="font-serif-accent italic font-normal text-gold-gradient block sm:inline">
-              Unrivaled Celebration.
+              Memorable Celebrations.
             </span>
           </h1>
 
           {/* Subtitle */}
           <p className="text-zinc-400 text-base sm:text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
-            We engineer high-concept experiential events for Fortune 500 summits, royal nuptials, arena concert tours, and ultra-high-net-worth milestones worldwide.
+            From grand Mehndi, Barat & Walima setups to high-impact corporate summits in Karachi and serene Sufi nights in Islamabad — planned with custom 3D previews and guaranteed zero load-shedding.
           </p>
 
           {/* Primary Action Buttons */}
@@ -451,7 +453,7 @@ export default function Classic2DView() {
                       >
                         <div className="text-xs font-bold truncate">{t.label}</div>
                         <div className={`text-[10px] mt-0.5 ${eventType === t.id ? 'text-zinc-900 font-medium' : 'text-zinc-400'}`}>
-                          Base: ${t.base.toLocaleString()}
+                          Base: PKR {t.base.toLocaleString()}
                         </div>
                       </button>
                     ))}
@@ -566,7 +568,7 @@ export default function Classic2DView() {
                             </div>
                           </div>
                           <span className="text-xs font-bold text-amber-400 shrink-0 ml-2">
-                            +${addon.cost.toLocaleString()}
+                            +PKR {addon.cost.toLocaleString()}
                           </span>
                         </div>
                       );
@@ -590,7 +592,7 @@ export default function Classic2DView() {
                   </div>
 
                   <div className="font-display text-4xl sm:text-5xl font-black text-gold-gradient tracking-tight my-3">
-                    ${estimate.low} – ${estimate.high}
+                    PKR {estimate.low} – PKR {estimate.high}
                   </div>
 
                   <p className="text-xs text-zinc-400 leading-relaxed font-light mb-6">
@@ -601,15 +603,15 @@ export default function Classic2DView() {
                   <div className="w-full space-y-2.5 text-left border-t border-white/10 pt-5">
                     <div className="flex items-center justify-between text-xs">
                       <span className="text-zinc-400">Kinetic Stagecraft & Rigging:</span>
-                      <span className="font-semibold text-zinc-200">~${estimate.stageCost}</span>
+                      <span className="font-semibold text-zinc-200">~PKR {estimate.stageCost}</span>
                     </div>
                     <div className="flex items-center justify-between text-xs">
                       <span className="text-zinc-400">Audio Arrays & Intelligent Lighting:</span>
-                      <span className="font-semibold text-zinc-200">~${estimate.avCost}</span>
+                      <span className="font-semibold text-zinc-200">~PKR {estimate.avCost}</span>
                     </div>
                     <div className="flex items-center justify-between text-xs">
                       <span className="text-zinc-400">Operations, Hospitality & Addons:</span>
-                      <span className="font-semibold text-zinc-200">~${estimate.hospitalityCost}</span>
+                      <span className="font-semibold text-zinc-200">~PKR {estimate.hospitalityCost}</span>
                     </div>
                   </div>
 
@@ -738,13 +740,13 @@ export default function Classic2DView() {
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-16">
           <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-amber-400">
             <Clock className="w-3.5 h-3.5" />
-            <span>The VIBE Methodology</span>
+            <span>Our 4-Step Process</span>
           </div>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-zinc-100">
-            Precision From Concept to Curtain Call
+            Stress-Free Event Planning From Start to Finish
           </h2>
           <p className="text-zinc-400 text-sm font-light leading-relaxed">
-            Every production adheres to an unyielding 4-phase architectural blueprint, ensuring absolute creative transcendence and zero-failure show execution.
+            How we bring your dream wedding, corporate gala, or family celebration to life with complete transparency, punctuality, and peace of mind.
           </p>
         </div>
 
@@ -752,23 +754,23 @@ export default function Classic2DView() {
           {[
             {
               step: '01',
-              title: 'Spatial Discovery & 3D Pre-Vis',
-              desc: 'We map your venue with laser photogrammetry and construct photorealistic 3D simulations of kinetic rigs, lighting cones, and guest sightlines.',
+              title: 'Consultation & 3D Stage Preview',
+              desc: 'We sit down over chai to understand your requirements, then show you a photorealistic 3D visual of your stage, lighting, and guest seating before anything is built.',
             },
             {
               step: '02',
-              title: 'Acoustic & Kinetic Staging',
-              desc: 'Custom fabrication of bespoke stages, curved 4K LED backdrops, spatial surround audio arrays, and timecoded laser choreography.',
+              title: 'Custom Fabrication & Decor',
+              desc: 'Our master craftsmen create custom stage backdrops, fresh imported flower arches, carpeted walkways, and comfortable family lounge seating.',
             },
             {
               step: '03',
-              title: 'Haute Gastronomy & Concierge',
-              desc: 'Partnering with Michelin-starred chefs, master mixologists, and private celebrity talent managers for flawless hospitality.',
+              title: 'AV, Lighting & Silent Power Backup',
+              desc: 'We install concert-grade audio, HD LED video walls, mood lighting, and connect dual silent diesel generators to guarantee zero blackouts.',
             },
             {
               step: '04',
-              title: 'Zero-Latency Show Calling',
-              desc: 'Live dual-redundant show control, certified master technicians, broadcast multicam streaming, and white-glove teardown.',
+              title: 'Live Coordination & Hospitality',
+              desc: 'Our dedicated on-ground event managers handle guest welcoming, bride & groom entry cues, catering coordination, and smooth cleanup.',
             },
           ].map((item, i) => (
             <div 
@@ -801,10 +803,10 @@ export default function Classic2DView() {
           <div className="text-center space-y-2">
             <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-amber-400">
               <Star className="w-3.5 h-3.5" />
-              <span>Patron Accolades</span>
+              <span>Client Reviews & Testimonials</span>
             </div>
             <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-zinc-100">
-              Trusted by Royalty & Titans of Industry
+              Trusted by Families & Industry Leaders Across Pakistan
             </h2>
           </div>
 
@@ -883,13 +885,13 @@ export default function Classic2DView() {
           <div className="max-w-2xl mx-auto text-center space-y-3 mb-10">
             <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-amber-300">
               <Calendar className="w-4 h-4" />
-              <span>Direct Concierge Intake</span>
+              <span>Event Consultation & Booking</span>
             </div>
             <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black text-zinc-100">
-              Initiate Your Event Consultation
+              Plan Your Next Grand Event
             </h2>
             <p className="text-zinc-300 text-xs sm:text-sm font-light">
-              Our Senior Production Directors will review your specifications, verify venue dates, and schedule a private 3D spatial concept review.
+              Our Senior Event Directors will review your date, discuss your theme and budget, and prepare a custom 3D stage preview with an itemized proposal.
             </p>
           </div>
 
@@ -913,10 +915,10 @@ export default function Classic2DView() {
               </div>
               <div>
                 <h3 className="font-display text-2xl font-bold text-zinc-100 mb-2">
-                  Event Brief Received
+                  Event Inquiry Received
                 </h3>
                 <p className="text-sm text-zinc-300 font-light leading-relaxed">
-                  Thank you, <span className="font-bold text-amber-300">{formState.name}</span>. Your brief has been dispatched to our Lead Show Director. You will receive contact within 4 business hours.
+                  Thank you, <span className="font-bold text-amber-300">{formState.name}</span>. Your details have been shared with our Senior Event Producer. We will call you or message on WhatsApp within a few hours.
                 </p>
               </div>
 
@@ -942,26 +944,26 @@ export default function Classic2DView() {
             <form onSubmit={handleFormSubmit} className="max-w-2xl mx-auto space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-300">Full Name / Representative *</label>
+                  <label className="text-xs font-semibold text-zinc-300">Your Full Name *</label>
                   <input
                     type="text"
                     name="name"
                     required
                     value={formState.name}
                     onChange={handleFormChange}
-                    placeholder="Lady Eleanor Vance"
+                    placeholder="e.g. Tariq Malik / Fatima Khan"
                     className="w-full px-4 py-3 rounded-xl bg-zinc-900/80 border border-white/10 text-xs text-zinc-100 focus:outline-none focus:border-amber-400 transition-colors"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-300">Corporate / VIP Email *</label>
+                  <label className="text-xs font-semibold text-zinc-300">Email Address *</label>
                   <input
                     type="email"
                     name="email"
                     required
                     value={formState.email}
                     onChange={handleFormChange}
-                    placeholder="eleanor@vance-holdings.com"
+                    placeholder="e.g. tariq@orient-textiles.com.pk"
                     className="w-full px-4 py-3 rounded-xl bg-zinc-900/80 border border-white/10 text-xs text-zinc-100 focus:outline-none focus:border-amber-400 transition-colors"
                   />
                 </div>
@@ -969,14 +971,14 @@ export default function Classic2DView() {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-300">Phone Number *</label>
+                  <label className="text-xs font-semibold text-zinc-300">Mobile / WhatsApp *</label>
                   <input
                     type="tel"
                     name="phone"
                     required
                     value={formState.phone}
                     onChange={handleFormChange}
-                    placeholder="+1 (555) 019-2834"
+                    placeholder="+92 300 1234567"
                     className="w-full px-4 py-3 rounded-xl bg-zinc-900/80 border border-white/10 text-xs text-zinc-100 focus:outline-none focus:border-amber-400 transition-colors"
                   />
                 </div>
@@ -988,23 +990,23 @@ export default function Classic2DView() {
                     onChange={handleFormChange}
                     className="w-full px-4 py-3 rounded-xl bg-zinc-900/80 border border-white/10 text-xs text-zinc-100 focus:outline-none focus:border-amber-400 transition-colors cursor-pointer"
                   >
-                    <option value="Corporate Gala / Summit">Corporate Gala / Summit</option>
-                    <option value="Couture Wedding">Couture Wedding</option>
-                    <option value="Concert / Festival">Concert / Festival</option>
-                    <option value="Brand Activation">Brand Activation</option>
-                    <option value="Private VIP Celebration">Private VIP Celebration</option>
-                    <option value="Luxury Birthday Party">Luxury Birthday Party</option>
+                    <option value="Royal Wedding (Mehndi / Barat / Walima)">Royal Wedding (Mehndi / Barat / Walima)</option>
+                    <option value="Corporate Gala & Annual Summit">Corporate Gala & Annual Summit</option>
+                    <option value="Live Concert & Sufi / Qawwali Night">Live Concert & Sufi / Qawwali Night</option>
+                    <option value="Brand Activation & Mall Launch">Brand Activation & Mall Launch</option>
+                    <option value="Farmhouse Celebration & Private Dholki">Farmhouse Celebration & Private Dholki</option>
+                    <option value="Birthday Party & Family Celebration">Birthday Party & Family Celebration</option>
                   </select>
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-300">Estimated Guests *</label>
+                  <label className="text-xs font-semibold text-zinc-300">Expected Guests *</label>
                   <input
                     type="text"
                     name="guests"
                     required
                     value={formState.guests}
                     onChange={handleFormChange}
-                    placeholder="350"
+                    placeholder="e.g. 450"
                     className="w-full px-4 py-3 rounded-xl bg-zinc-900/80 border border-white/10 text-xs text-zinc-100 focus:outline-none focus:border-amber-400 transition-colors"
                   />
                 </div>
@@ -1012,37 +1014,37 @@ export default function Classic2DView() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-300">Target Date / Season</label>
+                  <label className="text-xs font-semibold text-zinc-300">Target Date / Month</label>
                   <input
                     type="text"
                     name="eventDate"
                     value={formState.eventDate}
                     onChange={handleFormChange}
-                    placeholder="Autumn 2026 or Exact Date"
+                    placeholder="e.g. December 2026 or Exact Date"
                     className="w-full px-4 py-3 rounded-xl bg-zinc-900/80 border border-white/10 text-xs text-zinc-100 focus:outline-none focus:border-amber-400 transition-colors"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-300">Target Venue or City</label>
+                  <label className="text-xs font-semibold text-zinc-300">City & Venue</label>
                   <input
                     type="text"
                     name="location"
                     value={formState.location}
                     onChange={handleFormChange}
-                    placeholder="Villa Balbiano, Lake Como or TBD"
+                    placeholder="e.g. Royal Palm Lahore, PC Marquee, or Farmhouse"
                     className="w-full px-4 py-3 rounded-xl bg-zinc-900/80 border border-white/10 text-xs text-zinc-100 focus:outline-none focus:border-amber-400 transition-colors"
                   />
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-zinc-300">Vision, Specific Goals & Notes</label>
+                <label className="text-xs font-semibold text-zinc-300">Event Vision & Requirements</label>
                 <textarea
                   name="notes"
                   rows={4}
                   value={formState.notes}
                   onChange={handleFormChange}
-                  placeholder="Describe your creative vision, staging aspirations, entertainment requirements..."
+                  placeholder="Tell us about your event theme, stage requirements, flower preferences, seating style, generator backup needs..."
                   className="w-full px-4 py-3 rounded-xl bg-zinc-900/80 border border-white/10 text-xs text-zinc-100 focus:outline-none focus:border-amber-400 transition-colors resize-none"
                 />
               </div>
@@ -1052,7 +1054,7 @@ export default function Classic2DView() {
                 className="w-full py-4 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 text-zinc-950 font-bold text-xs uppercase tracking-wider shadow-lg shadow-amber-500/20 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer mt-4"
               >
                 <Send className="w-4 h-4" />
-                <span>Submit Event Brief to Senior Producer</span>
+                <span>Submit Inquiry to Event Director</span>
               </button>
             </form>
           )}
@@ -1064,62 +1066,95 @@ export default function Classic2DView() {
       <footer className="border-t border-white/10 bg-[#060608] pt-16 pb-12 px-6 md:px-12 text-zinc-400 text-xs">
         <div className="max-w-7xl mx-auto space-y-12">
           
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
             {/* Brand column */}
-            <div className="space-y-4 md:col-span-1">
+            <div className="space-y-4 lg:col-span-2">
               <div className="flex items-baseline gap-2">
                 <span className="font-display font-black tracking-[0.2em] text-xl text-zinc-100">VIBE</span>
                 <span className="font-display font-light tracking-[0.3em] text-xs text-zinc-400">EVENTS</span>
               </div>
-              <p className="text-xs text-zinc-500 leading-relaxed font-light">
-                Architects of unforgettable scale. Engineering high-concept celebrations, summits, and arena spectacles across the globe.
+              <p className="text-xs text-zinc-500 leading-relaxed font-light max-w-sm">
+                Pakistan's leading event architecture and production company. Creating unforgettable royal weddings, grand corporate conferences, live concerts, and private celebrations across Karachi and Islamabad.
               </p>
               <div className="text-[11px] text-amber-400 font-semibold">
-                Available Worldwide • 24/7 Production Unit
+                Operating Nationwide Across Pakistan • 24/7 Production Unit
               </div>
             </div>
 
             {/* Quick Navigation */}
             <div className="space-y-3">
-              <div className="text-zinc-200 font-bold uppercase tracking-wider text-[11px]">Experience</div>
+              <div className="text-zinc-200 font-bold uppercase tracking-wider text-[11px]">Explore</div>
               <ul className="space-y-2">
-                <li><button onClick={() => scrollToAnchor('services')} className="hover:text-amber-300 cursor-pointer">Signature Services</button></li>
-                <li><button onClick={() => scrollToAnchor('portfolio')} className="hover:text-amber-300 cursor-pointer">Portfolio Highlights</button></li>
-                <li><button onClick={() => scrollToAnchor('estimator')} className="hover:text-amber-300 cursor-pointer">Cost Estimator</button></li>
-                <li><button onClick={() => scrollToAnchor('process')} className="hover:text-amber-300 cursor-pointer">The Methodology</button></li>
-                <li><button onClick={handleSwitchTo3D} className="text-amber-400 hover:underline cursor-pointer">Switch to 3D Grand Hall</button></li>
+                <li><button onClick={() => scrollToAnchor('services')} className="hover:text-amber-300 cursor-pointer">Our Services</button></li>
+                <li><button onClick={() => scrollToAnchor('portfolio')} className="hover:text-amber-300 cursor-pointer">Recent Events</button></li>
+                <li><button onClick={() => scrollToAnchor('estimator')} className="hover:text-amber-300 cursor-pointer">PKR Cost Calculator</button></li>
+                <li><button onClick={() => scrollToAnchor('process')} className="hover:text-amber-300 cursor-pointer">How We Work</button></li>
+                <li><button onClick={handleSwitchTo3D} className="text-amber-400 hover:underline cursor-pointer">3D Grand Hall</button></li>
               </ul>
             </div>
 
-            {/* Global Studio Hubs */}
+            {/* Client Policy Pages */}
             <div className="space-y-3">
-              <div className="text-zinc-200 font-bold uppercase tracking-wider text-[11px]">Studio Coordinates</div>
-              <div className="space-y-2 text-zinc-500 text-xs">
-                <div><strong>New York:</strong> 540 Madison Ave, Manhattan</div>
-                <div><strong>London:</strong> 18 Berkeley Square, Mayfair</div>
-                <div><strong>Dubai:</strong> DIFC Gate Village, Building 03</div>
-                <div><strong>Zurich:</strong> Bahnhofstrasse 45</div>
-              </div>
+              <div className="text-zinc-200 font-bold uppercase tracking-wider text-[11px]">Policies & Legal</div>
+              <ul className="space-y-2">
+                <li>
+                  <button 
+                    onClick={() => navigateToPolicy('privacy')} 
+                    className="hover:text-amber-300 cursor-pointer text-left transition-colors"
+                  >
+                    Privacy & Family Pardah
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => navigateToPolicy('terms')} 
+                    className="hover:text-amber-300 cursor-pointer text-left transition-colors"
+                  >
+                    Terms & Conditions
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => navigateToPolicy('refund')} 
+                    className="hover:text-amber-300 cursor-pointer text-left transition-colors"
+                  >
+                    Refund & Cancellation
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => navigateToPolicy('safety')} 
+                    className="hover:text-amber-300 cursor-pointer text-left transition-colors flex items-center gap-1.5"
+                  >
+                    <span>Power & Event Safety</span>
+                    <span className="px-1.5 py-0.5 text-[9px] bg-amber-400/20 text-amber-300 rounded font-semibold">Generator</span>
+                  </button>
+                </li>
+              </ul>
             </div>
 
-            {/* Direct Contacts */}
+            {/* Direct Contacts & Offices */}
             <div className="space-y-3">
-              <div className="text-zinc-200 font-bold uppercase tracking-wider text-[11px]">Direct Concierge</div>
+              <div className="text-zinc-200 font-bold uppercase tracking-wider text-[11px]">Offices & Contact</div>
               <div className="space-y-2 text-zinc-400 text-xs">
                 <div className="flex items-center gap-2">
-                  <Phone className="w-3.5 h-3.5 text-amber-400" />
-                  <span>+1 (800) 842-3836</span>
+                  <Phone className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                  <span>+92 (XXX) XXX-XXXX</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Mail className="w-3.5 h-3.5 text-amber-400" />
-                  <span>concierge@vibeevents.luxury</span>
+                  <Mail className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                  <span>info@vibeeventmanagement.com</span>
+                </div>
+                <div className="pt-1 text-[11px] text-zinc-500 space-y-1">
+                  <div><strong>Karachi HQ:</strong> Office #XXX, Business Avenue, Shahrah-e-Faisal</div>
+                  <div><strong>Islamabad:</strong> Office #XXX, Blue Area, Jinnah Avenue</div>
                 </div>
                 <div className="pt-2">
                   <button 
                     onClick={() => scrollToAnchor('contact')}
                     className="px-4 py-2 rounded-full glass-panel-gold border border-amber-400/40 text-amber-300 font-bold text-[11px] uppercase tracking-wider hover:scale-105 transition-all cursor-pointer"
                   >
-                    Request Consultation
+                    Book Consultation
                   </button>
                 </div>
               </div>
@@ -1127,11 +1162,14 @@ export default function Classic2DView() {
           </div>
 
           <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-500">
-            <div>© 2026 VIBE EVENTS INC. ALL ARCHITECTURAL RIGHTS RESERVED.</div>
-            <div className="flex items-center gap-6">
-              <button onClick={() => setActiveModal('about')} className="hover:text-zinc-300">About Vibe</button>
-              <button onClick={() => setActiveModal('portfolio')} className="hover:text-zinc-300">Archive</button>
-              <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-amber-300 flex items-center gap-1 cursor-pointer">
+            <div>© 2026 VIBE EVENTS PAKISTAN. ALL RIGHTS RESERVED.</div>
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+              <button onClick={() => setActiveModal('about')} className="hover:text-zinc-300 cursor-pointer">About VIBE</button>
+              <button onClick={() => navigateToPolicy('privacy')} className="hover:text-zinc-300 cursor-pointer">Privacy</button>
+              <button onClick={() => navigateToPolicy('terms')} className="hover:text-zinc-300 cursor-pointer">Terms</button>
+              <button onClick={() => navigateToPolicy('refund')} className="hover:text-zinc-300 cursor-pointer">Refunds</button>
+              <button onClick={() => navigateToPolicy('safety')} className="hover:text-zinc-300 cursor-pointer">Safety</button>
+              <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-amber-300 flex items-center gap-1 cursor-pointer ml-auto sm:ml-0">
                 <span>Back to Top</span>
                 <ArrowRight className="w-3 h-3 -rotate-90" />
               </button>
