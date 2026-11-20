@@ -233,7 +233,7 @@ export default function Classic2DView() {
           </div>
 
           {/* Main Headline */}
-          <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-zinc-100 leading-[1.08]">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-100 leading-[1.08]">
             Royal Weddings, Corporate Galas &{' '}
             <span className="font-serif-accent italic font-normal text-gold-gradient block sm:inline">
               Memorable Celebrations.
@@ -241,7 +241,7 @@ export default function Classic2DView() {
           </h1>
 
           {/* Subtitle */}
-          <p className="text-zinc-400 text-base sm:text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
+          <p className="text-zinc-400 text-sm sm:text-base md:text-lg font-light max-w-2xl mx-auto leading-relaxed">
             From grand Mehndi, Barat & Walima setups to high-impact corporate summits in Karachi and serene Sufi nights in Islamabad — planned with custom 3D previews and guaranteed zero load-shedding.
           </p>
 
@@ -249,14 +249,14 @@ export default function Classic2DView() {
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <button
               onClick={() => scrollToAnchor('estimator')}
-              className="px-8 py-4 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 text-zinc-950 font-bold text-xs uppercase tracking-wider shadow-lg shadow-amber-500/25 hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-2"
+              className="px-6 py-3 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 text-zinc-950 font-bold text-[11px] uppercase tracking-wider shadow-lg shadow-amber-500/25 hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-2"
             >
               <Calculator className="w-4 h-4" />
               <span>Interactive Cost Estimator</span>
             </button>
             <button
               onClick={() => scrollToAnchor('services')}
-              className="px-8 py-4 rounded-full glass-pill text-zinc-200 font-semibold text-xs uppercase tracking-wider hover:text-white hover:border-white/30 transition-all cursor-pointer flex items-center gap-2"
+              className="px-6 py-3 rounded-full glass-pill text-zinc-200 font-semibold text-[11px] uppercase tracking-wider hover:text-white hover:border-white/30 transition-all cursor-pointer flex items-center gap-2"
             >
               <span>Explore Signature Services</span>
               <ArrowRight className="w-4 h-4" />
@@ -288,7 +288,7 @@ export default function Classic2DView() {
               key={i} 
               className="glass-panel p-6 sm:p-8 rounded-3xl text-center border border-white/5 hover:border-amber-400/20 transition-all group"
             >
-              <div className="font-display text-3xl sm:text-4xl md:text-5xl font-black text-gold-gradient mb-2 group-hover:scale-105 transition-transform">
+              <div className="font-display text-2xl sm:text-3xl md:text-4xl font-black text-gold-gradient mb-2 group-hover:scale-105 transition-transform">
                 {stat.value}
               </div>
               <div className="text-xs text-zinc-400 font-medium tracking-wider uppercase">
@@ -307,7 +307,7 @@ export default function Classic2DView() {
               <Sparkles className="w-3.5 h-3.5" />
               <span>World-Class Offerings</span>
             </div>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-zinc-100 tracking-tight">
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-extrabold text-zinc-100 tracking-tight">
               Signature Event Architecture
             </h2>
           </div>
@@ -376,7 +376,7 @@ export default function Classic2DView() {
                 {/* Content */}
                 <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
                   <div>
-                    <h3 className="font-display text-xl font-bold text-zinc-100 group-hover:text-amber-300 transition-colors mb-2">
+                    <h3 className="font-display text-base font-bold text-zinc-100 group-hover:text-amber-300 transition-colors mb-2">
                       {srv.title}
                     </h3>
                     <p className="text-xs text-zinc-400 font-light leading-relaxed line-clamp-3 mb-4">
@@ -418,7 +418,7 @@ export default function Classic2DView() {
                   <Calculator className="w-4 h-4" />
                   <span>Interactive Budget Modeling Engine</span>
                 </div>
-                <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black text-zinc-100">
+                <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-black text-zinc-100">
                   Plan Your Event Investment
                 </h2>
               </div>
@@ -466,7 +466,7 @@ export default function Classic2DView() {
                     <label className="text-xs font-bold uppercase tracking-widest text-zinc-300">
                       2. Guest Attendance
                     </label>
-                    <div className="font-display text-2xl font-extrabold text-amber-400">
+                    <div className="font-display text-xl font-extrabold text-amber-400">
                       {guestCount.toLocaleString()} <span className="text-xs font-normal text-zinc-400">Guests</span>
                     </div>
                   </div>
@@ -591,7 +591,7 @@ export default function Classic2DView() {
                     Estimated Total Investment
                   </div>
 
-                  <div className="font-display text-4xl sm:text-5xl font-black text-gold-gradient tracking-tight my-3">
+                  <div className="font-display text-2xl sm:text-3xl font-black text-gold-gradient tracking-tight my-3">
                     PKR {estimate.low} – PKR {estimate.high}
                   </div>
 
@@ -649,7 +649,7 @@ export default function Classic2DView() {
               <Award className="w-3.5 h-3.5" />
               <span>Hall of Masterpieces</span>
             </div>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-zinc-100 tracking-tight">
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-extrabold text-zinc-100 tracking-tight">
               Curated Event Productions
             </h2>
           </div>
@@ -713,7 +713,7 @@ export default function Classic2DView() {
 
               <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
                 <div>
-                  <h3 className="font-display text-xl font-bold text-zinc-100 group-hover:text-amber-300 transition-colors mb-2">
+                  <h3 className="font-display text-lg font-bold text-zinc-100 group-hover:text-amber-300 transition-colors mb-2">
                     {proj.title}
                   </h3>
                   <p className="text-xs text-zinc-400 font-light leading-relaxed line-clamp-2">
@@ -742,7 +742,7 @@ export default function Classic2DView() {
             <Clock className="w-3.5 h-3.5" />
             <span>Our 4-Step Process</span>
           </div>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-zinc-100">
+          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-extrabold text-zinc-100">
             Stress-Free Event Planning From Start to Finish
           </h2>
           <p className="text-zinc-400 text-sm font-light leading-relaxed">
@@ -778,7 +778,7 @@ export default function Classic2DView() {
               className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/5 relative group hover:border-amber-400/30 transition-all flex flex-col justify-between"
             >
               <div>
-                <div className="font-display text-4xl font-black text-amber-400/30 group-hover:text-amber-400 transition-colors mb-4">
+                <div className="font-display text-3xl font-black text-amber-400/30 group-hover:text-amber-400 transition-colors mb-4">
                   {item.step}
                 </div>
                 <h3 className="font-display text-lg font-bold text-zinc-100 mb-2">
@@ -805,7 +805,7 @@ export default function Classic2DView() {
               <Star className="w-3.5 h-3.5" />
               <span>Client Reviews & Testimonials</span>
             </div>
-            <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-zinc-100">
+            <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-zinc-100">
               Trusted by Families & Industry Leaders Across Pakistan
             </h2>
           </div>
@@ -841,7 +841,7 @@ export default function Classic2DView() {
             <ShieldCheck className="w-3.5 h-3.5" />
             <span>Curated Inquiries</span>
           </div>
-          <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-zinc-100">
+          <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-zinc-100">
             Frequently Asked Questions
           </h2>
         </div>
@@ -887,7 +887,7 @@ export default function Classic2DView() {
               <Calendar className="w-4 h-4" />
               <span>Event Consultation & Booking</span>
             </div>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black text-zinc-100">
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-black text-zinc-100">
               Plan Your Next Grand Event
             </h2>
             <p className="text-zinc-300 text-xs sm:text-sm font-light">
@@ -914,7 +914,7 @@ export default function Classic2DView() {
                 <CheckCircle2 className="w-8 h-8 text-amber-400" />
               </div>
               <div>
-                <h3 className="font-display text-2xl font-bold text-zinc-100 mb-2">
+                <h3 className="font-display text-xl font-bold text-zinc-100 mb-2">
                   Event Inquiry Received
                 </h3>
                 <p className="text-sm text-zinc-300 font-light leading-relaxed">
@@ -924,7 +924,7 @@ export default function Classic2DView() {
 
               <div className="glass-panel-gold p-4 rounded-2xl border border-amber-500/30 w-full">
                 <div className="text-[10px] text-zinc-400 uppercase tracking-widest">Inquiry Confirmation Code</div>
-                <div className="font-display text-2xl font-black text-gold-gradient tracking-widest my-1">
+                <div className="font-display text-xl font-black text-gold-gradient tracking-widest my-1">
                   {referenceCode}
                 </div>
                 <div className="text-xs text-zinc-400">
@@ -1031,7 +1031,7 @@ export default function Classic2DView() {
                     name="location"
                     value={formState.location}
                     onChange={handleFormChange}
-                    placeholder="e.g. Royal Palm Lahore, PC Marquee, or Farmhouse"
+                    placeholder="e.g. PC Marquee Karachi, Serena, or Farmhouse"
                     className="w-full px-4 py-3 rounded-xl bg-zinc-900/80 border border-white/10 text-xs text-zinc-100 focus:outline-none focus:border-amber-400 transition-colors"
                   />
                 </div>
@@ -1070,7 +1070,7 @@ export default function Classic2DView() {
             {/* Brand column */}
             <div className="space-y-4 lg:col-span-2">
               <div className="flex items-baseline gap-2">
-                <span className="font-display font-black tracking-[0.2em] text-xl text-zinc-100">VIBE</span>
+                <span className="font-display font-black tracking-[0.2em] text-lg text-zinc-100">VIBE</span>
                 <span className="font-display font-light tracking-[0.3em] text-xs text-zinc-400">EVENTS</span>
               </div>
               <p className="text-xs text-zinc-500 leading-relaxed font-light max-w-sm">

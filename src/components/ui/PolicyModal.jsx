@@ -294,7 +294,7 @@ export default function PolicyModal() {
         <div className="p-4 sm:p-6 border-t border-white/10 bg-[#090a10] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
           <div className="text-zinc-400 flex items-center gap-2">
             <span>Have questions about our agreements? Call or WhatsApp our helpline:</span>
-            <span className="text-amber-400 font-bold">+92 (300) 842-3836</span>
+            <span className="text-amber-400 font-bold">+92 (XXX) XXX-XXXX</span>
           </div>
           <div className="flex items-center gap-3">
             <button

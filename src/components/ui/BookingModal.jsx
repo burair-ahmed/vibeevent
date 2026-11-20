@@ -233,8 +233,7 @@ export default function BookingModal() {
                     name="location"
                     value={formData.location}
                     onChange={handleChange}
-                    placeholder="e.g. Lahore / Karachi / Islamabad (Marquee, Hotel, or Farmhouse)"
-                    className="w-full glass-panel px-4 py-2.5 rounded-xl text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 border border-white/10"
+                    placeholder="e.g. Karachi / Islamabad (Marquee, Hotel, or Farmhouse)"
                     className="w-full glass-panel px-4 py-2.5 rounded-xl text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-400 border border-white/10"
                   />
                 </div>

@@ -52,7 +52,7 @@ export default function AboutModal() {
               Turning Your Family Celebrations & Corporate Milestones Into Pure Magic.
             </h3>
             <p className="text-sm text-zinc-300 leading-relaxed font-light">
-              Founded in Lahore and operating nationwide across Karachi, Islamabad, and all major cities, <strong className="text-zinc-100">VIBE EVENTS</strong> brings together royal stage decoration, fresh floral arrangements, concert sound systems, and dedicated generator power backup. Whether you are hosting a grand wedding, a private family Mehndi, a company gala, or a musical Qawwali evening, we handle every single detail so you can enjoy your special day completely stress-free.
+              Founded in Karachi and operating nationwide across Islamabad and all major cities, <strong className="text-zinc-100">VIBE EVENTS</strong> brings together royal stage decoration, fresh floral arrangements, concert sound systems, and dedicated generator power backup. Whether you are hosting a grand wedding, a private family Mehndi, a company gala, or a musical Qawwali evening, we handle every single detail so you can enjoy your special day completely stress-free.
             </p>
           </div>
 
@@ -96,7 +96,7 @@ export default function AboutModal() {
                 <span>Nationwide Team</span>
               </div>
               <p className="text-xs text-zinc-400 font-light leading-relaxed">
-                Fully equipped trucks and experienced crew ready for Lahore, Karachi, Islamabad, Multan, and Bhurban.
+                Fully equipped trucks and experienced crew ready for Karachi, Islamabad, Multan, and Bhurban.
               </p>
             </div>
           </div>
@@ -150,7 +150,7 @@ export default function AboutModal() {
         <div className="p-6 border-t border-white/10 glass-panel flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-xs text-zinc-400">
             <ShieldCheck className="w-4 h-4 text-amber-400" />
-            <span>Serving Lahore, Karachi, Islamabad, and all cities across Pakistan.</span>
+            <span>Serving Karachi, Islamabad, and all cities across Pakistan.</span>
           </div>
           <div className="flex items-center gap-3">
             <button

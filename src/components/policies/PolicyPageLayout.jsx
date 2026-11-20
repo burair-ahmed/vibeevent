@@ -150,7 +150,7 @@ export default function PolicyPageLayout({
             </div>
             <span>•</span>
             <div>
-              Jurisdiction: <strong className="text-zinc-300 font-semibold">Islamic Republic of Pakistan (Lahore, Karachi, Islamabad)</strong>
+              Jurisdiction: <strong className="text-zinc-300 font-semibold">Islamic Republic of Pakistan (Karachi, Islamabad)</strong>
             </div>
           </div>
         </div>
@@ -204,18 +204,18 @@ export default function PolicyPageLayout({
               </p>
               <div className="space-y-2">
                 <a
-                  href="tel:+923008423836"
+                  href="tel:+92XXXXXXXXXX"
                   className="w-full py-2.5 px-4 rounded-xl glass-panel text-xs text-zinc-200 hover:text-white hover:border-amber-400/50 flex items-center justify-between transition-colors"
                 >
                   <span>Helpline:</span>
-                  <strong className="text-amber-300">+92 (300) 842-3836</strong>
+                  <strong className="text-amber-300">+92 (XXX) XXX-XXXX</strong>
                 </a>
                 <a
-                  href="mailto:legal@vibeevents.pk"
+                  href="mailto:info@vibeeventmanagement.com"
                   className="w-full py-2.5 px-4 rounded-xl glass-panel text-xs text-zinc-200 hover:text-white hover:border-amber-400/50 flex items-center justify-between transition-colors"
                 >
                   <span>Email:</span>
-                  <strong className="text-amber-300">legal@vibeevents.pk</strong>
+                  <strong className="text-amber-300">info@vibeeventmanagement.com</strong>
                 </a>
               </div>
             </div>
