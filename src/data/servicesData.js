@@ -140,7 +140,7 @@ export const SERVICES_DATA = [
     description: 'Milestone birthdays, secret mansion gatherings, and superyacht celebrations designed with supreme discretion. We transform residential estates, private islands, and luxury venues into bespoke wonderland environments.',
     accentColor: '#8b5cf6', // Electric Violet
     glowColor: '#a78bfa',
-    position: [5.5, 0, -9.5],
+    position: [5.5, 0, -15.5],
     badge: 'Discreet & Bespoke',
     stats: {
       completed: '310+',
@@ -228,7 +228,7 @@ export const SERVICES_DATA = [
     description: 'We curate unforgettable birthday spectacles and milestone galas. From bespoke thematic spatial transformations and multi-tiered haute patisserie to headline artist bookings, immersive cocktail lounges, and custom light shows.',
     accentColor: '#f43f5e', // Vibrant Rose Coral
     glowColor: '#fb7185',
-    position: [5.5, 0, -15.5],
+    position: [5.5, 0, -9.5],
     badge: 'Milestone Luxury',
     stats: {
       completed: '340+',

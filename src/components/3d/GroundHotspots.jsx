@@ -12,9 +12,9 @@ export const HOTSPOTS_DATA = [
   { id: 'concerts-wing', position: [3, 0.025, -3.5], cameraPos: [3.4, 2.1, -2.5] },
   { id: 'hall-midway', position: [0, 0.028, -9.5], cameraPos: [0, 2.1, -9.5] },
   { id: 'corporate-zone', position: [-3, 0.025, -9.5], cameraPos: [-3.4, 2.1, -8.5] },
-  { id: 'vip-lounge', position: [3, 0.025, -9.5], cameraPos: [3.4, 2.1, -8.5] },
+  { id: 'birthdays-wing', position: [3, 0.025, -9.5], cameraPos: [3.4, 2.1, -8.5] },
   { id: 'activations-wing', position: [-3, 0.025, -15.5], cameraPos: [-3.4, 2.1, -14.5] },
-  { id: 'birthdays-wing', position: [3, 0.025, -15.5], cameraPos: [3.4, 2.1, -14.5] },
+  { id: 'vip-lounge', position: [3, 0.025, -15.5], cameraPos: [3.4, 2.1, -14.5] },
   { id: 'stage-front', position: [0, 0.028, -18.5], cameraPos: [0, 2.2, -17.5] },
   { id: 'stage-apex', position: [0, 1.025, -20.5], cameraPos: [0, 2.8, -19.5] },
 ];

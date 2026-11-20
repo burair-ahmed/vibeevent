@@ -41,6 +41,24 @@ function ConcertModel() {
 
 useGLTF.preload('/concert.glb');
 
+function CorporateModel() {
+  const { scene } = useGLTF('/corporate.glb');
+  const clone = useMemo(() => {
+    const cloned = scene.clone();
+    cloned.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+    return cloned;
+  }, [scene]);
+
+  return <primitive object={clone} scale={0.8} position={[0, 0, 0]} />;
+}
+
+useGLTF.preload('/corporate.glb');
+
 function BirthdayModel() {
   const { scene } = useGLTF('/birthday.glb');
   const clone = useMemo(() => {
@@ -195,22 +213,7 @@ export default function ServicePod({ service }) {
         )}
 
         {service.id === 'corporate' && (
-          <group>
-            <mesh rotation={[0, Math.PI / 4, 0]}>
-              <octahedronGeometry args={[0.45, 0]} />
-              <meshStandardMaterial
-                color="#3b82f6"
-                emissive="#2563eb"
-                emissiveIntensity={0.7}
-                metalness={0.85}
-                roughness={0.15}
-              />
-            </mesh>
-            <mesh>
-              <torusGeometry args={[0.55, 0.02, 16, 32]} />
-              <meshStandardMaterial color="#60a5fa" emissive="#3b82f6" emissiveIntensity={1.5} />
-            </mesh>
-          </group>
+          <CorporateModel />
         )}
 
         {service.id === 'concerts' && (
