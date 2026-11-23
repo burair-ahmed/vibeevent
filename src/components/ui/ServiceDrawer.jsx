@@ -4,7 +4,7 @@ import { useExperienceStore } from '../../store/useExperienceStore';
 import { sound } from '../../utils/audioSystem';
 
 export default function ServiceDrawer() {
-  const { activeService, closeServiceDrawer, setActiveModal } = useExperienceStore();
+  const { activeService, closeServiceDrawer, navigateTo, setBookingPrefill } = useExperienceStore();
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -20,8 +20,13 @@ export default function ServiceDrawer() {
 
   const handleBookNow = () => {
     sound.playClick();
+    setBookingPrefill({
+      eventType: activeService.title || activeService.shortTitle,
+      tier: 'Signature Scope',
+      notes: `Service Inquired: ${activeService.title}\nCategory: ${activeService.category}`,
+    });
     closeServiceDrawer();
-    setActiveModal('booking');
+    navigateTo('booking');
   };
 
   const heroImage = activeService.galleryImages?.[0] || 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80';

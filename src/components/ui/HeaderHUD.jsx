@@ -9,9 +9,7 @@ export default function HeaderHUD() {
     toggleSound,
     viewMode,
     setViewMode,
-    setActiveModal,
-    openPolicyModal,
-    navigateToPolicy,
+    navigateTo,
     setCameraWaypoint,
     entranceState,
     openDoors,
@@ -26,26 +24,10 @@ export default function HeaderHUD() {
     sound.setMuted(!nextSound);
   };
 
-  const scrollToAnchor = (id) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-      return true;
-    }
-    return false;
-  };
-
-  const handleNavClick = (sectionId, modalName) => {
+  const handleNavClick = (route) => {
     sound.playClick();
     setMobileMenuOpen(false);
-    if (viewMode === '2d') {
-      const found = scrollToAnchor(sectionId);
-      if (!found && modalName) {
-        setActiveModal(modalName);
-      }
-    } else {
-      setActiveModal(modalName);
-    }
+    navigateTo(route);
   };
 
   const handleModeToggle = () => {
@@ -58,7 +40,12 @@ export default function HeaderHUD() {
     sound.playClick();
     setMobileMenuOpen(false);
     if (viewMode === '2d') {
-      scrollToAnchor('services');
+      const el = document.getElementById('services');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        navigateTo('services');
+      }
     } else {
       if (entranceState === 'outside') {
         openDoors();
@@ -105,38 +92,35 @@ export default function HeaderHUD() {
             <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-amber-400 group-hover:w-full transition-all duration-300" />
           </button>
           <button
-            onClick={() => handleNavClick('portfolio', 'portfolio')}
+            onClick={() => handleNavClick('portfolio')}
             className="text-zinc-300 hover:text-amber-300 transition-colors cursor-pointer py-1 relative group"
           >
             <span>Portfolio</span>
             <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-amber-400 group-hover:w-full transition-all duration-300" />
           </button>
           <button
-            onClick={() => handleNavClick('estimator', 'calculator')}
+            onClick={() => handleNavClick('calculator')}
             className="text-zinc-300 hover:text-amber-300 transition-colors cursor-pointer py-1 relative group"
           >
             <span>Estimator</span>
             <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-amber-400 group-hover:w-full transition-all duration-300" />
           </button>
           <button
-            onClick={() => handleNavClick('process', 'about')}
-            className="text-zinc-300 hover:text-amber-300 transition-colors cursor-pointer py-1 relative group"
-          >
-            <span>Process</span>
-            <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-amber-400 group-hover:w-full transition-all duration-300" />
-          </button>
-          <button
-            onClick={() => handleNavClick('about', 'about')}
+            onClick={() => handleNavClick('about')}
             className="text-zinc-300 hover:text-amber-300 transition-colors cursor-pointer py-1 relative group"
           >
             <span>About</span>
             <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-amber-400 group-hover:w-full transition-all duration-300" />
           </button>
           <button
-            onClick={() => {
-              sound.playClick();
-              navigateToPolicy('privacy');
-            }}
+            onClick={() => handleNavClick('faq')}
+            className="text-zinc-300 hover:text-amber-300 transition-colors cursor-pointer py-1 relative group"
+          >
+            <span>FAQs</span>
+            <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-amber-400 group-hover:w-full transition-all duration-300" />
+          </button>
+          <button
+            onClick={() => handleNavClick('privacy')}
             className="text-zinc-300 hover:text-amber-300 transition-colors cursor-pointer py-1 relative group"
           >
             <span>Policies</span>
@@ -169,7 +153,7 @@ export default function HeaderHUD() {
 
           {/* Book Now Consultation CTA */}
           <button
-            onClick={() => handleNavClick('contact', 'booking')}
+            onClick={() => handleNavClick('booking')}
             className="hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 text-zinc-950 font-bold text-xs tracking-wider uppercase shadow-xl btn-glow-pulse hover:scale-105 active:scale-95 transition-all cursor-pointer"
           >
             <Calendar className="w-3.5 h-3.5" />
@@ -190,47 +174,43 @@ export default function HeaderHUD() {
       {mobileMenuOpen && (
         <div className="pointer-events-auto md:hidden mt-3 p-5 rounded-2xl glass-panel-gold border border-amber-500/30 flex flex-col gap-3.5 animate-fade-up">
           <button
-            onClick={handleJumpToServices}
+            onClick={() => handleNavClick('services')}
             className="w-full text-left px-3 py-2 text-xs font-semibold tracking-widest uppercase text-zinc-200 hover:text-amber-300"
           >
             Services
           </button>
           <button
-            onClick={() => handleNavClick('portfolio', 'portfolio')}
+            onClick={() => handleNavClick('portfolio')}
             className="w-full text-left px-3 py-2 text-xs font-semibold tracking-widest uppercase text-zinc-200 hover:text-amber-300"
           >
             Recent Events
           </button>
           <button
-            onClick={() => handleNavClick('estimator', 'calculator')}
+            onClick={() => handleNavClick('calculator')}
             className="w-full text-left px-3 py-2 text-xs font-semibold tracking-widest uppercase text-zinc-200 hover:text-amber-300"
           >
             Cost Estimator (PKR)
           </button>
           <button
-            onClick={() => handleNavClick('process', 'about')}
-            className="w-full text-left px-3 py-2 text-xs font-semibold tracking-widest uppercase text-zinc-200 hover:text-amber-300"
-          >
-            Our 4-Step Process
-          </button>
-          <button
-            onClick={() => handleNavClick('about', 'about')}
+            onClick={() => handleNavClick('about')}
             className="w-full text-left px-3 py-2 text-xs font-semibold tracking-widest uppercase text-zinc-200 hover:text-amber-300"
           >
             About VIBE
           </button>
           <button
-            onClick={() => {
-              sound.playClick();
-              setMobileMenuOpen(false);
-              navigateToPolicy('privacy');
-            }}
+            onClick={() => handleNavClick('faq')}
+            className="w-full text-left px-3 py-2 text-xs font-semibold tracking-widest uppercase text-zinc-200 hover:text-amber-300"
+          >
+            FAQs & Questions
+          </button>
+          <button
+            onClick={() => handleNavClick('privacy')}
             className="w-full text-left px-3 py-2 text-xs font-semibold tracking-widest uppercase text-zinc-200 hover:text-amber-300"
           >
             Client Policies
           </button>
           <button
-            onClick={() => handleNavClick('contact', 'booking')}
+            onClick={() => handleNavClick('booking')}
             className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-400 to-yellow-500 text-zinc-950 font-bold text-center text-xs tracking-wider uppercase shadow-md mt-2"
           >
             Inquire & Book Event

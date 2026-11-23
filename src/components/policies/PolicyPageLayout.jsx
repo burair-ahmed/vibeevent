@@ -12,13 +12,13 @@ export default function PolicyPageLayout({
   children,
   nextPolicy,
 }) {
-  const { navigateTo, setActiveModal, setViewMode } = useExperienceStore();
+  const { navigateTo, setViewMode } = useExperienceStore();
 
   const policyNav = [
-    { key: 'privacy', label: 'Privacy Policy', path: '#privacy', icon: Lock },
-    { key: 'terms', label: 'Terms & Conditions', path: '#terms', icon: FileText },
-    { key: 'refund', label: 'Refund & Cancellation', path: '#refund', icon: RefreshCw },
-    { key: 'safety', label: 'Safety & Power Backup', path: '#safety', icon: Zap },
+    { key: 'privacy', label: 'Privacy Policy', path: '/privacy', icon: Lock },
+    { key: 'terms', label: 'Terms & Conditions', path: '/terms', icon: FileText },
+    { key: 'refund', label: 'Refund & Cancellation', path: '/refund', icon: RefreshCw },
+    { key: 'safety', label: 'Safety & Power Backup', path: '/safety', icon: Zap },
   ];
 
   const handleNav = (targetKey) => {
@@ -33,7 +33,7 @@ export default function PolicyPageLayout({
 
   const handleBookConsultation = () => {
     sound.playClick();
-    setActiveModal('booking');
+    navigateTo('booking');
   };
 
   return (
@@ -256,6 +256,11 @@ export default function PolicyPageLayout({
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4 text-[11px]">
+            <button onClick={() => handleNav('services')} className="hover:text-amber-300 cursor-pointer">Services</button>
+            <button onClick={() => handleNav('portfolio')} className="hover:text-amber-300 cursor-pointer">Portfolio</button>
+            <button onClick={() => handleNav('calculator')} className="hover:text-amber-300 cursor-pointer">Estimator</button>
+            <button onClick={() => handleNav('faq')} className="hover:text-amber-300 cursor-pointer">FAQs</button>
+            <button onClick={() => handleNav('about')} className="hover:text-amber-300 cursor-pointer">About Us</button>
             <button onClick={() => handleNav('privacy')} className="hover:text-amber-300 cursor-pointer">Privacy</button>
             <button onClick={() => handleNav('terms')} className="hover:text-amber-300 cursor-pointer">Terms</button>
             <button onClick={() => handleNav('refund')} className="hover:text-amber-300 cursor-pointer">Refunds</button>

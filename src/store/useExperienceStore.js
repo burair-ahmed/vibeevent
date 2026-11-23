@@ -2,12 +2,20 @@ import { useState, useEffect } from 'react';
 
 function getInitialRoute() {
   if (typeof window === 'undefined') return 'home';
-  const hash = (window.location.hash || '').replace('#', '').toLowerCase();
-  const path = (window.location.pathname || '').replace('/', '').toLowerCase();
-  if (hash.includes('privacy') || path.includes('privacy')) return 'privacy';
-  if (hash.includes('terms') || path.includes('terms')) return 'terms';
-  if (hash.includes('refund') || path.includes('refund')) return 'refund';
-  if (hash.includes('safety') || path.includes('safety') || hash.includes('power') || path.includes('power')) return 'safety';
+  const path = (window.location.pathname || '').replace(/^\/+|\/+$/g, '').toLowerCase();
+  const hash = (window.location.hash || '').replace(/^#\/?/, '').toLowerCase();
+  const target = path || hash;
+
+  if (target.includes('about')) return 'about';
+  if (target.includes('faq')) return 'faq';
+  if (target.includes('book')) return 'booking';
+  if (target.includes('calc') || target.includes('estimat')) return 'calculator';
+  if (target.includes('portfolio') || target.includes('project')) return 'portfolio';
+  if (target.includes('service')) return 'services';
+  if (target.includes('privacy')) return 'privacy';
+  if (target.includes('terms')) return 'terms';
+  if (target.includes('refund')) return 'refund';
+  if (target.includes('safety') || target.includes('power')) return 'safety';
   return 'home';
 }
 
@@ -190,15 +198,12 @@ export function useExperienceStore() {
   };
 
   const navigateTo = (route) => {
-    setExperienceState({ currentRoute: route });
+    setExperienceState({ currentRoute: route, activeModal: null });
     if (typeof window !== 'undefined') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      if (route === 'home') {
-        if (window.location.hash) {
-          window.history.pushState(null, '', window.location.pathname);
-        }
-      } else {
-        window.location.hash = `#${route}`;
+      const targetPath = route === 'home' ? '/' : `/${route}`;
+      if (window.location.pathname !== targetPath || window.location.hash) {
+        window.history.pushState({ route }, '', targetPath);
       }
     }
   };

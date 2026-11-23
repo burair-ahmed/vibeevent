@@ -50,9 +50,7 @@ export default function Classic2DView() {
   const { 
     setViewMode, 
     setActiveService, 
-    setActiveModal,
-    openPolicyModal,
-    navigateToPolicy, 
+    navigateTo,
     estimatorState, 
     updateEstimatorState,
     setBookingPrefill,
@@ -654,7 +652,7 @@ export default function Classic2DView() {
             </h2>
           </div>
           <button
-            onClick={() => setActiveModal('portfolio')}
+            onClick={() => navigateTo('portfolio')}
             className="text-xs text-amber-400 hover:text-amber-300 uppercase font-bold tracking-wider flex items-center gap-1 cursor-pointer"
           >
             <span>Launch Full Portfolio Gallery</span>
@@ -1164,11 +1162,12 @@ export default function Classic2DView() {
           <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-500">
             <div>© 2026 VIBE EVENTS PAKISTAN. ALL RIGHTS RESERVED.</div>
             <div className="flex flex-wrap items-center gap-4 sm:gap-6">
-              <button onClick={() => setActiveModal('about')} className="hover:text-zinc-300 cursor-pointer">About VIBE</button>
-              <button onClick={() => navigateToPolicy('privacy')} className="hover:text-zinc-300 cursor-pointer">Privacy</button>
-              <button onClick={() => navigateToPolicy('terms')} className="hover:text-zinc-300 cursor-pointer">Terms</button>
-              <button onClick={() => navigateToPolicy('refund')} className="hover:text-zinc-300 cursor-pointer">Refunds</button>
-              <button onClick={() => navigateToPolicy('safety')} className="hover:text-zinc-300 cursor-pointer">Safety</button>
+              <button onClick={() => navigateTo('about')} className="hover:text-zinc-300 cursor-pointer">About VIBE</button>
+              <button onClick={() => navigateTo('faq')} className="hover:text-zinc-300 cursor-pointer">FAQs</button>
+              <button onClick={() => navigateTo('privacy')} className="hover:text-zinc-300 cursor-pointer">Privacy</button>
+              <button onClick={() => navigateTo('terms')} className="hover:text-zinc-300 cursor-pointer">Terms</button>
+              <button onClick={() => navigateTo('refund')} className="hover:text-zinc-300 cursor-pointer">Refunds</button>
+              <button onClick={() => navigateTo('safety')} className="hover:text-zinc-300 cursor-pointer">Safety</button>
               <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-amber-300 flex items-center gap-1 cursor-pointer ml-auto sm:ml-0">
                 <span>Back to Top</span>
                 <ArrowRight className="w-3 h-3 -rotate-90" />
